@@ -5,11 +5,11 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-options.tableName = "Attendances";
+options.tableName = "EventImages";
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Attendances', {
+    await queryInterface.createTable('EventImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,22 +20,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Events',
-          key: 'id'
+          model: 'Events'
         },
         onDelete: 'CASCADE'
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+      url: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
-      status: {
-        type: Sequelize.ENUM(['member', 'waitlist', 'pending']),
+      preview: {
+        type: Sequelize.BOOLEAN,
         allowNull: false
       },
       createdAt: {

@@ -26,6 +26,14 @@ module.exports = (sequelize, DataTypes) => {
           otherKey: 'groupId'
         }
       )
+
+      Venue.hasMany(
+        models.Event,
+        {
+          foreignKey: 'venueId',
+          onDelete: 'CASCADE'
+        }
+      )
     }
   }
   Venue.init({
