@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
       )
 
       User.hasMany(
-        models.Attendence,
+        models.Attendance,
         {
           foreignKey: 'userId',
           onDelete: 'CASCADE'

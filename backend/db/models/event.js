@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       )
 
       Event.hasMany(
-        models.Attendence,
+        models.Attendance,
         {
           foreignKey: 'eventId',
           onDelete: 'CASCADE'
@@ -68,13 +68,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
     },
     startDate: {
-      type: DataTypes.TIMESTAMP,
+      type: DataTypes.DATE,
       validate: {
         isAfter: sequelize.literal('CURRENT_TIMESTAMP')
       }
     },
     endDate: {
-      type: DataTypes.TIMESTAMP,
+      type: DataTypes.DATE,
       validate: {
         isAfter: this.startDate
       }
