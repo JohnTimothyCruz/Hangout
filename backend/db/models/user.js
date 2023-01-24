@@ -53,14 +53,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       )
 
-      // User.hasMany(
-      //   models.Membership,
-      //   {
-      //     foreignKey: 'userId',
-      //     onDelete: 'CASCADE'
-      //   }
-      // )
-
       User.belongsToMany(
         models.Event,
         {
@@ -69,15 +61,6 @@ module.exports = (sequelize, DataTypes) => {
           otherKey: 'eventId'
         }
       )
-
-      // User.belongsToMany(
-      //   models.Event,
-      //   {
-      //     through: models.Attendance,
-      //     foreignKey: 'userId',
-      //     otherKey: 'eventId'
-      //   }
-      // )
 
       User.belongsToMany(
         models.Group,
