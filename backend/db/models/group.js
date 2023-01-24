@@ -41,6 +41,24 @@ module.exports = (sequelize, DataTypes) => {
           onDelete: 'CASCADE'
         }
       )
+
+      Group.belongsToMany(
+        models.User,
+        {
+          through: models.Attendance,
+          foreignKey: 'groupId',
+          otherKey: 'userId'
+        }
+      )
+
+      Group.belongsToMany(
+        models.Venue,
+        {
+          through: models.Event,
+          foreignKey: 'groupId',
+          otherKey: 'venueId'
+        }
+      )
     }
   }
   Group.init({

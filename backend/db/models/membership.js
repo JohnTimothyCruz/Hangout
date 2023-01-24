@@ -11,22 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Membership.belongsTo(
-        models.User,
-        {
-          foreignKey: 'userId'
-        }
-      )
     }
   }
   Membership.init({
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     groupId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     status: {
       type: DataTypes.ENUM(['pending', 'member', 'co-host']),
