@@ -20,6 +20,20 @@ module.exports = (sequelize, DataTypes) => {
         }
       )
 
+      Event.belongsTo(
+        models.Venue,
+        {
+          foreignKey: 'venueId'
+        }
+      )
+
+      Event.belongsTo(
+        models.Group,
+        {
+          foreignKey: 'groupId'
+        }
+      )
+
       Event.hasMany(
         models.EventImage,
         {
@@ -30,6 +44,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Event.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     venueId: {
       allowNull: false,
       type: DataTypes.INTEGER,
@@ -71,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
     endDate: {
       type: DataTypes.DATE,
       validate: {
-        isAfter: this.startDate
+        // isAfter: this.startDate
       }
     }
   }, {
