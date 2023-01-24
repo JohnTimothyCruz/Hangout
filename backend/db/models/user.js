@@ -45,6 +45,29 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
+      User.hasMany(
+        models.Group,
+        {
+          foreignKey: 'organizerId',
+          onDelete: 'CASCADE'
+        }
+      )
+
+      User.hasMany(
+        models.Membership,
+        {
+          foreignKey: 'userId',
+          onDelete: 'CASCADE'
+        }
+      )
+
+      User.hasMany(
+        models.Attendence,
+        {
+          foreignKey: 'userId',
+          onDelete: 'CASCADE'
+        }
+      )
     }
   };
 
@@ -52,13 +75,16 @@ module.exports = (sequelize, DataTypes) => {
     {
       firstName: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       lastName: {
         type: DataTypes.STRING,
+        allowNull: false
       },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           len: [4, 30],
           isNotEmail(value) {
@@ -66,6 +92,13 @@ module.exports = (sequelize, DataTypes) => {
               throw new Error("Cannot be an email.");
             }
           }
+        }
+      },
+      hashedPassword: {
+        type: DataTypes.STRING.BINARY,
+        allowNull: false,
+        validate: {
+          len: [60, 60]
         }
       },
       email: {
@@ -76,13 +109,6 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true
         }
       },
-      hashedPassword: {
-        type: DataTypes.STRING.BINARY,
-        allowNull: false,
-        validate: {
-          len: [60, 60]
-        }
-      }
     },
     {
       sequelize,
