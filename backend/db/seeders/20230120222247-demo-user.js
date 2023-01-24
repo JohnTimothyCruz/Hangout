@@ -5,33 +5,39 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
+options.tableName = 'Users';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    options.tableName = 'Users';
     return queryInterface.bulkInsert(options, [
       {
-        email: 'demo@user.io',
-        username: 'Demo-lition',
-        hashedPassword: bcrypt.hashSync('password')
+        firstName: 'One',
+        lastName: 'One',
+        username: 'User-One',
+        hashedPassword: bcrypt.hashSync('password'),
+        email: 'one@user.io',
       },
       {
-        email: 'user1@user.io',
-        username: 'FakeUser1',
-        hashedPassword: bcrypt.hashSync('password2')
+        firstName: 'Two',
+        lastName: 'Two',
+        username: 'User-Two',
+        hashedPassword: bcrypt.hashSync('password'),
+        email: 'two@user.io',
       },
       {
-        email: 'user2@user.io',
-        username: 'FakeUser2',
-        hashedPassword: bcrypt.hashSync('password3')
+        firstName: 'Three',
+        lastName: 'Three',
+        username: 'User-Three',
+        hashedPassword: bcrypt.hashSync('password'),
+        email: 'three@user.io',
       }
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    options.tableName = 'Users';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
+      username: { [Op.in]: ['User-One', 'User-Two', 'User-Three'] }
     }, {});
   }
 };

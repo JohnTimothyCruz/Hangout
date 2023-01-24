@@ -5,38 +5,32 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-options.tableName = "Users";
+options.tableName = "GroupImages";
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable(options, {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('GroupImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      lastName: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      username: {
-        type: Sequelize.STRING(30),
+      groupId: {
         allowNull: false,
-        unique: true
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Groups'
+        },
+        onDelete: 'CASCADE'
       },
-      hashedPassword: {
-        type: Sequelize.STRING.BINARY,
-        allowNull: false
-      },
-      email: {
-        type: Sequelize.STRING(256),
+      url: {
         allowNull: false,
-        unique: true
+        type: Sequelize.STRING
+      },
+      preview: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
