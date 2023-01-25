@@ -7,31 +7,31 @@ const router = express.Router();
 
 const validateGroup = [
     check('name')
-    .exists({ checkFalsy: true })
-    .isLength({min: 1, max: 60})
-    .withMessage('Name must be 60 characters or less'),
+        .exists({ checkFalsy: true })
+        .isLength({ min: 1, max: 60 })
+        .withMessage('Name must be 60 characters or less'),
 
     check('about')
-    .exists({ checkFalsy: true })
-    .withMessage('About must be 50 characters or more'),
+        .exists({ checkFalsy: true })
+        .withMessage('About must be 50 characters or more'),
 
     check('type')
-    .exists({ checkFalsy: true })
-    .custom(val => val === 'In person' || val === 'Online')
-    .withMessage('Type must be \'Online\' or \'In person\''),
+        .exists({ checkFalsy: true })
+        .custom(val => val === 'In person' || val === 'Online')
+        .withMessage('Type must be \'Online\' or \'In person\''),
 
     check('private')
-    .exists({ checkFalsy: true })
-    .custom(val => val === true || val === false)
-    .withMessage('Private must be a boolean'),
+        .exists({ checkFalsy: true })
+        .custom(val => val === true || val === false)
+        .withMessage('Private must be a boolean'),
 
     check('city')
-    .exists({ checkFalsy: true })
-    .withMessage('City is required'),
+        .exists({ checkFalsy: true })
+        .withMessage('City is required'),
 
     check('state')
-    .exists({ checkFalsy: true })
-    .withMessage('State is required'),
+        .exists({ checkFalsy: true })
+        .withMessage('State is required'),
 
     handleValidationErrors
 ]
@@ -262,6 +262,14 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
 
     const organizer = await Group.findByPk(groupId);
 
+    if (!organizer) {
+        const err = {};
+        err.message = 'Group couldn\'t be found.';
+        err.statusCode = 404;
+        res.statusCode = 404;
+        res.json(err);
+    };
+
     if (user.id !== organizer.id) {
         const err = {};
         err.message = 'You must be the group organizer to make any edits.';
@@ -298,6 +306,40 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
     await group.save();
 
     res.json(group);
+})
+
+router.delete('/:groupId', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const { groupId } = req.params;
+
+    const organizer = await Group.findByPk(groupId);
+
+    if (!organizer) {
+        const err = {};
+        err.message = 'Group couldn\'t be found.';
+        err.statusCode = 404;
+        res.statusCode = 404;
+        res.json(err);
+    };
+
+    if (user.id !== organizer.id) {
+        const err = {};
+        err.message = 'You must be the group organizer to make any edits.';
+        err.statusCode = 403;
+        res.statusCode = 403;
+        res.json(err);
+    };
+
+    const group = await Group.findByPk(groupId);
+
+    await group.destroy();
+
+    res.json(
+        {
+            "message": "Successfully deleted",
+            "statusCode": 200
+        }
+    );
 })
 
 module.exports = router;
