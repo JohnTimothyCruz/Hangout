@@ -3,7 +3,13 @@ const { Event, Venue, EventImage, Group, User, Attendance, sequelize } = require
 const router = express.Router();
 
 router.get('/:eventId/attendees', async (req, res, next) => {
+
+    // Still need to add feature where it checks if user
+    // is organizer and allows them to see pending users
     const event = await Event.findByPk(req.params.eventId);
+
+    const { user } = req;
+    console.log(user);
 
     if (!event) {
         const err = {};
@@ -24,8 +30,6 @@ router.get('/:eventId/attendees', async (req, res, next) => {
             ],
         },
     });
-
-    const Attendees = [];
 
     for (const attendant of attendees) {
         const status = attendant.status;
