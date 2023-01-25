@@ -40,6 +40,33 @@ router.get('/current', requireAuth, async (req, res, next) => {
     });
 })
 
+router.get('/:groupId/venues', async (req, res, next) => {
+
+    const group = await Group.findByPk(req.params.groupId)
+
+    if (!group) {
+        const err = {};
+        err.message = 'Group couldn\'t be found';
+        err.statusCode = 404;
+        res.statusCode = 404;
+        res.json(err);
+    };
+
+    const venues = await Venue.findAll({
+        where: {
+            groupId: req.params.groupId
+        },
+        attributes: {
+            exclude: [
+                'createdAt',
+                'updatedAt'
+            ]
+        }
+    });
+
+    res.json(venues)
+})
+
 router.get('/:groupId', async (req, res, next) => {
 
     const id = req.params.groupId;
@@ -63,7 +90,6 @@ router.get('/:groupId', async (req, res, next) => {
         res.statusCode = 404;
         res.json(err);
     };
-
 
     members = await Membership.findAll({
         where: {
