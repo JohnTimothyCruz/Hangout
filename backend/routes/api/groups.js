@@ -1,7 +1,43 @@
 const express = require('express');
 const { requireAuth } = require('../../utils/auth');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 const { Event, Venue, Membership, Group, GroupImage, User, Attendance, sequelize } = require('../../db/models');
 const router = express.Router();
+
+const validateGroup = [
+    check('name')
+    .exists({ checkFalsy: true })
+    .withMessage('Please include a group name.'),
+
+    check('name')
+    .isLength({min: 1, max: 30})
+    .withMessage('Name must be less than 30 characters.'),
+
+    check('about')
+    .exists({ checkFalsy: true })
+    .withMessage('Please include an about page.'),
+
+    check('type')
+    .exists({ checkFalsy: true })
+    .custom(val => val === 'In person' || val === 'Online')
+    .withMessage('Please enter a valid group type.'),
+
+    check('private')
+    .exists({ checkFalsy: true })
+    .custom(val => val === true || val === false)
+    .withMessage('Private must be either true or false.'),
+
+    check('city')
+    .exists({ checkFalsy: true })
+    .withMessage('Please enter a city name.'),
+
+    check('state')
+    .exists({ checkFalsy: true })
+    .withMessage('Please enter a state.'),
+
+    handleValidationErrors
+]
 
 router.get('/current', requireAuth, async (req, res, next) => {
 
@@ -111,7 +147,7 @@ router.get('/:groupId/events', async (req, res, next) => {
         res.json(err);
     };
 
-    res.json({Events})
+    res.json({ Events })
 })
 
 router.get('/:groupId', async (req, res, next) => {
@@ -200,6 +236,26 @@ router.get('/', async (req, res, next) => {
     res.json({
         Groups: groups
     });
+})
+
+router.post('/', requireAuth, validateGroup, async (req, res, next) => {
+
+    const { name, about, type, private, city, state } = req.body;
+    const { user } = req;
+
+    const newGroup = Group.build({
+        organizerId: user.id,
+        name,
+        about,
+        type,
+        private,
+        city,
+        state
+    });
+
+    await newGroup.save()
+
+    res.json(newGroup);
 })
 
 module.exports = router;
