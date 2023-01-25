@@ -2,7 +2,51 @@ const express = require('express');
 const { Event, Venue, EventImage, Group, User, Attendance, sequelize } = require('../../db/models');
 const router = express.Router();
 
-router.get('/:eventId', async(req, res, next) => {
+router.get('/:eventId/attendees', async (req, res, next) => {
+    const event = await Event.findByPk(req.params.eventId);
+
+    if (!event) {
+        const err = {};
+        err.message = 'Event couldn\'t be found';
+        err.statusCode = 404;
+        res.statusCode = 404;
+        res.json(err);
+    };
+
+    const attendees = await Attendance.findAll({
+        where: {
+            eventId: req.params.eventId
+        },
+        attributes: {
+            exclude: [
+                'createdAt',
+                'updatedAt'
+            ],
+        },
+    });
+
+    const Attendees = [];
+
+    for (const attendant of attendees) {
+        const status = attendant.status;
+        const userId = attendant.userId;
+
+        delete attendant.dataValues.userId;
+        delete attendant.dataValues.status;
+
+        const { firstName, lastName } = await User.findByPk(userId);
+
+        attendant.dataValues.firstName = firstName;
+        attendant.dataValues.lastName = lastName;
+        attendant.dataValues.Attendance = {
+            status
+        };
+    }
+
+    res.json(attendees)
+});
+
+router.get('/:eventId', async (req, res, next) => {
     const event = await Event.findByPk(req.params.eventId, {
         attributes: {
             exclude: [
@@ -42,7 +86,7 @@ router.get('/:eventId', async(req, res, next) => {
                 ]
             }
         },
-    ]
+        ]
     });
 
     if (!event) {
