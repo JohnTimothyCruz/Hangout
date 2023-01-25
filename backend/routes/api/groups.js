@@ -90,7 +90,7 @@ router.get('/:groupId/members', async (req, res, next) => {
     };
 
     const pagination = {};
-    if (user.id !== organizer.id) {
+    if (user.id !== organizer.organizerId) {
         pagination.status = {
             [Op.not]: 'pending'
         }
@@ -281,6 +281,67 @@ router.get('/', async (req, res, next) => {
     });
 })
 
+router.post('/:groupId/images', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const { groupId } = req.params;
+
+    const organizer = await Group.findByPk(groupId);
+
+    if (!organizer) {
+        const err = {};
+        err.message = 'Group couldn\'t be found.';
+        err.statusCode = 404;
+        res.statusCode = 404;
+        res.json(err);
+    };
+
+    if (user.id !== organizer.organizerId) {
+        const err = {};
+        err.message = 'You must be the group organizer to make any edits.';
+        err.statusCode = 403;
+        res.statusCode = 403;
+        res.json(err);
+    };
+
+    const { url, preview } = req.body;
+
+    if (!url) {
+        const err = {};
+        err.message = 'Please enter a url.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    };
+
+    if (!preview || preview !== true && preview !== false) {
+        const err = {};
+        err.message = 'Preview has to be boolean.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    };
+
+    const newGroupImage = GroupImage.build({
+        url,
+        preview,
+        groupId
+    });
+
+    await newGroupImage.save();
+
+    const createdNewImage = await GroupImage.findByPk(newGroupImage.id, {
+        attributes: {
+            exclude: [
+                'groupId',
+                'updatedAt',
+                'createdAt'
+            ]
+        }
+    })
+
+    res.json(createdNewImage);
+})
+
 router.post('/', requireAuth, validateGroup, async (req, res, next) => {
 
     const { name, about, type, private, city, state } = req.body;
@@ -316,7 +377,7 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
         res.json(err);
     };
 
-    if (user.id !== organizer.id) {
+    if (user.id !== organizer.organizerId) {
         const err = {};
         err.message = 'You must be the group organizer to make any edits.';
         err.statusCode = 403;
@@ -368,7 +429,7 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
         res.json(err);
     };
 
-    if (user.id !== organizer.id) {
+    if (user.id !== organizer.organizerId) {
         const err = {};
         err.message = 'You must be the group organizer to make any edits.';
         err.statusCode = 403;
