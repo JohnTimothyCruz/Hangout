@@ -70,6 +70,14 @@ module.exports = (sequelize, DataTypes) => {
           otherKey: 'groupId'
         }
       )
+
+      User.hasMany(
+        models.Attendance,
+        {
+          foreignKey: 'userId',
+          onDelete: 'CASCADE'
+        }
+      )
     }
   };
 
