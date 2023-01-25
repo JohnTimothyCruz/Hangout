@@ -1,5 +1,5 @@
 const express = require('express');
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -282,6 +282,7 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/:groupId/images', requireAuth, async (req, res, next) => {
+
     const { user } = req;
     const { groupId } = req.params;
 
