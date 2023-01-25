@@ -1,27 +1,40 @@
 const express = require('express');
-const { Event, Venue, EventImage, Group, User, Attendance, sequelize } = require('../../db/models');
+const { Op } = require('sequelize');
+const { requireAuth } = require('../../utils/auth');
+const { Event, Venue, Membership, EventImage, Group, User, Attendance, sequelize } = require('../../db/models');
 const router = express.Router();
 
 router.get('/:eventId/attendees', async (req, res, next) => {
 
-    // Still need to add feature where it checks if user
-    // is organizer and allows them to see pending users
-    const event = await Event.findByPk(req.params.eventId);
-
     const { user } = req;
-    console.log(user);
+    const { eventId } = req.params;
 
-    if (!event) {
-        const err = {};
-        err.message = 'Event couldn\'t be found';
-        err.statusCode = 404;
-        res.statusCode = 404;
-        res.json(err);
+    const event = await Event.findByPk(eventId);
+    const group = await Group.findByPk(event.groupId);
+
+    const pagination = {};
+    pagination.status = {
+        [Op.not]: 'pending'
+    }
+
+    if (user) {
+        const userMembership = await Membership.findOne({
+            where: {
+                userId: user.id,
+                groupId: group.id
+            }
+        });
+        if (userMembership) {
+            if (userMembership.status === 'co-host' || user.id === group.organizerId) {
+                delete pagination.status;
+            };
+        };
     };
 
     const attendees = await Attendance.findAll({
         where: {
-            eventId: req.params.eventId
+            eventId: req.params.eventId,
+            ...pagination
         },
         attributes: {
             exclude: [
