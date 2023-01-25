@@ -8,33 +8,30 @@ const router = express.Router();
 const validateGroup = [
     check('name')
     .exists({ checkFalsy: true })
-    .withMessage('Please include a group name.'),
-
-    check('name')
-    .isLength({min: 1, max: 30})
-    .withMessage('Name must be less than 30 characters.'),
+    .isLength({min: 1, max: 60})
+    .withMessage('Name must be 60 characters or less'),
 
     check('about')
     .exists({ checkFalsy: true })
-    .withMessage('Please include an about page.'),
+    .withMessage('About must be 50 characters or more'),
 
     check('type')
     .exists({ checkFalsy: true })
     .custom(val => val === 'In person' || val === 'Online')
-    .withMessage('Please enter a valid group type.'),
+    .withMessage('Type must be \'Online\' or \'In person\''),
 
     check('private')
     .exists({ checkFalsy: true })
     .custom(val => val === true || val === false)
-    .withMessage('Private must be either true or false.'),
+    .withMessage('Private must be a boolean'),
 
     check('city')
     .exists({ checkFalsy: true })
-    .withMessage('Please enter a city name.'),
+    .withMessage('City is required'),
 
     check('state')
     .exists({ checkFalsy: true })
-    .withMessage('Please enter a state.'),
+    .withMessage('State is required'),
 
     handleValidationErrors
 ]
@@ -256,6 +253,51 @@ router.post('/', requireAuth, validateGroup, async (req, res, next) => {
     await newGroup.save()
 
     res.json(newGroup);
+})
+
+router.put('/:groupId', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { groupId } = req.params;
+
+    const organizer = await Group.findByPk(groupId);
+
+    if (user.id !== organizer.id) {
+        const err = {};
+        err.message = 'You must be the group organizer to make any edits.';
+        err.statusCode = 403;
+        res.statusCode = 403;
+        res.json(err);
+    };
+
+    const group = await Group.findByPk(groupId);
+
+    const { name, about, type, private, city, state } = req.body;
+    const changedData = { name, about, type, private, city, state };
+
+    if (!name) {
+        delete changedData.name;
+    };
+    if (!about) {
+        delete changedData.name;
+    };
+    if (!type) {
+        delete changedData.name;
+    };
+    if (!private) {
+        delete changedData.name;
+    };
+    if (!city) {
+        delete changedData.name;
+    };
+    if (!state) {
+        delete changedData.name;
+    };
+
+    group.set(changedData);
+    await group.save();
+
+    res.json(group);
 })
 
 module.exports = router;
