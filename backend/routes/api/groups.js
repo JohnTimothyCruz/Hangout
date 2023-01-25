@@ -2,39 +2,42 @@ const express = require('express');
 const { Event, Membership, Group, GroupImage, User, Attendance, sequelize } = require('../../db/models');
 const router = express.Router();
 
-// router.get('/current', async(req, res, next) => {
-//     const allGroups = await Group.findAll({
-//         where: {
+router.get('/current', async(req, res, next) => {
 
-//         }
-//     });
+    const { user } = req;
 
-//     const groups = [];
+    const allGroups = await Group.findAll({
+        where: {
+            organizerId: user.id
+        }
+    });
 
-//     for (let group of allGroups) {
+    const groups = [];
 
-//         const image = await GroupImage.findAll({
-//             where: {
-//                 groupId: group.id
-//             },
-//         });
+    for (let group of allGroups) {
 
-//         const members = await Membership.findAll({
-//             where: {
-//                 groupId: group.id
-//             }
-//         });
+        const image = await GroupImage.findAll({
+            where: {
+                groupId: group.id
+            },
+        });
 
-//         group.toJSON();
-//         group.dataValues.previewImage = image[0].url;
-//         group.dataValues.numMembers = members.length;
-//         groups.push(group);
-//     }
+        const members = await Membership.findAll({
+            where: {
+                groupId: group.id
+            }
+        });
 
-//     res.json({
-//         Groups: groups
-//     });
-// })
+        group.toJSON();
+        group.dataValues.previewImage = image[0].url;
+        group.dataValues.numMembers = members.length;
+        groups.push(group);
+    }
+
+    res.json({
+        Groups: groups
+    });
+})
 
 router.get('/', async(req, res, next) => {
     const allGroups = await Group.findAll();
