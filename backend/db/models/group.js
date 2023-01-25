@@ -81,7 +81,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     private: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isBoolean(val) {
+          if (val !== true && val !== false) {
+            throw new Error('Private must be true or false.')
+          }
+        },
+        notNull: true
+      }
     },
     city: {
       type: DataTypes.STRING,
