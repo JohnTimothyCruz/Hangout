@@ -1,8 +1,9 @@
 const express = require('express');
+const { requireAuth } = require('../../utils/auth');
 const { Event, Membership, Group, GroupImage, User, Attendance, sequelize } = require('../../db/models');
 const router = express.Router();
 
-router.get('/current', async(req, res, next) => {
+router.get('/current', requireAuth, async(req, res, next) => {
 
     const { user } = req;
 
