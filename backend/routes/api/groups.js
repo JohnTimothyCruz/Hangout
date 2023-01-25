@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize')
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -71,6 +72,51 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json({
         Groups: groups
     });
+})
+
+router.get('/:groupId/members', async (req, res, next) => {
+
+    const { user } = req;
+    const { groupId } = req.params;
+
+    const organizer = await Group.findByPk(groupId);
+
+    if (!organizer) {
+        const err = {};
+        err.message = 'Group couldn\'t be found.';
+        err.statusCode = 404;
+        res.statusCode = 404;
+        res.json(err);
+    };
+
+    const pagination = {};
+    if (user.id !== organizer.id) {
+        pagination.status = {
+            [Op.not]: 'pending'
+        }
+    };
+
+    const members = await Membership.findAll({
+        where: {
+            groupId,
+            ...pagination
+        },
+        attributes: {
+            exclude: [
+                'createdAt',
+                'updatedAt',
+            ]
+        }
+    });
+
+    for (const member of members) {
+        member.dataValues.Membership = {
+            status: member.dataValues.status
+        };
+        delete member.dataValues.status;
+    };
+
+    res.json(members);
 })
 
 router.get('/:groupId/venues', async (req, res, next) => {
