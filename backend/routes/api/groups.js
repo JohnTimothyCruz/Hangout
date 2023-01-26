@@ -631,29 +631,59 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
     const { name, about, type, private, city, state } = req.body;
     const changedData = { name, about, type, private, city, state };
 
+    const err = {
+        message: "Validation error",
+        statusCode: 400,
+        errors: {}
+    }
     if (!name) {
         delete changedData.name;
-    };
+    } else if (name.length > 60) {
+        err.errors.name = 'Name must be 60 characters or less'
+    }
     if (!about) {
         delete changedData.about;
-    };
+    } else if (about.length < 50) {
+        err.errors.about = 'About must be 50 characters or more'
+    }
     if (!type) {
         delete changedData.type;
-    };
-    if (!private) {
+    } else if (type !== 'Online' && type !== 'In person') {
+        err.errors.type = 'Type must be \'Online\' or \'In person\''
+    }
+    if (!private && private !== false) {
         delete changedData.private;
-    };
-    if (!city) {
+    } else if (private !== true && private !== false) {
+        err.errors.private = 'Private must be a boolean'
+    }
+    if (!city && city !== null) {
         delete changedData.city;
-    };
-    if (!state) {
+    } else if (city === null) {
+        err.errors.city = 'City is required'
+    }
+    if (!state && state !== null) {
         delete changedData.state;
-    };
+    } else if (state === null) {
+        err.errors.state = 'State is required'
+    }
 
-    group.set(changedData);
-    await group.save();
+    if (Object.keys(err.errors).length) {
+        res.json(err)
+    } else {
+        group.set(changedData);
+        await group.save();
 
-    res.json(group);
+        const editedGroup = await Group.findByPk(group.id, {
+            attributes: {
+                exclude: [
+                    'createdAt',
+                    'updatedAt'
+                ]
+            }
+        })
+
+        res.json(editedGroup);
+    }
 })
 
 router.delete('/:groupId', requireAuth, async (req, res, next) => {
