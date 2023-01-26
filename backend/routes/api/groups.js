@@ -428,7 +428,7 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
         err.errors = "Longitude is not valid"
     }
 
-    if (err.errors.length) {
+    if (Object.keys(err.errors).length) {
         res.json(err)
     } else {
         const newVenue = Venue.build({
@@ -553,7 +553,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
         }
     }
 
-    if (err.errors.length) {
+    if (Object.keys(err.errors).length) {
         res.json(err);
     } else {
         const newEvent = Event.build({
@@ -635,19 +635,19 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
         delete changedData.name;
     };
     if (!about) {
-        delete changedData.name;
+        delete changedData.about;
     };
     if (!type) {
-        delete changedData.name;
+        delete changedData.type;
     };
     if (!private) {
-        delete changedData.name;
+        delete changedData.private;
     };
     if (!city) {
-        delete changedData.name;
+        delete changedData.city;
     };
     if (!state) {
-        delete changedData.name;
+        delete changedData.state;
     };
 
     group.set(changedData);
