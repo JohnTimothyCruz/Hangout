@@ -151,4 +151,139 @@ router.get('/', async (req, res, next) => {
     });
 });
 
+router.put('/:eventId', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        res.json({
+            message: "Event couldn\'t be found",
+            statusCode: 404
+        })
+    }
+
+    const group = await Group.findOne({
+        where: {
+            id: event.groupId
+        }
+    });
+
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: group.id
+        }
+    });
+
+    let check = false;
+    if (userMembership) {
+        if (userMembership.status === 'co-host') {
+            check = true;
+        }
+    };
+    if (user.id === group.organizerId) {
+        check = true;
+    }
+
+    if (check !== true) {
+        const err = {};
+        err.message = 'Must be the group organizer or co-host to edit event.';
+
+        if (user) {
+            err.statusCode = 403;
+            res.statusCode = 403;
+        } else {
+            res.statusCode = 401;
+            res.statusCode = 401;
+        }
+
+        res.json(err);
+    }
+
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+    const changedData = { venueId, name, type, capacity, price, description, startDate, endDate }
+    const err = {
+        message: "Validation error",
+        statusCode: 400,
+        errors: {}
+    }
+    if (!venueId) {
+        delete changedData.venueId;
+    } else {
+        const venue = await Venue.findByPk(venueId)
+        if (!venue) {
+            res.json({
+                "message": "Venue couldn't be found",
+                "statusCode": 404
+              })
+        }
+    }
+    if (!name) {
+        delete changedData.name;
+    } else if (name.length <5) {
+        err.errors.name = "Name must be at least 5 characters"
+    }
+    if (!type) {
+        delete changedData.type;
+    } else if (type !== 'Online' && type !== 'In person') {
+        err.errors.type = "Type must be Online or In person"
+    }
+    if (!capacity) {
+        delete changedData.capacity;
+    } else if (!Number.isInteger(capacity)) {
+        err.errors.capacity = "Capacity must be an integer"
+    }
+    if (!price) {
+        delete changedData.price;
+    } else if (price < 0) {
+        err.errors.price = "Price is invalid"
+    }
+    if (!description) {
+        delete changedData.description;
+    }
+    if (!startDate) {
+        delete changedData.startDate;
+    } else {
+        const now = new Date();
+        if (startDate <= now) {
+            err.errors.startDate = "Start date must be in the future"
+        }
+    }
+    if (!endDate) {
+        delete changedData.endDate;
+    } else {
+        if (startDate && !err.errors.startDate) {
+            if (endDate <= startDate) {
+                err.errors.venueId = "End date is less than start date"
+            }
+        } else {
+            const origionalStartDate = event.startDate;
+            if (endDate <= origionalStartDate) {
+                err.errors.venueId = "End date is less than start date"
+            }
+        }
+    }
+
+    if (Object.keys(err.errors).length) {
+        res.json(err)
+    } else {
+        event.set(changedData);
+        await event.save();
+
+        const editedEvent = await Event.findByPk(eventId, {
+            attributes: {
+                exclude: [
+                    'createdAt',
+                    'updatedAt'
+                ]
+            }
+        })
+
+        res.json(editedEvent);
+    }
+})
+
 module.exports = router;
