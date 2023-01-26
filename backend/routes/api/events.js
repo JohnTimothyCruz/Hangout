@@ -2,6 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 const { Event, Venue, Membership, EventImage, Group, User, Attendance, sequelize } = require('../../db/models');
+const { response } = require('express');
 const router = express.Router();
 
 router.get('/:eventId/attendees', async (req, res, next) => {
@@ -151,6 +152,81 @@ router.get('/', async (req, res, next) => {
     });
 });
 
+router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        res.statusCode = 404
+        res.json({
+            message: "Event couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    const group = await Group.findByPk(event.groupId);
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: group.id
+        }
+    });
+
+    if (!userMembership) {
+        res.statusCode = 403;
+        res.json({
+            message: 'Must be apart of group to request to attend.',
+            statusCode: 403
+        })
+    }
+
+    const attendance = await Attendance.findOne({
+        where: {
+            userId: user.id,
+            eventId
+        }
+    })
+
+    if (attendance) {
+        if (attendance.status === 'pending') {
+            res.statusCode = 400
+            res.json({
+                message: "Attendance has already been requested",
+                statusCode: 400
+            })
+        }
+        if (attendance.status === 'waitlist' || attendance.status === 'attendee') {
+            res.statusCode = 400
+            res.json({
+                message: "User is already an attendee of the event",
+                statusCode: 400
+            })
+        }
+    }
+
+    const newAttendanceRequest = Attendance.build({
+        eventId,
+        userId: user.id,
+        status: 'pending'
+    })
+
+    await newAttendanceRequest.save();
+
+    const createdAttendanceRequest = await Attendance.findByPk(newAttendanceRequest.id, {
+        attributes: {
+            exclude: [
+                'updatedAt',
+                'createdAt'
+            ]
+        }
+    })
+
+    res.json(createdAttendanceRequest);
+})
+
 router.put('/:eventId', requireAuth, async (req, res, next) => {
 
     const { user } = req;
@@ -218,12 +294,12 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
             res.json({
                 "message": "Venue couldn't be found",
                 "statusCode": 404
-              })
+            })
         }
     }
     if (!name) {
         delete changedData.name;
-    } else if (name.length <5) {
+    } else if (name.length < 5) {
         err.errors.name = "Name must be at least 5 characters"
     }
     if (!type) {
@@ -284,6 +360,79 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
 
         res.json(editedEvent);
     }
+})
+
+router.delete('/:eventId/images', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { eventId } = req.params;
+    const { url, preview } = req.body;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        res.statusCode = 404;
+        res.json({
+            message: "Event couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    const userAttendee = await Attendance.findOne({
+        where: {
+            eventId,
+            userId: user.id
+        }
+    });
+
+    if (!userAttendee || userAttendee.status !== 'attendee') {
+        const err = {};
+        err.message = 'Only attendees can post picture.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    }
+
+    const group = await Group.findByPk(event.groupId);
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: group.id
+        }
+    })
+
+    if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
+        const err = {};
+        err.message = 'Only attendees, co-hosts, or the organizer can post picture.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    }
+
+    if (!url) {
+        const err = {};
+        err.message = 'Please enter a url.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    }
+
+    if (!preview || preview !== true && preview !== false) {
+        const err = {};
+        err.message = 'Preview has to be boolean.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    };
+
+    const newImage = EventImage.build({
+        preview,
+        url
+    })
+
+    await newImage.save();
+
+    res.json(newImage)
 })
 
 module.exports = router;

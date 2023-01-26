@@ -309,7 +309,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
 
     if (user.id !== organizer.organizerId) {
         const err = {};
-        err.message = 'You must be the group organizer to make any edits.';
+        err.message = 'You must be the group organizer to add any images.';
         err.statusCode = 403;
         res.statusCode = 403;
         res.json(err);
