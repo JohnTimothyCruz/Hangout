@@ -392,7 +392,7 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
 
     if (check !== true) {
         const err = {};
-        err.message = 'Must be the group organizer or co-host to create event.';
+        err.message = 'Must be the group organizer or co-host to create venue.';
 
         if (user) {
             err.statusCode = 403;
