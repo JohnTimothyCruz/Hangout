@@ -41,6 +41,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
     const { user } = req;
 
+    console.log(user)
+
     const allGroups = await Group.findAll({
         where: {
             organizerId: user.id
@@ -63,8 +65,11 @@ router.get('/current', requireAuth, async (req, res, next) => {
             }
         });
 
-        group.toJSON();
-        group.dataValues.previewImage = image[0].url;
+        if (image[0]) {
+            group.dataValues.previewImage = image[0].url;
+        } else {
+            group.dataValues.previewImage = null
+        }
         group.dataValues.numMembers = members.length;
         groups.push(group);
     }
@@ -270,9 +275,15 @@ router.get('/', async (req, res, next) => {
             }
         });
 
-        group.toJSON();
-        group.dataValues.previewImage = image[0].url;
-        group.dataValues.numMembers = members.length;
+        if (image) {
+            if (image[0]) {
+                group.dataValues.previewImage = image[0].url;
+            }
+        };
+        if (members) {
+            group.dataValues.numMembers = members.length;
+        };
+
         groups.push(group);
     }
 
@@ -340,6 +351,235 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     })
 
     res.json(createdNewImage);
+})
+
+router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { groupId } = req.params;
+
+    const group = await Group.findOne({
+        where: {
+            id: groupId
+        }
+    });
+
+    if (!group) {
+        const err = {};
+        err.message = 'Group couldn\'t be found.';
+        err.statusCode = 404;
+        res.statusCode = 404;
+        res.json(err);
+    }
+
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: groupId
+        }
+    });
+
+    let check = false;
+    if (userMembership) {
+        if (userMembership.status === 'co-host') {
+            check = true;
+        }
+    };
+    if (user.id === group.organizerId) {
+        check = true;
+    }
+
+    if (check !== true) {
+        const err = {};
+        err.message = 'Must be the group organizer or co-host to create event.';
+
+        if (user) {
+            err.statusCode = 403;
+            res.statusCode = 403;
+        } else {
+            res.statusCode = 401;
+            res.statusCode = 401;
+        }
+
+        res.json(err);
+    }
+
+    const { address, city, state, lat, lng } = req.body;
+
+    const err = {
+        message: "Validation error",
+        statusCode: 400,
+        errors: {}
+    }
+    if (!address) {
+        err.errors = "Street address is required"
+    }
+    if (!city) {
+        err.errors = "City is required"
+    }
+    if (!state) {
+        err.errors = "State is required"
+    }
+    if (!lat || lat < -90 || lat > 90) {
+        err.errors = "Latitude is not valid"
+    }
+    if (!lng || lng < -180 || lng < -180) {
+        err.errors = "Longitude is not valid"
+    }
+
+    if (err.errors.length) {
+        res.json(err)
+    } else {
+        const newVenue = Venue.build({
+            groupId,
+            address,
+            city,
+            state,
+            lat,
+            lng
+        })
+
+        await newVenue.save();
+
+        const createdVenue = await Venue.findByPk(newVenue.id, {
+            attributes: {
+                exclude: [
+                    'updatedAt',
+                    'createdAt'
+                ]
+            }
+        })
+
+        res.json(createdVenue);
+    }
+})
+
+router.post('/:groupId/events', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { groupId } = req.params;
+
+    const group = await Group.findOne({
+        where: {
+            id: groupId
+        }
+    });
+
+    if (!group) {
+        const err = {};
+        err.message = 'Group couldn\'t be found.';
+        err.statusCode = 404;
+        res.statusCode = 404;
+        res.json(err);
+    }
+
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: groupId
+        }
+    });
+
+    let check = false;
+    if (userMembership) {
+        if (userMembership.status === 'co-host') {
+            check = true;
+        }
+    };
+    if (user.id === group.organizerId) {
+        check = true;
+    }
+
+    if (check !== true) {
+        const err = {};
+        err.message = 'Must be the group organizer or co-host to create event.';
+
+        if (user) {
+            err.statusCode = 403;
+            res.statusCode = 403;
+        } else {
+            res.statusCode = 401;
+            res.statusCode = 401;
+        }
+
+        res.json(err);
+    }
+
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+
+    const err = {
+        message: 'Validation error',
+        statusCode: 400,
+        errors: {}
+    };
+
+    if (!venueId && venueId !== null) {
+        err.errors.venueId = "Venue does not exist"
+        err.statusCode = 404
+        res.json(err)
+    };
+    if (venueId === null) {
+        delete err.errors.venueId
+    };
+    if (!name || name.length < 5) {
+        err.errors.name = "Name must be at least 5 characters"
+    };
+    if (type !== 'Online' && type !== 'In person') {
+        err.errors.type = "Type must be Online or In person"
+    };
+    if (!Number.isInteger(capacity)) {
+        err.errors.capacity = "Capacity must be an integer"
+    };
+    if (!price || price < 0) {
+        err.errors.price = "Price is invalid"
+    };
+    if (!description) {
+        err.errors.description = "Description is required"
+    };
+    if (!startDate) {
+        err.errors.startDate = "Start date must be in the future"
+    } else {
+        const now = new Date();
+        if (startDate <= now) {
+            err.errors.startDate = "Start date must be in the future"
+        }
+    }
+    if (!endDate) {
+        err.errors.venueId = "End date is less than start date"
+    } else {
+        if (endDate <= startDate) {
+            err.errors.venueId = "End date is less than start date"
+        }
+    }
+
+    if (err.errors.length) {
+        res.json(err);
+    } else {
+        const newEvent = Event.build({
+            groupId,
+            venueId,
+            name,
+            type,
+            capacity,
+            price,
+            description,
+            startDate,
+            endDate
+        });
+
+        await newEvent.save();
+
+        const createdEvent = await Event.findByPk(newEvent.id, {
+            attributes: {
+                exclude: [
+                    'createdAt',
+                    'updatedAt'
+                ]
+            }
+        })
+
+        res.json(createdEvent);
+    }
 })
 
 router.post('/', requireAuth, validateGroup, async (req, res, next) => {

@@ -83,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     price: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
     },
     description: {
       allowNull: false,
@@ -92,7 +92,11 @@ module.exports = (sequelize, DataTypes) => {
     startDate: {
       type: DataTypes.DATE,
       validate: {
-        isAfter: sequelize.literal('CURRENT_TIMESTAMP')
+        isAfterNow(val) {
+          if (new Date(val).getTime() <= new Date().getTime()) {
+            throw new Error('Start date must be in the future.')
+          }
+        }
       }
     },
     endDate: {
