@@ -43,9 +43,7 @@ router.post('/',
         const err = {
             message: "User already exists",
             statusCode: 403,
-            errors: {
-
-            }
+            errors: {}
         };
         if (userCheck) {
             err.errors.email = "User with that email already exists"
@@ -53,8 +51,6 @@ router.post('/',
 
         if (!email) {
             err.errors.email = "Invalid email"
-        } else {
-            
         }
         if (!firstName) {
             err.errors.firstName = "First Name is required"
@@ -74,39 +70,3 @@ router.post('/',
 );
 
 module.exports = router;
-
-// {
-//   "email": "test@user.one",
-//   "password": "password",
-//   "username": "testUserOne",
-//   "firstName": "One",
-//   "lastName": "One"
-// }
-
-// {
-//     "email": "test@user.two",
-//     "password": "password",
-//     "username": "TestUserTwo",
-//     "firstName": "Two",
-//     "lastName": "Two"
-// }
-
-// {
-//     "name": "Evening Tennis on the Water",
-//     "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
-//     "type": "In person",
-//     "private": true,
-//     "city": "New York",
-//     "state": "NY",
-//   }
-
-// {
-//     "venueId": 1,
-//     "name": "Tennis Group First Meet and Greet",
-//     "type": "Online",
-//     "capacity": 10,
-//     "price": 18.50,
-//     "description": "The first meet and greet for our group! Come say hello!",
-//     "startDate": "2028-11-19 20:00:00",
-//     "endDate": "2028-11-19 22:00:00"
-//   }
