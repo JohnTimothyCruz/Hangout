@@ -128,8 +128,70 @@ router.get('/:eventId', async (req, res, next) => {
 });
 
 router.get('/', async (req, res, next) => {
+
+    let { page, size, name, type, startDate } = req.query;
+    let pagination = {
+        where: {}
+    };
+
+    const err = {
+        message: "Validation Error",
+        statusCode: 400,
+        errors: {}
+    };
+
+    if (!page) {
+        page = 1
+    } else {
+        if (page < 1) {
+            err.errors.page = "Page must be greater than or equal to 1"
+        }
+        if (!Number.isInteger(page)) {
+            err.errors.page = "Page must be a whole number"
+        }
+    }
+    if (!size) {
+        size = 20
+    } else {
+        if (size < 1) {
+            err.errors.page = "Size must be greater than or equal to 1"
+        }
+        if (!Number.isInteger(size)) {
+            err.errors.size = "Size must be a whole number"
+        }
+    }
+
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size;
+        pagination.offest = size * (page - 1);
+    }
+
+    if (name) {
+        if (typeof name !== 'string') {
+            err.errors.name = "Name must be a string"
+        } else {
+            pagination.where.name = name
+        }
+    }
+    if (type) {
+        if (type !== 'Online' && type !== 'In Person') {
+            err.errors.type = "Type must be 'Online' or 'In Person'"
+        } else {
+            pagination.where.type = type
+        }
+    }
+    if (startDate) {
+        const userDate = new Date(startDate);
+        if (userDate.toString().includes('Invalid')) {
+            err.errors.startDate = "Start date must be a valid datetime"
+        } else {
+            pagination.where.startDate = startDate
+        }
+    }
+
     const allEvents = await Event.findAll({
         include: [Venue, Group],
+        ...pagination
     });
 
     const events = [];
