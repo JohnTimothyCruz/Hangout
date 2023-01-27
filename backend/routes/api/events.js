@@ -11,6 +11,15 @@ router.get('/:eventId/attendees', async (req, res, next) => {
     const { eventId } = req.params;
 
     const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        res.statusCode = 404
+        res.json({
+            message: "Event couldn't be found",
+            statusCode: 404
+        })
+    }
+
     const group = await Group.findByPk(event.groupId);
 
     const pagination = {};
@@ -61,7 +70,9 @@ router.get('/:eventId/attendees', async (req, res, next) => {
         };
     }
 
-    res.json(attendees)
+    res.json({
+        Attendees: attendees
+    })
 });
 
 router.get('/:eventId', async (req, res, next) => {
@@ -237,14 +248,6 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
         }
     });
 
-    if (!userAttendee || userAttendee.status !== 'attendee') {
-        const err = {};
-        err.message = 'Only attendees can post picture.';
-        err.statusCode = 400;
-        res.statusCode = 400;
-        res.json(err);
-    }
-
     const group = await Group.findByPk(event.groupId);
     const userMembership = await Membership.findOne({
         where: {
@@ -253,12 +256,26 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
         }
     })
 
-    if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
-        const err = {};
-        err.message = 'Only attendees, co-hosts, or the organizer can post picture.';
-        err.statusCode = 400;
-        res.statusCode = 400;
-        res.json(err);
+    let check = false;
+    const err = {
+        message: 'Only attendees, co-hosts, or the organizer can post picture.',
+        statusCode: 403
+    };
+    if (user.id !== group.organizerId) {
+        if (userMembership) {
+            if (userMembership.status !== 'co-host') {
+                check = true
+            }
+        }
+        if (userAttendee) {
+            if (userAttendee.status !== 'attendee') {
+                check = true
+            }
+        }
+    }
+    if (check) {
+        res.statusCode = 403
+        res.json(err)
     }
 
     if (!url) {
@@ -286,15 +303,16 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
     await newImage.save();
 
     const createdImage = await EventImage.findByPk(newImage.id, {
-        where: {
+        attributes: {
             exclude: [
+                'eventId',
                 'createdAt',
                 'updatedAt'
             ]
         }
     })
 
-    res.json(newImage)
+    res.json(createdImage)
 })
 
 router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
@@ -504,7 +522,7 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
     }
 
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-    const changedData = { venueId, name, type, capacity, price, description, startDate, endDate }
+    const changedData = { venueId, name, type, capacity, price, description, startDate, endDate };
     const err = {
         message: "Validation error",
         statusCode: 400,
@@ -522,10 +540,21 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
             })
         }
     }
+
+
     if (!name) {
         delete changedData.name;
-    } else if (name.length < 5) {
-        err.errors.name = "Name must be at least 5 characters"
+    } else {
+        const nameCheck = await Event.findOne({
+            where: {
+                name
+            }
+        })
+        if (nameCheck) {
+            err.errors.name = "Name must be unique"
+        } else if (name.length < 5) {
+            err.errors.name = "Name must be at least 5 characters"
+        }
     }
     if (!type) {
         delete changedData.type;
@@ -548,27 +577,34 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
     if (!startDate) {
         delete changedData.startDate;
     } else {
-        const now = new Date();
-        if (startDate <= now) {
+        if (new Date(startDate)) {
+            if (new Date(startDate).getTime() <= new Date().getTime()) {
+                err.errors.startDate = "Start date must be in the future"
+            }
+        } else {
             err.errors.startDate = "Start date must be in the future"
         }
     }
     if (!endDate) {
         delete changedData.endDate;
     } else {
-        if (startDate && !err.errors.startDate) {
-            if (endDate <= startDate) {
-                err.errors.venueId = "End date is less than start date"
+        if (new Date(endDate)) {
+            if (startDate && !err.errors.startDate) {
+                if (endDate <= startDate) {
+                    err.errors.venueId = "End date is less than start date"
+                }
+            } else {
+                const origionalStartDate = event.startDate;
+                if (endDate <= origionalStartDate) {
+                    err.errors.venueId = "End date is less than start date"
+                }
             }
-        } else {
-            const origionalStartDate = event.startDate;
-            if (endDate <= origionalStartDate) {
-                err.errors.venueId = "End date is less than start date"
-            }
+            err.errors.venueId = "End date is less than start date"
         }
     }
 
     if (Object.keys(err.errors).length) {
+        console.log(err)
         res.json(err)
     } else {
         event.set(changedData);
@@ -658,12 +694,17 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
         }
     })
 
-    if (!userMembership || user.id !== group.organizerId && userMembership.status !== 'co-host') {
-        res.statusCode = 403;
-        res.json({
-            message: 'Forbidden',
-            statusCode: 403
-        })
+
+    if (user.id !== group.organizerId) {
+        if (userMembership) {
+            if (userMembership.status !== 'co-host') {
+                res.statusCode = 403;
+                res.json({
+                    message: 'Forbidden',
+                    statusCode: 403
+                })
+            }
+        }
     }
 
     if (!event) {
