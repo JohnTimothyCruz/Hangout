@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attendance.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     eventId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -36,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM(['member', 'waitlist', 'pending']),
+      type: DataTypes.ENUM(['attendee', 'waitlist', 'pending']),
       allowNull: false
     }
   }, {
