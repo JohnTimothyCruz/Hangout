@@ -227,6 +227,83 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
     res.json(createdAttendanceRequest);
 })
 
+router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { eventId } = req.params;
+    const { userId, status } = req.body;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        res.statusCode = 404
+        res.json({
+            message: "Event couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    const group = await Group.findByPk(event.groupId);
+    const userMembership = await Membership.findOne({
+        userId: user.id,
+        groupId: group.id
+    });
+
+    if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
+        res.statusCode = 403;
+        res.json({
+            message: 'Must be the group organizer or a co-host to change a user\'s status',
+            statusCode: 403
+        })
+    }
+
+    const attendanceRequest = await Attendance.findOne({
+        eventId,
+        userId
+    });
+
+    if (!attendanceRequest) {
+        res.statusCode = 404
+        res.json({
+            message: "Attendance between the user and the event does not exist",
+            statusCode: 404
+        })
+    };
+
+    if (status === 'pending') {
+        res.statusCode = 400
+        res.json({
+            message: "Cannot change an attendance status to pending",
+            statusCode: 400
+        })
+    }
+
+    if (status !== 'attendee' && status !== 'waitlist') {
+        res.statusCode = 400
+        res.json({
+            message: "Please enter a valid status",
+            statusCode: 400
+        })
+    }
+
+    attendanceRequest.set({
+        status
+    });
+
+    await attendanceRequest.save();
+
+    const createdRequest = await Attendance.findByPk(attendanceRequest.id, {
+        attributes: {
+            exclude: [
+                'createdAt',
+                'updatedAt'
+            ]
+        }
+    })
+
+    res.json(createdRequest)
+})
+
 router.put('/:eventId', requireAuth, async (req, res, next) => {
 
     const { user } = req;

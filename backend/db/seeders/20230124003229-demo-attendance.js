@@ -62,7 +62,7 @@ module.exports = {
      */
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      status: { [Op.in]: ['pending', 'member', 'waitlist'] }
+      status: { [Op.in]: ['pending', 'attendee', 'waitlist'] }
     }, {});
   }
 };
