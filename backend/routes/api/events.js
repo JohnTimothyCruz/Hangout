@@ -152,6 +152,89 @@ router.get('/', async (req, res, next) => {
     });
 });
 
+router.post('/:eventId/images', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { eventId } = req.params;
+    const { url, preview } = req.body;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        res.statusCode = 404;
+        res.json({
+            message: "Event couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    const userAttendee = await Attendance.findOne({
+        where: {
+            eventId,
+            userId: user.id
+        }
+    });
+
+    if (!userAttendee || userAttendee.status !== 'attendee') {
+        const err = {};
+        err.message = 'Only attendees can post picture.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    }
+
+    const group = await Group.findByPk(event.groupId);
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: group.id
+        }
+    })
+
+    if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
+        const err = {};
+        err.message = 'Only attendees, co-hosts, or the organizer can post picture.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    }
+
+    if (!url) {
+        const err = {};
+        err.message = 'Please enter a url.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    }
+
+    if (preview !== true && preview !== false) {
+        const err = {};
+        err.message = 'Preview has to be boolean.';
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err);
+    };
+
+    const newImage = EventImage.build({
+        eventId,
+        preview,
+        url
+    })
+
+    await newImage.save();
+
+    const createdImage = await EventImage.findByPk(newImage.id, {
+        where: {
+            exclude: [
+                'createdAt',
+                'updatedAt'
+            ]
+        }
+    })
+
+    res.json(newImage)
+})
+
 router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     const { user } = req;
@@ -437,79 +520,6 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
 
         res.json(editedEvent);
     }
-})
-
-router.delete('/:eventId/images', requireAuth, async (req, res, next) => {
-
-    const { user } = req;
-    const { eventId } = req.params;
-    const { url, preview } = req.body;
-
-    const event = await Event.findByPk(eventId);
-
-    if (!event) {
-        res.statusCode = 404;
-        res.json({
-            message: "Event couldn't be found",
-            statusCode: 404
-        })
-    }
-
-    const userAttendee = await Attendance.findOne({
-        where: {
-            eventId,
-            userId: user.id
-        }
-    });
-
-    if (!userAttendee || userAttendee.status !== 'attendee') {
-        const err = {};
-        err.message = 'Only attendees can post picture.';
-        err.statusCode = 400;
-        res.statusCode = 400;
-        res.json(err);
-    }
-
-    const group = await Group.findByPk(event.groupId);
-    const userMembership = await Membership.findOne({
-        where: {
-            userId: user.id,
-            groupId: group.id
-        }
-    })
-
-    if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
-        const err = {};
-        err.message = 'Only attendees, co-hosts, or the organizer can post picture.';
-        err.statusCode = 400;
-        res.statusCode = 400;
-        res.json(err);
-    }
-
-    if (!url) {
-        const err = {};
-        err.message = 'Please enter a url.';
-        err.statusCode = 400;
-        res.statusCode = 400;
-        res.json(err);
-    }
-
-    if (!preview || preview !== true && preview !== false) {
-        const err = {};
-        err.message = 'Preview has to be boolean.';
-        err.statusCode = 400;
-        res.statusCode = 400;
-        res.json(err);
-    };
-
-    const newImage = EventImage.build({
-        preview,
-        url
-    })
-
-    await newImage.save();
-
-    res.json(newImage)
 })
 
 module.exports = router;
