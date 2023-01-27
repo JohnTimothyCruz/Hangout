@@ -53,6 +53,8 @@ router.post('/',
 
         if (!email) {
             err.errors.email = "Invalid email"
+        } else {
+            
         }
         if (!firstName) {
             err.errors.firstName = "First Name is required"
