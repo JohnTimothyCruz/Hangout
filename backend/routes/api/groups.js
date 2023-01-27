@@ -6,42 +6,9 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { Event, Venue, Membership, Group, GroupImage, User, Attendance, sequelize } = require('../../db/models');
 const router = express.Router();
 
-const validateGroup = [
-    check('name')
-        .exists({ checkFalsy: true })
-        .isLength({ min: 1, max: 60 })
-        .withMessage('Name must be 60 characters or less'),
-
-    check('about')
-        .exists({ checkFalsy: true })
-        .withMessage('About must be 50 characters or more'),
-
-    check('type')
-        .exists({ checkFalsy: true })
-        .custom(val => val === 'In person' || val === 'Online')
-        .withMessage('Type must be \'Online\' or \'In person\''),
-
-    check('private')
-        .exists({ checkFalsy: true })
-        .custom(val => val === true || val === false)
-        .withMessage('Private must be a boolean'),
-
-    check('city')
-        .exists({ checkFalsy: true })
-        .withMessage('City is required'),
-
-    check('state')
-        .exists({ checkFalsy: true })
-        .withMessage('State is required'),
-
-    handleValidationErrors
-]
-
 router.get('/current', requireAuth, async (req, res, next) => {
 
     const { user } = req;
-
-    console.log(user)
 
     const allGroups = await Group.findAll({
         where: {
@@ -121,7 +88,9 @@ router.get('/:groupId/members', async (req, res, next) => {
         delete member.dataValues.status;
     };
 
-    res.json(members);
+    res.json({
+        Members: members
+    });
 })
 
 router.get('/:groupId/venues', async (req, res, next) => {
@@ -325,7 +294,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         res.json(err);
     };
 
-    if (!preview || preview !== true && preview !== false) {
+    if (preview !== true && preview !== false) {
         const err = {};
         err.message = 'Preview has to be boolean.';
         err.statusCode = 400;
@@ -414,19 +383,19 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
         errors: {}
     }
     if (!address) {
-        err.errors = "Street address is required"
+        err.errors.address = "Street address is required"
     }
     if (!city) {
-        err.errors = "City is required"
+        err.errors.city = "City is required"
     }
     if (!state) {
-        err.errors = "State is required"
+        err.errors.state = "State is required"
     }
     if (!lat || lat < -90 || lat > 90) {
-        err.errors = "Latitude is not valid"
+        err.errors.lat = "Latitude is not valid"
     }
     if (!lng || lng < -180 || lng < -180) {
-        err.errors = "Longitude is not valid"
+        err.errors.lng = "Longitude is not valid"
     }
 
     if (Object.keys(err.errors).length) {
@@ -568,6 +537,15 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
         errors: {}
     };
 
+    const nameCheck = await Event.findOne({
+        where: {
+            name
+        }
+    })
+
+    if (nameCheck) {
+        err.errors.name = "Name must be unique"
+    }
     if (!venueId && venueId !== null) {
         err.errors.venueId = "Venue does not exist"
         err.statusCode = 404
@@ -637,10 +615,49 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     }
 })
 
-router.post('/', requireAuth, validateGroup, async (req, res, next) => {
+router.post('/', requireAuth, async (req, res, next) => {
 
     const { name, about, type, private, city, state } = req.body;
     const { user } = req;
+
+    const err = {
+        message: 'Validation Error',
+        statusCode: 400,
+        errors: {}
+    };
+
+    const nameCheck = await Group.findOne({
+        where: {
+            name
+        }
+    })
+
+    if (nameCheck) {
+        err.errors.name = "Name must be unique"
+    }
+    if (!name || name.length > 60) {
+        err.errors.name = "Name must be 60 characters or less"
+    }
+    if (!about || about.length < 50) {
+        err.errors.about = "About must be 50 characters or more"
+    }
+    if (!type || type !== "Online" && type !== "In person") {
+        err.errors.type = "Type must be 'Online' or 'In person'"
+    }
+    if (private !== true && private !== false) {
+        err.errors.private = "Private must be boolean"
+    }
+    if (!city) {
+        err.errors.city = "City is required"
+    }
+    if (!state) {
+        err.errors.state = "State is required"
+    }
+
+    if (Object.keys(err.errors).length) {
+        res.statusCode = 400;
+        res.json(err);
+    }
 
     const newGroup = Group.build({
         organizerId: user.id,
@@ -654,7 +671,17 @@ router.post('/', requireAuth, validateGroup, async (req, res, next) => {
 
     await newGroup.save()
 
-    res.json(newGroup);
+    const createdGroup = await Group.findByPk(newGroup.id, {
+        attributes: {
+            exclude: [
+                'createdAt',
+                'updatedAt'
+            ]
+        }
+    })
+
+    res.statusCode = 201;
+    res.json(createdGroup);
 })
 
 router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
@@ -834,6 +861,14 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
 
     const group = await Group.findByPk(groupId);
 
+    if (user.id !== memberId && user.id !== group.organizerId) {
+        res.statusCode = 403;
+        res.json({
+            message: "Forbidden",
+            statusCode: 403
+        })
+    }
+
     if (!group) {
         res.statusCode = 404;
         res.json({
@@ -843,6 +878,14 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
     }
 
     const userMembership = await Membership.findByPk(memberId);
+
+    if (!userMembership) {
+        res.statusCode = 404;
+        res.json({
+            message: "Membership does not exist for this User",
+            statusCode: 404
+        })
+    }
 
     const toDeleteUser = await User.findByPk(userMembership.userId);
 
@@ -854,22 +897,6 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
             errors: {
                 memberId: "User couldn't be found"
             }
-        })
-    }
-
-    if (!userMembership) {
-        res.statusCode = 404;
-        res.json({
-            message: "Membership does not exist for this User",
-            statusCode: 404
-        })
-    };
-
-    if (user.id !== memberId && user.id !== group.organizerId) {
-        res.statusCode = 403;
-        res.json({
-            message: "Forbidden",
-            statusCode: 403
         })
     }
 
