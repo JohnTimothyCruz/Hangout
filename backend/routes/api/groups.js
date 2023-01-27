@@ -309,7 +309,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
 
     if (user.id !== organizer.organizerId) {
         const err = {};
-        err.message = 'You must be the group organizer to make any edits.';
+        err.message = 'You must be the group organizer to add any images.';
         err.statusCode = 403;
         res.statusCode = 403;
         res.json(err);
@@ -828,20 +828,24 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
 
     const { user } = req;
     const { groupId } = req.params;
+    const { memberId } = req.body;
 
     const group = await Group.findByPk(groupId);
 
     if (!group) {
-        // res.statusCode = 404;
+        res.statusCode = 404;
         res.json({
             message: "Group couldn't be found",
             statusCode: 404
         })
     }
 
-    const toDeleteUser = await User.findByPk(memberId);
+    const userMembership = await Membership.findByPk(memberId);
+
+    const toDeleteUser = await User.findByPk(userMembership.userId);
 
     if (!toDeleteUser) {
+        res.statusCode = 400;
         res.json({
             message: "Validation Error",
             statusCode: 400,
@@ -851,14 +855,8 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
         })
     }
 
-    const userMembership = await Membership.findOne({
-        where: {
-            userId: memberId,
-            groupId
-        }
-    });
-
     if (!userMembership) {
+        res.statusCode = 404;
         res.json({
             message: "Membership does not exist for this User",
             statusCode: 404
@@ -866,6 +864,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
     };
 
     if (user.id !== memberId && user.id !== group.organizerId) {
+        res.statusCode = 403;
         res.json({
             message: "Only the group organizer or the user being deleted can delete this membership",
             statusCode: 403
