@@ -309,7 +309,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
 
     if (user.id !== organizer.organizerId) {
         const err = {};
-        err.message = 'You must be the group organizer to add any images.';
+        err.message = 'Forbidden';
         err.statusCode = 403;
         res.statusCode = 403;
         res.json(err);
@@ -392,14 +392,15 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
 
     if (check !== true) {
         const err = {};
-        err.message = 'Must be the group organizer or co-host to create venue.';
 
         if (user) {
             err.statusCode = 403;
             res.statusCode = 403;
+            err.message = 'Forbidden'
         } else {
+            err.statusCode = 401;
             res.statusCode = 401;
-            res.statusCode = 401;
+            err.message = 'Authentication required'
         }
 
         res.json(err);
@@ -545,14 +546,15 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
 
     if (check !== true) {
         const err = {};
-        err.message = 'Must be the group organizer or co-host to create event.';
 
         if (user) {
             err.statusCode = 403;
             res.statusCode = 403;
+            err.message = 'Forbidden'
         } else {
+            err.statusCode = 401;
             res.statusCode = 401;
-            res.statusCode = 401;
+            err.message = 'Authentication required'
         }
 
         res.json(err);
@@ -758,7 +760,7 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
 
     if (user.id !== organizer.organizerId) {
         const err = {};
-        err.message = 'You must be the group organizer to make any edits.';
+        err.message = 'Forbidden';
         err.statusCode = 403;
         res.statusCode = 403;
         res.json(err);
@@ -866,7 +868,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
     if (user.id !== memberId && user.id !== group.organizerId) {
         res.statusCode = 403;
         res.json({
-            message: "Only the group organizer or the user being deleted can delete this membership",
+            message: "Forbidden",
             statusCode: 403
         })
     }
@@ -895,7 +897,7 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
 
     if (user.id !== organizer.organizerId) {
         const err = {};
-        err.message = 'You must be the group organizer to make any edits.';
+        err.message = 'Forbidden';
         err.statusCode = 403;
         res.statusCode = 403;
         res.json(err);
