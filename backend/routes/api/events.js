@@ -323,7 +323,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
     if (!userMembership) {
         res.statusCode = 403;
         res.json({
-            message: 'Must be apart of group to request to attend.',
+            message: 'Forbidden',
             statusCode: 403
         })
     }
@@ -397,7 +397,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
     if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
         res.statusCode = 403;
         res.json({
-            message: 'Must be the group organizer or a co-host to change a user\'s status',
+            message: 'Forbidden',
             statusCode: 403
         })
     }
@@ -489,14 +489,15 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
 
     if (check !== true) {
         const err = {};
-        err.message = 'Must be the group organizer or co-host to edit event.';
 
         if (user) {
             err.statusCode = 403;
             res.statusCode = 403;
+            err.message = 'Forbidden';
         } else {
             res.statusCode = 401;
             res.statusCode = 401;
+            err.message = 'Authentication required'
         }
 
         res.json(err);
@@ -607,7 +608,7 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
     if (user.id !== group.organizerId && user.id !== userId) {
         res.statusCode = 403,
             res.json({
-                message: "Only the user and group organizer can delete an attendance request",
+                message: 'Forbidden',
                 statusCode: 403
             })
     }
@@ -660,7 +661,7 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
     if (!userMembership || user.id !== group.organizerId && userMembership.status !== 'co-host') {
         res.statusCode = 403;
         res.json({
-            message: "Only hosts and co-hosts can delete events",
+            message: 'Forbidden',
             statusCode: 403
         })
     }

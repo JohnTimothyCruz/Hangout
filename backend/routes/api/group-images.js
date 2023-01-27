@@ -23,7 +23,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
 
     if (user.id !== organizerId) {
         const err = {};
-        err.message = 'You must be the group organizer to delete an image.';
+        err.message = 'Forbidden';
         err.statusCode = 403;
         res.statusCode = 403;
         res.json(err);
