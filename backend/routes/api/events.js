@@ -395,6 +395,7 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
     const event = await Event.findByPk(eventId);
 
     if (!event) {
+        res.statusCode = 404;
         res.json({
             message: "Event couldn\'t be found",
             statusCode: 404
@@ -451,6 +452,7 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
     } else {
         const venue = await Venue.findByPk(venueId)
         if (!venue) {
+            res.statusCode = 404;
             res.json({
                 "message": "Venue couldn't be found",
                 "statusCode": 404
@@ -532,20 +534,20 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     if (!event) {
         res.statusCode = 404,
-        res.json({
-            message: "Event couldn't be found",
-            statusCode: 404
-        })
+            res.json({
+                message: "Event couldn't be found",
+                statusCode: 404
+            })
     }
 
     const group = await Group.findByPk(event.groupId);
 
     if (user.id !== group.organizerId && user.id !== userId) {
         res.statusCode = 403,
-        res.json({
-            message: "Only the user and group organizer can delete an attendance request",
-            statusCode: 403
-        })
+            res.json({
+                message: "Only the user and group organizer can delete an attendance request",
+                statusCode: 403
+            })
     }
 
     const attendanceRequest = await Attendance.findOne({
@@ -557,16 +559,62 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     if (!attendanceRequest) {
         res.statusCode = 404,
-        res.json({
-            message: "Attendance does not exist for this User",
-            statusCode: 404
-        })
+            res.json({
+                message: "Attendance does not exist for this User",
+                statusCode: 404
+            })
     };
 
     await attendanceRequest.destroy();
 
     res.json({
         message: "Successfully deleted attendance from event"
+    })
+})
+
+router.delete('/:eventId', requireAuth, async (req, res, next) => {
+
+    const { user } = req;
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        res.statusCode = 404;
+        res.json({
+            message: "Event couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    const group = await Group.findByPk(event.groupId);
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: event.groupId
+        }
+    })
+
+    if (!userMembership || user.id !== group.organizerId && userMembership.status !== 'co-host') {
+        res.statusCode = 403;
+        res.json({
+            message: "Only hosts and co-hosts can delete events",
+            statusCode: 403
+        })
+    }
+
+    if (!event) {
+        res.statusCode = 404;
+        res.json({
+            message: "Event couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    await event.destroy();
+
+    res.json({
+        message: "Successfully deleted"
     })
 })
 
