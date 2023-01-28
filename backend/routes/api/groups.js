@@ -4,6 +4,7 @@ const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Event, Venue, Membership, Group, GroupImage, User, Attendance, sequelize } = require('../../db/models');
+const { up } = require('../../db/seeders/20230124003229-demo-attendance');
 const router = express.Router();
 
 router.get('/current', requireAuth, async (req, res, next) => {
@@ -51,9 +52,9 @@ router.get('/:groupId/members', async (req, res, next) => {
     const { user } = req;
     const { groupId } = req.params;
 
-    const organizer = await Group.findByPk(groupId);
+    const group = await Group.findByPk(groupId);
 
-    if (!organizer) {
+    if (!group) {
         const err = {};
         err.message = 'Group couldn\'t be found.';
         err.statusCode = 404;
@@ -62,7 +63,7 @@ router.get('/:groupId/members', async (req, res, next) => {
     };
 
     const pagination = {};
-    if (user.id !== organizer.organizerId) {
+    if (user.id !== group.organizerId) {
         pagination.status = {
             [Op.not]: 'pending'
         }
@@ -700,7 +701,35 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
         })
     }
 
-    const userMembership = await Membership.findByPk(memberId);
+    if (user.id !== group.organizerId) {
+        const membership = await Membership.findOne({
+            where: {
+                groupId: group.id,
+                userId: user.id
+            }
+        })
+        if (!membership) {
+            const err = {};
+            err.message = 'Forbidden';
+            err.statusCode = 403;
+            res.statusCode = 403;
+            res.json(err);
+        } else {
+            if (membership.status !== 'co-host') {
+                const err = {};
+                err.message = 'Forbidden';
+                err.statusCode = 403;
+                res.statusCode = 403;
+                res.json(err);
+            }
+        }
+    }
+
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: memberId
+        }
+    });
 
     if (!userMembership) {
         res.statusCode = 400;
@@ -762,12 +791,16 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
 
     await userMembership.save();
 
-    res.json({
-        id: userMembership.id,
-        groupId,
-        memberId,
-        status
+    const updatedMembership = await Membership.findByPk(userMembership.id, {
+        attributes: {
+            exclude: [
+                'createdAt',
+                'updatedAt'
+            ]
+        }
     })
+
+    res.json(updatedMembership)
 })
 
 router.put('/:groupId', requireAuth, async (req, res, next) => {
@@ -877,7 +910,11 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
         })
     }
 
-    const userMembership = await Membership.findByPk(memberId);
+    const userMembership = await Membership.findOne({
+        where: {
+            userId: memberId
+        }
+    });
 
     if (!userMembership) {
         res.statusCode = 404;
