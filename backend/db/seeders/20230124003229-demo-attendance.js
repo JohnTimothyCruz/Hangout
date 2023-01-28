@@ -23,17 +23,17 @@ module.exports = {
       {
         eventId: 1,
         userId: 1,
-        status: 'attendee'
+        status: 'attending'
       },
       {
         eventId: 2,
         userId: 2,
-        status: 'attendee'
+        status: 'attending'
       },
       {
         eventId: 3,
         userId: 3,
-        status: 'attendee'
+        status: 'attending'
       },
       {
         eventId: 3,
@@ -62,7 +62,7 @@ module.exports = {
      */
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      status: { [Op.in]: ['pending', 'attendee', 'waitlist'] }
+      status: { [Op.in]: ['pending', 'attending', 'waitlist'] }
     }, {});
   }
 };

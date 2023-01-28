@@ -23,9 +23,6 @@ router.get('/:eventId/attendees', async (req, res, next) => {
     const group = await Group.findByPk(event.groupId);
 
     const pagination = {};
-    pagination.status = {
-        [Op.not]: 'pending'
-    }
 
     if (user) {
         const userMembership = await Membership.findOne({
@@ -34,10 +31,14 @@ router.get('/:eventId/attendees', async (req, res, next) => {
                 groupId: group.id
             }
         });
-        if (userMembership) {
-            if (userMembership.status === 'co-host' || user.id === group.organizerId) {
-                delete pagination.status;
-            };
+        if (user.id !== group.organizerId) {
+            if (userMembership) {
+                if (userMembership.status === 'co-host') {
+                    pagination.status = {
+                        [Op.not]: 'pending'
+                    }
+                };
+            }
         };
     };
 
@@ -381,13 +382,18 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
     const createdAttendanceRequest = await Attendance.findByPk(newAttendanceRequest.id, {
         attributes: {
             exclude: [
+                'eventId',
+                'userStatus',
                 'updatedAt',
                 'createdAt'
             ]
         }
     })
 
-    res.json(createdAttendanceRequest);
+    res.json({
+        userId: user.id,
+        status: 'pending'
+    });
 })
 
 router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
@@ -441,7 +447,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         })
     }
 
-    if (status !== 'attendee' && status !== 'waitlist') {
+    if (status !== 'attending' && status !== 'waitlist') {
         res.statusCode = 400
         res.json({
             message: "Please enter a valid status",
