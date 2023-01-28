@@ -700,7 +700,6 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
         }
     })
 
-
     if (user.id !== group.organizerId) {
         if (userMembership) {
             if (userMembership.status !== 'co-host') {
