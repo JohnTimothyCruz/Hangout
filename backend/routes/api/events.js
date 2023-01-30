@@ -339,14 +339,15 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
         }
     });
 
+    console.log(userMembership)
+
     if (!userMembership) {
         res.statusCode = 403;
         res.json({
             message: 'Forbidden',
             statusCode: 403
         })
-    }
-
+    } else {
     const attendance = await Attendance.findOne({
         where: {
             userId: user.id,
@@ -379,21 +380,11 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     await newAttendanceRequest.save();
 
-    const createdAttendanceRequest = await Attendance.findByPk(newAttendanceRequest.id, {
-        attributes: {
-            exclude: [
-                'eventId',
-                'userStatus',
-                'updatedAt',
-                'createdAt'
-            ]
-        }
-    })
-
     res.json({
         userId: user.id,
         status: 'pending'
     });
+}
 })
 
 router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
@@ -427,8 +418,10 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
     }
 
     const attendanceRequest = await Attendance.findOne({
-        eventId,
-        userId
+        where: {
+            eventId,
+            userId,
+        }
     });
 
     if (!attendanceRequest) {
@@ -663,11 +656,11 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
     });
 
     if (!attendanceRequest) {
-        res.statusCode = 404,
-            res.json({
-                message: "Attendance does not exist for this User",
-                statusCode: 404
-            })
+        res.statusCode = 404;
+        res.json({
+            message: "Attendance does not exist for this User",
+            statusCode: 404
+        })
     };
 
     await attendanceRequest.destroy();
