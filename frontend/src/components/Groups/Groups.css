@@ -1,0 +1,25 @@
+.main-page {
+    width: 40%;
+    margin: auto;
+    border-bottom: 1px solid grey;
+}
+
+.link {
+    padding-right: 10px;
+    padding-bottom: 5px;
+    font-size: 30px;
+}
+
+.unselected {
+    text-decoration: none;
+    color: grey;
+}
+
+.current {
+    color: teal;
+}
+
+.title {
+    padding: 5px 0;
+    color: gray;
+}
