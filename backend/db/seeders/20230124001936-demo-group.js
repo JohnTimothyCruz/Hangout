@@ -27,7 +27,7 @@ module.exports = {
         type: 'Online',
         private: true,
         city: 'Onevale',
-        state: 'ON'
+        state: 'CA'
       },
       {
         organizerId: 2,
@@ -36,7 +36,7 @@ module.exports = {
         type: 'Online',
         private: true,
         city: 'Twovill',
-        state: 'TW'
+        state: 'AZ'
       },
       {
         organizerId: 3,
@@ -45,7 +45,25 @@ module.exports = {
         type: 'In person',
         private: false,
         city: 'Threemouth',
-        state: 'TH'
+        state: 'AK'
+      },
+      {
+        organizerId: 4,
+        name: 'Group-Four',
+        about: 'We\'re group four.',
+        type: 'Online',
+        private: true,
+        city: 'Fourshire',
+        state: 'MD'
+      },
+      {
+        organizerId: 5,
+        name: 'Group-Five',
+        about: 'We\'re group Five.',
+        type: 'In person',
+        private: false,
+        city: 'Fiveburg',
+        state: 'PA'
       }
     ], {})
   },
@@ -59,7 +77,7 @@ module.exports = {
      */
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['Group-One', 'Group-Two', 'Group-Three'] }
+      private: { [Op.in]: [true, false] }
     }, {});
   }
 };

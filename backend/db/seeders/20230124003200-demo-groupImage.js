@@ -34,7 +34,17 @@ module.exports = {
         groupId: 3,
         url: 'Url-Three',
         preview: false
-      }
+      },
+      {
+        groupId: 4,
+        url: 'Url-Four',
+        preview: true
+      },
+      {
+        groupId: 5,
+        url: 'Url-Five',
+        preview: false
+      },
     ], {})
   },
 
@@ -47,7 +57,7 @@ module.exports = {
      */
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      url: { [Op.in]: ['Url-One', 'Url-Two', 'Url-Three'] }
+      preview: { [Op.in]: [true, false] }
     }, {});
   }
 };

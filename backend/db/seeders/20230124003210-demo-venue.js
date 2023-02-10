@@ -24,7 +24,7 @@ module.exports = {
         groupId: 1,
         address: 'Address-One',
         city: 'Onevalley',
-        state: 'ON',
+        state: 'CA',
         lat: 1,
         lng: 1
       },
@@ -32,7 +32,7 @@ module.exports = {
         groupId: 2,
         address: 'Address-Two',
         city: 'Twoport',
-        state: 'TW',
+        state: 'AZ',
         lat: 2,
         lng: 2
       },
@@ -40,9 +40,25 @@ module.exports = {
         groupId: 3,
         address: 'Address-Three',
         city: 'Threemont',
-        state: 'TH',
+        state: 'AK',
         lat: 3,
         lng: 3
+      },
+      {
+        groupId: 4,
+        address: 'Address-Four',
+        city: 'Fourshire',
+        state: 'MD',
+        lat: 4,
+        lng: 4
+      },
+      {
+        groupId: 5,
+        address: 'Address-Five',
+        city: 'Fiveburg',
+        state: 'PA',
+        lat: 5,
+        lng: 5
       }
     ], {})
   },
