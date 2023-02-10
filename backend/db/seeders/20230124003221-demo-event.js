@@ -52,6 +52,28 @@ module.exports = {
         price: '3',
         startDate: '2030-12-12 20:00:00',
         endDate: '2030-12-12 20:00:00'
+      },
+      {
+        venueId: 4,
+        groupId: 4,
+        name: 'Event-Four',
+        description: 'Four',
+        type: 'Online',
+        capacity: 4,
+        price: '4',
+        startDate: '2030-12-12 20:00:00',
+        endDate: '2030-12-12 20:00:00'
+      },
+      {
+        venueId: 5,
+        groupId: 5,
+        name: 'Event-Five',
+        description: 'Five',
+        type: 'Online',
+        capacity: 5,
+        price: '5',
+        startDate: '2030-12-12 20:00:00',
+        endDate: '2030-12-12 20:00:00'
       }
     ], {})
   },
@@ -65,7 +87,7 @@ module.exports = {
      */
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['Event-One', 'Event-Two', 'cEvent-Three'] }
+      description: { [Op.in]: ['One', 'Two', 'Three', 'Four', 'Five'] }
     }, {});
   }
 };
