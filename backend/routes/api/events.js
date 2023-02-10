@@ -221,9 +221,7 @@ router.get('/', async (req, res, next) => {
         events.push(event)
     }
 
-    res.json({
-        Events: events,
-    });
+    res.json(events);
 });
 
 router.post('/:eventId/images', requireAuth, async (req, res, next) => {
