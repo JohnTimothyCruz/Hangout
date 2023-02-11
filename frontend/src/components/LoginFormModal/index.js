@@ -24,36 +24,46 @@ function LoginFormModal() {
       );
   };
 
+  const signInDemoUser = () => {
+    return dispatch(sessionActions.login({ credential: 'DemoUser', password: 'password' }))
+      .then(closeModal)
+  }
+
   return (
-    <>
+    <div className="log-in">
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='form'>
         <ul>
           {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+            <li className='error' key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Log In</button>
+        <div className="label-input">
+          <label>
+            Username or Email
+            <input
+              type="text"
+              value={credential}
+              onChange={(e) => setCredential(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <div className="label-input">
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <button type="submit" className="login" disabled={password.length < 6 || credential.length < 4}>Log In</button>
       </form>
-    </>
+      <button className="demo-user" onClick={signInDemoUser}>Demo User</button>
+    </div>
   );
 }
 
