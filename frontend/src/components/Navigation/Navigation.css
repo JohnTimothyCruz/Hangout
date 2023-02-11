@@ -1,3 +1,84 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.logo, .logo-container {
+    color: rgb(235, 69, 69);
+    text-decoration: none;
+    font-family: 'Dancing Script', cursive;
+    font-size: 34px;
+}
+
 .hidden {
     display: none;
+}
+
+.user-icon {
+    height: 40px;
+    width: 40px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    padding: 0 16px;
+}
+
+.fas {
+    height: 40px;
+}
+
+.session-options {
+    width: 125px;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-menu {
+    display: flex;
+    width: 225px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-dropdown {
+    position: absolute;
+    right: 17px;
+    top: 64px;
+    height: fit-content;
+    width: 210px;
+    border: 1px solid grey;
+    border-radius: 3px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    margin: 12px 16px;
+}
+
+.top-ul {
+    border-bottom: 1px solid grey;
+}
+
+li {
+    list-style-type: none;
+    /* to become a navlink element */
+    font-size: 14px;
+    font-weight: lighter;
+    padding: 8px 0;
+    color: grey;
+}
+
+.button:hover {
+    color: teal;
+    cursor: pointer;
 }
