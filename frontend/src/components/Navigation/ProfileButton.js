@@ -37,38 +37,43 @@ function ProfileButton({ user }) {
         closeMenu();
     };
 
-    const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+    const divClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
         <>
-            <button onClick={openMenu}>
-                <i className="fas fa-user-circle" />
-            </button>
-            <ul className={ulClassName} ref={ulRef}>
-                {user ? (
-                    <>
-                        <li>{user.username}</li>
-                        <li>{user.firstName} {user.lastName}</li>
-                        <li>{user.email}</li>
-                        <li>
-                            <button onClick={logout}>Log Out</button>
-                        </li>
-                    </>
-                ) : (
-                    <>
-                        <OpenModalMenuItem
-                            itemText="Log In"
-                            onItemClick={closeMenu}
-                            modalComponent={<LoginFormModal />}
-                        />
-                        <OpenModalMenuItem
-                            itemText="Sign Up"
-                            onItemClick={closeMenu}
-                            modalComponent={<SignupFormModal />}
-                        />
-                    </>
-                )}
-            </ul>
+            {user ? (
+                <div className="user-menu">
+                    <h4>Start a new group</h4>
+                    <button onClick={openMenu} className='user-icon'>
+                        <i className="fas fa-user-circle fa-3x" />
+                    </button>
+                    <div onClick={openMenu}>
+                        <i className={showMenu ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"} />
+                    </div>
+                    <div className={divClassName} ref={ulRef}>
+                        <ul className="top-ul">
+                            <li>Hello, {user.username}</li>
+                            <li>{user.email}</li>
+                        </ul>
+                        <ul className="bottom-ul">
+                            <li className="button" onClick={logout}>Log out</li>
+                        </ul>
+                    </div>
+                </div>
+            ) : (
+                <div className='session-options'>
+                    <OpenModalMenuItem
+                        itemText="Log In"
+                        onItemClick={closeMenu}
+                        modalComponent={<LoginFormModal />}
+                    />
+                    <OpenModalMenuItem
+                        itemText="Sign Up"
+                        onItemClick={closeMenu}
+                        modalComponent={<SignupFormModal />}
+                    />
+                </div>
+            )}
         </>
     );
 }
