@@ -29,8 +29,12 @@ input {
     border: 2px solid black;
 }
 
-.label-group {
-    padding-bottom: 25px;
+.inputs {
+    padding-bottom: 10px;
+}
+
+label {
+    padding-bottom: 5px;
 }
 
 .signup {
