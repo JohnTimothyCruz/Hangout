@@ -32,3 +32,51 @@
     padding: 5px 0;
     color: gray;
 }
+
+/* Event card css below */
+.event-container {
+    border-bottom: 1px solid gray;
+    padding: 20px 0;
+}
+
+.event-card {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.card-top {
+    display: flex;
+    padding-bottom: 15px;
+}
+
+.card-top * {
+    margin: 0;
+}
+
+.card-top-left {
+    width: 178px;
+    height: 124px;
+    padding-right: 12px;
+}
+
+.card-top-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-time {
+    color: teal;
+}
+
+.event-name {
+    padding: 10px 0;
+    color: black;
+}
+
+.event-location {
+    color: grey;
+}
+
+.event-description {
+    color: black;
+}

@@ -22,26 +22,26 @@ module.exports = {
     await queryInterface.bulkInsert(options, [
       {
         eventId: 1,
-        url: '11111',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/510263871/222x125.webp',
         preview: true
       },
       {
         eventId: 2,
-        url: '22222',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/510247037/222x125.webp',
         preview: true
       },
       {
         eventId: 3,
-        url: '33333',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/509717215/222x125.webp',
         preview: false
       },
       {
         eventId: 4,
-        url: '44444',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/510456115/222x125.webp',
         preview: true
       },{
         eventId: 5,
-        url: '55555',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/510511628/222x125.webp',
         preview: false
       }
     ], {})

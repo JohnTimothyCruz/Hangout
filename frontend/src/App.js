@@ -19,15 +19,15 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path='/events'>
+          <Route exact path='/events'>
             <EventList />
           </Route>
 
-          <Route path='/groups'>
+          <Route exact path='/groups'>
             <GroupList />
           </Route>
 
-          <Route path='/'>
+          <Route exact path='/'>
             <MainPage />
           </Route>
 

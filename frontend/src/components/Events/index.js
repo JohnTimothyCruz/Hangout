@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import './Events.css';
 import { useEffect } from "react";
@@ -6,13 +6,15 @@ import { fetchEvents } from "../../store/eventReducer";
 
 const EventList = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const events = useSelector(state => state.events)
+    console.log('events here: ', events)
 
     useEffect(() => {
         dispatch(fetchEvents())
     }, []);
 
-    if (!events) return null;
+    if (!events['1']) return null;
 
     return (
         <div className="main-page">
@@ -29,9 +31,32 @@ const EventList = () => {
             </div>
             {
                 Object.values(events).map(event => {
+                    const time = new Date(event.startDate)
+                    const url = event.EventImages[0].url
+
                     return (
-                        <div>
-                            a
+                        <div className="event-container">
+                            <NavLink to={`/events/${event.id}`} className="event-card">
+                                <div className="card-top">
+                                    <img src={url} className="event-image card-top-left"></img>
+                                    <div className="card-top-right">
+                                        <h5 className="event-time">
+                                            {time.getFullYear()}-{time.getMonth()}-{time.getDay()} · {time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                                        </h5>
+                                        <h4 className="event-name">
+                                            {event.name}
+                                        </h4>
+                                        <h4 className="event-location">
+                                            {event.Venue.city} · {event.Venue.state}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div className="card-bottom">
+                                    <div className="event-description">
+                                        {event.description}
+                                    </div>
+                                </div>
+                            </NavLink>
                         </div>
                     )
                 })
