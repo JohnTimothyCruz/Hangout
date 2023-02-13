@@ -38,27 +38,29 @@ function LoginFormModal() {
             <li className='error' key={idx}>{error}</li>
           ))}
         </ul>
-        <div className="label-input">
-          <label>
-            Username or Email
-            <input
-              type="text"
-              value={credential}
-              onChange={(e) => setCredential(e.target.value)}
-              required
-            />
-          </label>
-        </div>
-        <div className="label-input">
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
+        <div className="inputs">
+          <div className="input">
+            <label>
+              <input
+                type="text"
+                value={credential}
+                onChange={(e) => setCredential(e.target.value)}
+                required
+                placeholder='Username or Email'
+              />
+            </label>
+          </div>
+          <div className="input">
+            <label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder='Password'
+              />
+            </label>
+          </div>
         </div>
         <button type="submit" className="login" disabled={password.length < 6 || credential.length < 4}>Log In</button>
       </form>

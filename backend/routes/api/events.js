@@ -202,7 +202,7 @@ router.get('/', async (req, res, next) => {
     }
 
     const allEvents = await Event.findAll({
-        include: [Venue, Group],
+        include: [Venue, Group, EventImage],
         ...pagination
     });
 

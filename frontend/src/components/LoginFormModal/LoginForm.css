@@ -26,10 +26,15 @@ input {
     background-color: rgba(48, 147, 228, .3);
     border-radius: 5px;
     border: 2px solid black;
+    padding: 5px;
 }
 
-.label-input {
-    padding-bottom: 25px;
+.input {
+    padding-bottom: 10px;
+}
+
+.inputs {
+    padding-bottom: 10px;
 }
 
 .login {
