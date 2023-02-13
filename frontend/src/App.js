@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import EventList from "./components/Events";
 import GroupList from "./components/Groups";
+import MainPage from "./components/MainPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,7 +27,11 @@ function App() {
             <GroupList />
           </Route>
 
-          <Route path=''>
+          <Route path='/'>
+            <MainPage />
+          </Route>
+
+          <Route>
             <h1>Page not found</h1>
           </Route>
         </Switch>

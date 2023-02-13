@@ -18,14 +18,14 @@ const EventList = () => {
         <div className="main-page">
             <div className="menu">
                 <div>
-                    <NavLink to='/events' className='link current'>
+                    <NavLink to='/events' className='current'>
                         Events
                     </NavLink>
-                    <NavLink to='/groups' className='link unselected'>
+                    <NavLink to='/groups' className='unselected'>
                         Groups
                     </NavLink>
+                    <h4 className="title">Events in Meetup</h4>
                 </div>
-                <h4 className="title">Events in Meetup</h4>
             </div>
             {
                 Object.values(events).map(event => {
