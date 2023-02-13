@@ -1,13 +1,22 @@
 .main-page {
     width: 40%;
     margin: auto;
+}
+
+.menu {
+    padding-top: 50px;
     border-bottom: 1px solid grey;
 }
 
-.link {
+.current,
+.unselected {
     padding-right: 10px;
     padding-bottom: 5px;
     font-size: 30px;
+}
+
+.current {
+    color: teal;
 }
 
 .unselected {
@@ -15,8 +24,8 @@
     color: grey;
 }
 
-.current {
-    color: teal;
+.unselected:hover {
+    text-decoration: underline;
 }
 
 .title {
