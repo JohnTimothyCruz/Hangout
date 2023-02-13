@@ -2,11 +2,16 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.logo, .logo-container {
+.logo,
+.logo-container {
     color: rgb(235, 69, 69);
     text-decoration: none;
     font-family: 'Dancing Script', cursive;
     font-size: 34px;
+}
+
+.logo-container {
+    padding-left: 20px;
 }
 
 .hidden {
@@ -24,11 +29,16 @@
 }
 
 .header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: sticky;
+    top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    padding: 0 16px;
+    border-bottom: 2px solid lightgray;
+    height: 70px;
 }
 
 .fas {
@@ -40,6 +50,7 @@
     font-size: 15px;
     display: flex;
     justify-content: space-between;
+    padding-right: 20px;
 }
 
 .user-menu {
@@ -47,6 +58,7 @@
     width: 225px;
     align-items: center;
     justify-content: space-between;
+    padding-right: 20px;
 }
 
 .profile-dropdown {

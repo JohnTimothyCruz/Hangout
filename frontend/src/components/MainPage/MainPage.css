@@ -1,0 +1,95 @@
+.main-page-container {
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.main-page-top {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.top-left {
+    height: max-content;
+    width: 50%;
+    padding-right: 25px;
+}
+
+.title-text {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.top-right {
+    width: 50%;
+}
+
+.main-page-bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.caption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.caption-text {
+    margin: 0;
+    width: 33%;
+}
+
+.options-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+    height: 30%;
+}
+
+.option {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+img {
+    /* width: 50%; */
+    align-self: center;
+}
+
+.link {
+    text-decoration: none;
+    color: teal;
+}
+
+.join-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.join-button {
+    background-color: teal;
+    color: white;
+    padding: 7px 10px;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+    cursor: pointer;
+}

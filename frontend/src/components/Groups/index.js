@@ -5,14 +5,14 @@ const GroupList = () => {
     return (
         <div className="main-page">
             <div className="menu">
-                <NavLink to='/events' className='link unselected'>
+                <NavLink to='/events' className='unselected'>
                     Events
                 </NavLink>
-                <NavLink to='/groups' className='link current'>
+                <NavLink to='/groups' className='current'>
                     Groups
                 </NavLink>
+                <h4 className="title">Groups in Meetup</h4>
             </div>
-            <h4 className="title">Groups in Meetup</h4>
         </div>
     )
 }
