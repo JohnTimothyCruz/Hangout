@@ -1,14 +1,12 @@
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import './Events.css';
 import { useEffect } from "react";
 import { fetchEvents } from "../../store/eventReducer";
+import './Events.css';
 
 const EventList = () => {
     const dispatch = useDispatch();
-    const history = useHistory();
     const events = useSelector(state => state.events)
-    console.log('events here: ', events)
 
     useEffect(() => {
         dispatch(fetchEvents())
@@ -19,15 +17,13 @@ const EventList = () => {
     return (
         <div className="main-page">
             <div className="menu">
-                <div>
-                    <NavLink to='/events' className='current'>
-                        Events
-                    </NavLink>
-                    <NavLink to='/groups' className='unselected'>
-                        Groups
-                    </NavLink>
-                    <h4 className="title">Events in Meetup</h4>
-                </div>
+                <NavLink to='/events' className='current'>
+                    Events
+                </NavLink>
+                <NavLink to='/groups' className='unselected'>
+                    Groups
+                </NavLink>
+                <h4 className="title">Events in Meetup</h4>
             </div>
             {
                 Object.values(events).map(event => {
