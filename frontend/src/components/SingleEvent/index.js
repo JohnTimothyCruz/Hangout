@@ -7,16 +7,29 @@ import './SingleEvent.css'
 const SingleEvent = () => {
     const dispatch = useDispatch()
     const { id } = useParams()
-    const event = useSelector(state => state.events)
+    const event = useSelector(state => state.events.singleEvent)
 
     useEffect(() => {
-        dispatch(fetchSingleEvent(id))
+        dispatch(fetchSingleEvent(id));
     }, [])
 
-    if (!Object.values(event.singleEvent).length) return null;
+    if (event === undefined) return null;
 
+    console.log(event)
     return (
-        <h1>You've already implemented a way to get the event by id. Now just format the page.</h1>
+        <div className='body'>
+            <div className='main-top'>
+                <h4>Events</h4>
+                <h2>{event.name}</h2>
+                <h4>Hosted by {event.organizer.firstName} {event.organizer.firstName}</h4>
+            </div>
+            <div className='main-middle'>
+
+            </div>
+            <div className='main-bottom'>
+
+            </div>
+        </div>
     )
 }
 

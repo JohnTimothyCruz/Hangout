@@ -34,6 +34,17 @@ const validateSignup = [
     handleValidationErrors
 ];
 
+// Get a user
+router.get('/:id',
+    async (req, res, next) => {
+        const { id } = req.params;
+
+        const user = await User.findByPk(id)
+
+        res.json(user)
+    }
+)
+
 // Sign up
 router.post('/',
     validateSignup,
@@ -78,5 +89,6 @@ router.post('/',
         });
     }
 );
+
 
 module.exports = router;
