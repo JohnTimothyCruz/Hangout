@@ -88,13 +88,12 @@ router.get('/:eventId', async (req, res, next) => {
             model: Group,
             attributes: {
                 exclude: [
-                    'organizerId',
                     'about',
                     'type',
                     'createdAt',
                     'updatedAt'
                 ]
-            }
+            },
         },
         {
             model: Venue,
@@ -336,8 +335,6 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
             groupId: group.id
         }
     });
-
-    console.log(userMembership)
 
     if (!userMembership) {
         res.statusCode = 403;
@@ -601,7 +598,6 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
     }
 
     if (Object.keys(err.errors).length) {
-        console.log(err)
         res.json(err)
     } else {
         event.set(changedData);

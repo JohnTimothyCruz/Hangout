@@ -15,10 +15,11 @@ export const loadEvents = (events) => {
     }
 }
 
-export const loadSingleEvent = (event) => {
+export const loadSingleEvent = (event, user) => {
     return {
         type: GET_SINGLE_EVENT,
-        event
+        event,
+        user
     }
 }
 
@@ -34,11 +35,16 @@ export const fetchEvents = () => async dispatch => {
 }
 
 export const fetchSingleEvent = (id) => async dispatch => {
-    const res = await csrfFetch(`/api/events/${id}`);
+    const eventRes = await csrfFetch(`/api/events/${id}`);
 
-    if (res.ok) {
-        const event = await res.json();
-        dispatch(loadSingleEvent(event))
+    if (eventRes.ok) {
+        const event = await eventRes.json();
+        const userId = event.Group.organizerId
+        const userRes = await csrfFetch(`/api/users/${userId}`);
+        if (userRes.ok) {
+            const user = await userRes.json();
+            dispatch(loadSingleEvent(event, user))
+        }
     }
 }
 
@@ -60,6 +66,7 @@ const EventReducer = (state = initialState, action) => {
         {
             const newState = { ...state };
             newState.singleEvent = action.event;
+            newState.singleEvent.organizer = action.user
             return newState;
         }
         default:

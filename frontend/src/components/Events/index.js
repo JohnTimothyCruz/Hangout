@@ -26,12 +26,12 @@ const EventList = () => {
                 <h4 className="title">Events in Meetup</h4>
             </div>
             {
-                Object.values(events).map(event => {
+                Object.values(events).map((event, idx) => {
                     const time = new Date(event.startDate)
                     const url = event.EventImages[0].url
 
                     return (
-                        <div className="event-container">
+                        <div className="event-container" key={idx}>
                             <NavLink to={`/events/${event.id}`} className="event-card">
                                 <div className="card-top">
                                     <img src={url} className="event-image card-top-left"></img>

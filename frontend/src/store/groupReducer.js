@@ -50,7 +50,6 @@ const GroupReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_GROUPS:
             const newState = {};
-            console.log(action.groups)
             action.groups.forEach(group => {
                 newState[group.id] = group
             })

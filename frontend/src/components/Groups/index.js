@@ -26,11 +26,10 @@ const GroupList = () => {
                 <h4 className="title">Groups in Meetup</h4>
             </div>
             {
-                Object.values(groups).map(group => {
+                Object.values(groups).map((group, idx) => {
                     const url = group.GroupImages[0].url
-                    console.log(group.private)
                     return (
-                        <div className="group-container">
+                        <div className="group-container" key={idx}>
                             <NavLink to={`/groups/${group.id}`} className="group-card">
                                 <img src={url} className='group-image card-left'></img>
                                 <div className="card-right">
