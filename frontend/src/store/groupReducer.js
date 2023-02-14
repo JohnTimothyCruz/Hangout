@@ -4,7 +4,7 @@ import { csrfFetch } from "./csrf"
 
 const GET_GROUPS = 'groups/GET_GROUPS'
 
-const GET_GROUP_IMAGES = 'groups/GET_GROUP_IMAGES'
+const GET_GROUP = 'groups/GET_GROUP'
 
 // -Actions-------------------------
 
@@ -15,10 +15,10 @@ export const loadGroups = (groups) => {
     }
 }
 
-export const loadGroupImages = (groups) => {
+export const loadGroup = (group) => {
     return {
-        type: GET_GROUP_IMAGES,
-        groups
+        type: GET_GROUP,
+        group
     }
 }
 
@@ -33,14 +33,14 @@ export const fetchGroups = () => async dispatch => {
     }
 }
 
-// export const fetchGroupImages = () => async dispatch => {
-//     const res = await csrfFetch('/api/groups');
+export const fetchGroup = (id) => async dispatch => {
+    const res = await csrfFetch(`/api/groups/${id}`);
 
-//     if (res.ok) {
-//         const groups = await res.json();
-//         dispatch(loadEvents(group))
-//     }
-// }
+    if (res.ok) {
+        const group = await res.json();
+        dispatch(loadGroup(group))
+    }
+}
 
 // -Reducer-------------------------
 
@@ -49,11 +49,19 @@ const initialState = { allGroups: {}, singleGroup: {} }
 const GroupReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_GROUPS:
-            const newState = {};
-            action.groups.forEach(group => {
-                newState[group.id] = group
-            })
-            return newState;
+            {
+                const newState = { ...state, allGroups: { ...state.allGroups }, singleGroup: { ...state.singleGroup } };
+                action.groups.forEach(group => {
+                    newState.allGroups[group.id] = { ...group}
+                })
+                return newState;
+            }
+        case GET_GROUP:
+            {
+                const newState = { ...state }
+                newState.singleGroup = action.group
+                return newState;
+            }
         default:
             return state;
     }

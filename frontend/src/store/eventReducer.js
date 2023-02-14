@@ -15,11 +15,12 @@ export const loadEvents = (events) => {
     }
 }
 
-export const loadSingleEvent = (event, user) => {
+export const loadSingleEvent = (event, user, group) => {
     return {
         type: GET_SINGLE_EVENT,
         event,
-        user
+        user,
+        group
     }
 }
 
@@ -43,7 +44,11 @@ export const fetchSingleEvent = (id) => async dispatch => {
         const userRes = await csrfFetch(`/api/users/${userId}`);
         if (userRes.ok) {
             const user = await userRes.json();
-            dispatch(loadSingleEvent(event, user))
+            const groupRes = await csrfFetch(`/api/groups/${event.Group.id}`)
+            if (groupRes.ok) {
+                const group = await groupRes.json()
+                dispatch(loadSingleEvent(event, user, group))
+            }
         }
     }
 }
@@ -56,9 +61,9 @@ const EventReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_EVENTS:
             {
-                const newState = {};
+                const newState = { ...state, allEvents: { ...state.allEvents }, singleEvent: { ...state.singleEvent } };;
                 action.events.forEach(event => {
-                    newState[event.id] = event
+                    newState.allEvents[event.id] = event
                 })
                 return newState;
             }
@@ -67,6 +72,7 @@ const EventReducer = (state = initialState, action) => {
             const newState = { ...state };
             newState.singleEvent = action.event;
             newState.singleEvent.organizer = action.user
+            newState.singleEvent.Group = action.group
             return newState;
         }
         default:

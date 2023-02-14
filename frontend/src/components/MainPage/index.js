@@ -24,7 +24,7 @@ function MainPage() {
                         <div className='options'>
                             <div className='option'>
                                 <img src='https://secure.meetupstatic.com/next/images/shared/handsUp.svg?w=256'></img>
-                                <NavLink to='/events' className='link'>See all groups</NavLink>
+                                <NavLink to='/groups' className='link'>See all groups</NavLink>
                                 <h4>Do what you love, meet others who love it, find your community. The rest is history!</h4>
                             </div>
 
