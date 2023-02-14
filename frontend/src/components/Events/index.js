@@ -6,13 +6,13 @@ import './Events.css';
 
 const EventList = () => {
     const dispatch = useDispatch();
-    const events = useSelector(state => state.events)
+    const events = useSelector(state => state.events.allEvents)
 
     useEffect(() => {
         dispatch(fetchEvents())
     }, []);
 
-    if (!events['1']) return null;
+    if (!Object.values(events).length || events === undefined) return null;
 
     return (
         <div className="main-page">

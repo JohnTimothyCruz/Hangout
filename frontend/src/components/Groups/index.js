@@ -6,14 +6,15 @@ import './Groups.css'
 
 const GroupList = () => {
     const dispatch = useDispatch();
-    const groups = useSelector(state => state.groups)
+    const groups = useSelector(state => state.groups.allGroups)
+    console.log('index here: ', groups)
 
     useEffect(() => {
         dispatch(fetchGroups())
     }, []);
 
-    if (!groups['1']) return null;
-
+    if (!Object.values(groups).length || groups === undefined) return null;
+    console.log(groups)
     return (
         <div className="main-page">
             <div className="menu">

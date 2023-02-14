@@ -29,7 +29,7 @@ module.exports = {
         capacity: 1,
         price: '1',
         startDate: '2030-12-12 20:00:00',
-        endDate: '2030-12-12 20:00:00'
+        endDate: '2031-12-12 20:00:00'
       },
       {
         venueId: 2,
@@ -40,7 +40,7 @@ module.exports = {
         capacity: 2,
         price: '2',
         startDate: '2030-12-12 20:00:00',
-        endDate: '2030-12-12 20:00:00'
+        endDate: '2031-12-12 20:00:00'
       },
       {
         venueId: 3,
@@ -51,7 +51,7 @@ module.exports = {
         capacity: 3,
         price: '3',
         startDate: '2030-12-12 20:00:00',
-        endDate: '2030-12-12 20:00:00'
+        endDate: '2031-12-12 20:00:00'
       },
       {
         venueId: 4,
@@ -62,7 +62,7 @@ module.exports = {
         capacity: 4,
         price: '4',
         startDate: '2030-12-12 20:00:00',
-        endDate: '2030-12-12 20:00:00'
+        endDate: '2031-12-12 20:00:00'
       },
       {
         venueId: 5,
@@ -73,7 +73,7 @@ module.exports = {
         capacity: 5,
         price: '5',
         startDate: '2030-12-12 20:00:00',
-        endDate: '2030-12-12 20:00:00'
+        endDate: '2031-12-12 20:00:00'
       }
     ], {})
   },

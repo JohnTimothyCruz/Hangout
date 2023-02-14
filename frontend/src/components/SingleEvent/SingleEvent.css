@@ -1,0 +1,144 @@
+.body {
+    position: absolute;
+    top: 91px;
+    left: 0;
+    right: 0;
+}
+
+.main-top {
+    padding: 0 15%;
+}
+
+.events-redirect-container {
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    padding-right: 5px;
+}
+
+.events-redirect {
+    color: teal;
+}
+
+.organizer {
+    color: gray;
+}
+
+.main-middle {
+    display: flex;
+    padding: 25px 15%;
+    width: 70%;
+    background-color: lightgray;
+}
+
+.event-img {
+    width: 544px;
+    height: 320px;
+    padding-right: 10px;
+}
+
+.group-card-info {
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.middle-right {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.group-img {
+    padding-right: 20px;
+    width: 90px;
+    height: 62px;
+}
+
+.group-status {
+    margin: 0;
+    color: gray;
+}
+
+.event-info {
+    padding: 20px;
+    border-radius: 5px;
+    width: 100%;
+    background-color: white;
+}
+
+.times-and-dates {
+    display: flex;
+}
+
+.times {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: gray;
+}
+
+.time {
+    display: flex;
+    padding-left: 10px;
+    color: teal;
+}
+
+h5 {
+    display: flex;
+}
+
+.start-time {
+    margin-bottom: 2;
+    margin-top: 2;
+}
+
+.end-time .time {
+    margin-left: 4px;
+}
+
+.end-time {
+    margin-bottom: 2;
+    margin-top: 2;
+}
+
+.fa-clock,
+.fa-hand-holding-dollar,
+.fa-map-pin {
+    align-self: center;
+    padding: 10px 25px 10px 0;
+    color: gray;
+}
+
+.fa-clock {
+    padding-left: 2px;
+    padding-right: 27px;
+}
+
+.fa-map-pin {
+    padding-left: 5px;
+    padding-right: 35px;
+}
+
+.price {
+    display: flex;
+    color: gray;
+    align-items: center;
+}
+
+.status {
+    color: gray;
+    display: flex;
+}
+
+.main-bottom {
+    padding: 0 15%;
+}
