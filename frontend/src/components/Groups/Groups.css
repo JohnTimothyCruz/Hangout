@@ -32,3 +32,44 @@
     padding: 5px 0;
     color: gray;
 }
+
+/* Group card css below */
+.group-container {
+    border-bottom: 1px solid gray;
+}
+
+.group-card {
+    margin: 20px 0;
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
+}
+
+.group-image {
+    padding-right: 12px;
+    width: 178px;
+    height: 124px;
+    align-self: baseline;
+    flex-shrink: 0;
+}
+
+.group-name {
+    color: black;
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+
+.group-location {
+    color: gray;
+    margin: 0;
+    font-weight: bold;
+}
+
+.group-about {
+    color: black;
+}
+
+.group-details {
+    color: gray;
+    margin: 0;
+}

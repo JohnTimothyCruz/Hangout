@@ -22,27 +22,27 @@ module.exports = {
     await queryInterface.bulkInsert(options, [
       {
         groupId: 1,
-        url: 'Url-One',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/468076005/178x178.jpg?w=178?w=256',
         preview: true
       },
       {
         groupId: 2,
-        url: 'Url-Two',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/510354190/178x178.jpg?w=178?w=256',
         preview: true
       },
       {
         groupId: 3,
-        url: 'Url-Three',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/510122636/178x178.jpg?w=178?w=256',
         preview: false
       },
       {
         groupId: 4,
-        url: 'Url-Four',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/510612418/178x178.jpg?w=178?w=256',
         preview: true
       },
       {
         groupId: 5,
-        url: 'Url-Five',
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/503340102/178x178.jpg?w=178?w=256',
         preview: false
       },
     ], {})

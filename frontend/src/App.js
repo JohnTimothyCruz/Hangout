@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import EventList from "./components/Events";
 import GroupList from "./components/Groups";
 import MainPage from "./components/MainPage";
+import SingleEvent from "./components/SingleEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,11 +20,15 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route exact path='/events'>
+          <Route path='/events/:id'>
+            <SingleEvent />
+          </Route>
+
+          <Route path='/events'>
             <EventList />
           </Route>
 
-          <Route exact path='/groups'>
+          <Route path='/groups'>
             <GroupList />
           </Route>
 
