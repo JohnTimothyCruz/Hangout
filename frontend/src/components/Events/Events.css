@@ -44,6 +44,10 @@
     text-decoration: none;
 }
 
+.event-image {
+    flex-shrink: 0;
+}
+
 .card-top {
     display: flex;
     padding-bottom: 15px;

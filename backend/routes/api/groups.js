@@ -227,7 +227,9 @@ router.get('/:groupId', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
-    const allGroups = await Group.findAll();
+    const allGroups = await Group.findAll({
+        include: [GroupImage, Event]
+    });
 
     const groups = [];
 
@@ -257,9 +259,7 @@ router.get('/', async (req, res, next) => {
         groups.push(group);
     }
 
-    res.json({
-        Groups: groups
-    });
+    res.json(groups);
 })
 
 router.post('/:groupId/images', requireAuth, async (req, res, next) => {

@@ -4,7 +4,7 @@ import { csrfFetch } from "./csrf"
 
 const GET_EVENTS = 'events/GET_EVENTS'
 
-const GET_EVENT_IMAGES = 'events/GET_EVENT_IMAGES'
+const GET_SINGLE_EVENT = 'events/GET_SINGLE_EVENT'
 
 // -Actions-------------------------
 
@@ -15,10 +15,10 @@ export const loadEvents = (events) => {
     }
 }
 
-export const loadEventImages = (images) => {
+export const loadSingleEvent = (event) => {
     return {
-        type: GET_EVENT_IMAGES,
-        images
+        type: GET_SINGLE_EVENT,
+        event
     }
 }
 
@@ -33,12 +33,12 @@ export const fetchEvents = () => async dispatch => {
     }
 }
 
-export const fetchEventImages = () => async dispatch => {
-    const res = await csrfFetch('/api/events');
+export const fetchSingleEvent = (id) => async dispatch => {
+    const res = await csrfFetch(`/api/events/${id}`);
 
     if (res.ok) {
-        const events = await res.json();
-        dispatch(loadEvents(events))
+        const event = await res.json();
+        dispatch(loadSingleEvent(event))
     }
 }
 
@@ -49,11 +49,19 @@ const initialState = { allEvents: {}, singleEvent: {} }
 const EventReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_EVENTS:
-            const newState = {};
-            action.events.forEach(event => {
-                newState[event.id] = event
-            })
+            {
+                const newState = {};
+                action.events.forEach(event => {
+                    newState[event.id] = event
+                })
+                return newState;
+            }
+        case GET_SINGLE_EVENT:
+        {
+            const newState = { ...state };
+            newState.singleEvent = action.event;
             return newState;
+        }
         default:
             return state;
     }
