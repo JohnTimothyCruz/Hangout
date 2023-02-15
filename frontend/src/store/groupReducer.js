@@ -73,7 +73,7 @@ export const postGroup = (groupInfo) => async (dispatch) => {
     console.log('also in thunk: ', JSON.stringify(groupInfo))
     const res = await csrfFetch('/api/groups', {
         method: 'POST',
-        headers: {"Content-Type": "applicatioin.json"},
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(groupInfo)
     })
 
