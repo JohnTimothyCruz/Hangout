@@ -79,6 +79,12 @@ img {
     color: teal;
 }
 
+.inactive-link {
+    text-decoration: none;
+    color: gray;
+    pointer-events: none;
+}
+
 .join-button-container {
     display: flex;
     flex-direction: column;
