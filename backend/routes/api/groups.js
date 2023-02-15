@@ -165,7 +165,7 @@ router.get('/:groupId/events', async (req, res, next) => {
         res.json(err);
     };
 
-    res.json({ Events })
+    res.json(Events)
 })
 
 router.get('/:groupId', async (req, res, next) => {
