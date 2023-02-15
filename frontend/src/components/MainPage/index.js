@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import './MainPage.css'
-import { restoreUser } from '../../store/session'
 
 function MainPage() {
     const user = useSelector(state => state.session)

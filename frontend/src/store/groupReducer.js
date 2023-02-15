@@ -6,6 +6,8 @@ const GET_GROUPS = 'groups/GET_GROUPS'
 
 const GET_GROUP = 'groups/GET_GROUP'
 
+const POST_GROUP = 'groups/POST-GROUP'
+
 // -Actions-------------------------
 
 export const loadGroups = (groups) => {
@@ -20,6 +22,13 @@ export const loadGroup = (group, events) => {
         type: GET_GROUP,
         group,
         events
+    }
+}
+
+export const createGroup = (group) => {
+    return {
+        type: POST_GROUP,
+        group
     }
 }
 
@@ -59,6 +68,19 @@ export const fetchGroup = (id) => async dispatch => {
     }
 }
 
+export const postGroup = (groupInfo) => async (dispatch) => {
+    const res = await csrfFetch('/api/groups', {
+        method: 'POST',
+        headers: {"Content-Type": "applicatioin.json"},
+        body: JSON.stringify(groupInfo)
+    })
+
+    if (res.ok) {
+        const group = await res.json()
+        dispatch(createGroup(group))
+    }
+}
+
 // -Reducer-------------------------
 
 const initialState = { allGroups: {}, singleGroup: {} }
@@ -81,6 +103,15 @@ const GroupReducer = (state = initialState, action) => {
                 action.events.forEach(event => {
                     newState.singleGroup.Events[event.id] = event
                 })
+                return newState;
+            }
+        case POST_GROUP:
+            {
+                const newState = {
+                    ...state,
+                    allGroups: { ...state.allGroups, [action.group.id]: action.group},
+                    singleGroup: { ...action.group }
+                };
                 return newState;
             }
         default:

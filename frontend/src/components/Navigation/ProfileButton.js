@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
+import { NavLink } from 'react-router-dom';
 import SignupFormModal from '../SignupFormModal';
 
 function ProfileButton({ user }) {
@@ -43,7 +44,7 @@ function ProfileButton({ user }) {
         <>
             {user ? (
                 <div className="user-menu">
-                    <h4>Start a new group</h4>
+                    <NavLink to='/groups/new' className='link'>Start a new group</NavLink>
                     <button onClick={openMenu} className='user-icon'>
                         <i className="fas fa-user-circle fa-3x" />
                     </button>

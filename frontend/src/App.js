@@ -8,6 +8,7 @@ import GroupList from "./components/Groups";
 import MainPage from "./components/MainPage";
 import SingleEvent from "./components/SingleEvent";
 import SingleGroup from "./components/SingleGroup";
+import CreateGroupForm from "./components/CreateGroupForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,10 @@ function App() {
         <Switch>
           <Route path='/events/:id'>
             <SingleEvent />
+          </Route>
+
+          <Route path='/groups/new'>
+            <CreateGroupForm />
           </Route>
 
           <Route path='/groups/:id'>
