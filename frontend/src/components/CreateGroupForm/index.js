@@ -41,14 +41,14 @@ const CreateGroupForm = () => {
             organizerId: user.id
         }
 
-        console.log(payload)
+        // console.log(payload)
 
         dispatch(postGroup(payload))
-        .catch(
-            async(res) => {
-                console.log(res)
-            }
-        )
+        // .catch(
+        //     async(res) => {
+        //         console.log(res)
+        //     }
+        // )
     }
 
     return (
