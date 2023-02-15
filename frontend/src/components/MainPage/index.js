@@ -1,7 +1,11 @@
 import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import './MainPage.css'
+import { restoreUser } from '../../store/session'
 
 function MainPage() {
+    const user = useSelector(state => state.session)
+
     return (
         <div className='main-page-container'>
             <div className="main-page-top">
@@ -36,7 +40,7 @@ function MainPage() {
 
                             <div className='option'>
                                 <img src='https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256'></img>
-                                <h3>Start a new group</h3>
+                                <NavLink to='/groups/new' className={user.user === null ? 'inactive-link' : 'link'}>Start a new group</NavLink>
                                 <h4>You don't have to be an expert to gather people together and explore shared interests.</h4>
                             </div>
                         </div>

@@ -4,6 +4,12 @@ import { NavLink, useParams } from 'react-router-dom'
 import { fetchGroup } from '../../store/groupReducer'
 import './SingleGroup.css'
 
+const compareFn = (a, b) => {
+    if (new Date(a.startDate) > new Date(b.startDate)) return -1;
+    if (new Date(a.startDate) < new Date(b.startDate)) return 1;
+    if (new Date(a.startDate) === new Date(b.startDate)) return 0
+}
+
 const allUpcomingEvents = (group) => {
     const now = Date.now();
     const allEvents = group.Events;
@@ -17,7 +23,8 @@ const allUpcomingEvents = (group) => {
         }
     })
 
-    return upcoming;
+    const sortedUpcoming = upcoming.sort(compareFn)
+    return sortedUpcoming;
 }
 
 const allPastEvents = (group) => {
@@ -33,7 +40,17 @@ const allPastEvents = (group) => {
         }
     })
 
-    return past;
+    const sortedPast = past.sort(compareFn)
+    return sortedPast;
+}
+
+const getStartTime = (event) => {
+    const startTime = new Date(event.startDate)
+    return `${startTime.getFullYear()}-${startTime.getMonth()}-${startTime.getDay()} · ${startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+}
+
+const onClick = () => {
+    alert("Feature Coming Soon...")
 }
 
 const SingleGroup = () => {
@@ -49,6 +66,12 @@ const SingleGroup = () => {
 
     const upcomingEvents = allUpcomingEvents(group);
     const pastEvents = allPastEvents(group);
+
+    let anyUpcoming = false;
+    Object.values(upcomingEvents).length ? anyUpcoming = true : anyUpcoming = false;
+
+    let anyPast = false;
+    Object.values(pastEvents).length ? anyPast = true : anyPast = false;
 
     return (
         <div className='group-body'>
@@ -69,7 +92,7 @@ const SingleGroup = () => {
                             </div>
                         </div>
                         <div className='group-middle-right-bottom'>
-                            <div className='group-join-button'>Join this group</div>
+                            <div className='group-join-button' onClick={onClick}>Join this group</div>
                         </div>
                     </div>
                 </div>
@@ -84,22 +107,48 @@ const SingleGroup = () => {
                     <p>{group.about}</p>
                 </div>
                 <div className='group-upcoming-events'>
-                    <h2>Upcoming Events ({upcomingEvents.length})</h2>
+                    <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents.length})</h2>
                     {
-                        upcomingEvents.map((event, idx) => {
+                        anyUpcoming && upcomingEvents.map((event, idx) => {
                             return (
-                                <div key={idx} className='group-event-card'>
-                                    <div className='group-event-card-top'>
-                                        <img src={event.url}></img>
-                                    </div>
-                                    <div className='group-event-card-description'>{event.description}</div>
+                                <div className='group-event-card'>
+                                    <NavLink to={`/events/${event.id}`} key={idx} className='group-event-link'>
+                                        <div className='group-event-card-top'>
+                                            <img src={event.url} className='group-card-top-left'></img>
+                                            <div className='group-card-top-left'>
+                                                <h4 className='group-card-time'>{getStartTime(event)}</h4>
+                                                <h3 className='group-card-title'>{event.name}</h3>
+                                                <h4 className='group-card-location'>{event.Venue.city}, {event.Venue.state}</h4>
+                                            </div>
+                                        </div>
+                                        <div className='group-event-card-description'>{event.description}</div>
+                                    </NavLink>
                                 </div>
                             )
                         })
                     }
                 </div>
                 <div className='group-past-events'>
-                    <h2>Past Events ({pastEvents.length})</h2>
+                    <h2 className={anyPast ? '' : 'hidden'}>Past Events ({pastEvents.length})</h2>
+                    {
+                        anyPast && pastEvents.map((event, idx) => {
+                            return (
+                                <div className='group-event-card'>
+                                    <NavLink to={`/events/${event.id}`} key={idx} className='group-event-link'>
+                                        <div className='group-event-card-top'>
+                                            <img src={event.url} className='group-card-top-left'></img>
+                                            <div className='group-card-top-left'>
+                                                <h4 className='group-card-time'>{getStartTime(event)}</h4>
+                                                <h3 className='group-card-title'>{event.name}</h3>
+                                                <h4 className='group-card-location'>{event.Venue.city}, {event.Venue.state}</h4>
+                                            </div>
+                                        </div>
+                                        <div className='group-event-card-description'>{event.description}</div>
+                                    </NavLink>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </div>

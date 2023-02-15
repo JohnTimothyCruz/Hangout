@@ -44,7 +44,7 @@ module.exports = {
         groupId: 5,
         url: 'https://secure-content.meetupstatic.com/images/classic-events/503340102/178x178.jpg?w=178?w=256',
         preview: false
-      },
+      }
     ], {})
   },
 
