@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 options.tableName = 'EventImages';
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -39,15 +39,30 @@ module.exports = {
         eventId: 4,
         url: 'https://secure-content.meetupstatic.com/images/classic-events/510456115/222x125.webp',
         preview: true
-      },{
+      }, {
         eventId: 5,
         url: 'https://secure-content.meetupstatic.com/images/classic-events/510511628/222x125.webp',
         preview: false
-      }
+      },
+      {
+        eventId: 6,
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/507304133/222x125.webp',
+        preview: false
+      },
+      {
+        eventId: 7,
+        url: 'https://secure-content.meetupstatic.com/images/classic-events/510479159/222x125.webp',
+        preview: false
+      },
+      {
+        eventId: 8,
+        url: 'https://secure.meetupstatic.com/next/images/fallbacks/group-cover-15-wide.webp',
+        preview: false
+      },
     ], {})
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *

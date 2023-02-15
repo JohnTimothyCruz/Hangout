@@ -48,6 +48,9 @@
 
 .group-middle-right {
     width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .group-group-details * {
@@ -79,4 +82,39 @@
     background-color: #FF5A5F;
     border: 2px solid black;
     box-shadow: 3px 3px black;
+    cursor: pointer;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.group-event-card {
+    background-color: white;
+    border-radius: 5px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.group-event-link {
+    text-decoration: none;
+    color: black;
+}
+
+.group-event-card-top {
+    display: flex;
+    margin: 0;
+    padding-top: 10px;
+}
+
+.group-event-card-description {
+    padding-bottom: 20px;
+}
+
+.group-card-time {
+    color: teal;
+}
+
+.group-card-location {
+    color: gray;
 }
