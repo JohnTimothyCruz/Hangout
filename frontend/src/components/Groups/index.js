@@ -29,6 +29,7 @@ const GroupList = () => {
             {
                 Object.values(groups).map((group, idx) => {
                     const url = group.GroupImages[0].url
+                    
                     return (
                         <div className="group-container" key={idx}>
                             <NavLink to={`/groups/${group.id}`} className="group-card">

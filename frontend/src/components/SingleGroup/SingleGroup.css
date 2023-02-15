@@ -1,0 +1,78 @@
+.body {
+    position: absolute;
+    top: 91px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-top {
+    align-self: flex-start;
+}
+
+.groups-redirect-container {
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    padding-right: 5px;
+    margin: 5px 0;
+}
+
+.groups-redirect {
+    color: teal;
+}
+
+.main-middle {
+    display: flex;
+    background-color: white;
+    padding: 0 0 30px 0;
+    justify-content: start;
+}
+
+.organizer-name,
+.group-details h4 {
+    margin: 0 0 10px 0;
+}
+
+.middle-left {
+    width: 544px;
+    height: 320px;
+    padding-right: 20px;
+}
+
+.middle-right {
+    width: max-content;
+}
+
+.group-details * {
+    margin: 0;
+}
+
+.main-bottom {
+    display: flex;
+    flex-direction: column;
+    padding: 25px 15%;
+    width: 70%;
+    background-color: lightgray;
+}
+
+.organizer h2 {
+    color: black;
+}
+
+.main-bottom * * {
+    margin: 5px 0;
+}
+
+.main-bottom * {
+    margin: 10px;
+}
+
+.join-button {
+    text-align: center;
+    background-color: #FF5A5F;
+}
