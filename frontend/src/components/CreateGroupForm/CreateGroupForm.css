@@ -1,0 +1,33 @@
+.CreateGroupForm-main {
+    position: absolute;
+    top: 91px;
+    left: 0;
+    right: 0;
+}
+
+.CreateGroupForm-first-text {
+    color: teal;
+}
+
+.CreateGroupForm-body {
+    padding: 0 15%;
+}
+
+.CreateGroupForm-section {
+    border-bottom: 1px solid gray;
+    padding-bottom: 30px;
+}
+
+.CreateGroupForm-title {
+    padding-bottom: 0;
+}
+
+
+
+.CreateGroupForm-create-button {
+    text-align: center;
+    background-color: #FF5A5F;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+    cursor: pointer;
+}
