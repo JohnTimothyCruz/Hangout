@@ -51,52 +51,54 @@ const SingleGroup = () => {
     const pastEvents = allPastEvents(group);
 
     return (
-        <div className='body'>
-            <div className='main-top'>
-                <div className='groups-redirect-container'>
-                    <h4 className='arrow'>{'<'}</h4>
-                    <NavLink to='/groups' className='groups-redirect'>Groups</NavLink>
+        <div className='group-body'>
+            <div className='group-main-top'>
+                <div className='group-groups-redirect-container'>
+                    <h4 className='group-arrow'>{'<'}</h4>
+                    <NavLink to='/groups' className='group-groups-redirect'>Groups</NavLink>
                 </div>
-            </div>
-            <div className='main-middle'>
-                <img src={group.GroupImages['0'].url} className='middle-left'></img>
-                <div className='middle-right'>
-                    <div className='middle-right-top'>
-                        <h2 className='organizer-name'>{group.name}</h2>
-                        <div className='group-details'>
-                            <h4>{group.city}, {group.state}</h4>
-                            <h4>{Object.values(group.Events).length} events · {group.private ? 'Private' : 'Public'}</h4>
-                            <h4>Organized by {group.Organizer.firstName} {group.Organizer.lastName}</h4>
+                <div className='group-main-middle'>
+                    <img src={group.GroupImages['0'].url} className='group-middle-left'></img>
+                    <div className='group-middle-right'>
+                        <div className='group-middle-right-top'>
+                            <h2 className='group-organizer-name'>{group.name}</h2>
+                            <div className='group-group-details'>
+                                <h4>{group.city}, {group.state}</h4>
+                                <h4>{Object.values(group.Events).length} events · {group.private ? 'Private' : 'Public'}</h4>
+                                <h4>Organized by {group.Organizer.firstName} {group.Organizer.lastName}</h4>
+                            </div>
+                        </div>
+                        <div className='group-middle-right-bottom'>
+                            <div className='group-join-button'>Join this group</div>
                         </div>
                     </div>
-                    <div className='middle-right-bottom'>
-                        <div className='join-button'>Join this group</div>
-                    </div>
                 </div>
             </div>
-            <div className='main-bottom'>
-                <div className='organizer'>
+            <div className='group-main-bottom'>
+                <div className='group-organizer'>
                     <h2>Organizer</h2>
                     <h5>{group.Organizer.firstName} {group.Organizer.lastName}</h5>
                 </div>
-                <div className='about'>
+                <div className='group-about'>
                     <h2>What we're about</h2>
                     <p>{group.about}</p>
                 </div>
-                <div className='upcoming-events'>
+                <div className='group-upcoming-events'>
                     <h2>Upcoming Events ({upcomingEvents.length})</h2>
                     {
                         upcomingEvents.map((event, idx) => {
-                            return (<div key={idx} className='event-card'>
-                                <div className='event-card-top'>
-                                    <img src={event.url}></img>
+                            return (
+                                <div key={idx} className='group-event-card'>
+                                    <div className='group-event-card-top'>
+                                        <img src={event.url}></img>
+                                    </div>
+                                    <div className='group-event-card-description'>{event.description}</div>
                                 </div>
-                                <div className='event-card-description'>{event.description}</div>
-                            </div>)
+                            )
                         })
                     }
                 </div>
-                <div className='past-events'>
+                <div className='group-past-events'>
                     <h2>Past Events ({pastEvents.length})</h2>
                 </div>
             </div>
