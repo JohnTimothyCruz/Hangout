@@ -42,28 +42,28 @@ module.exports = {
         startDate: '2017-12-12 20:00:00',
         endDate: '2018-12-12 20:00:00'
       },
-      {
-        venueId: 1,
-        groupId: 1,
-        name: 'Another-Past-Event-One',
-        description: 'One again',
-        type: 'In Person',
-        capacity: 2,
-        price: '30',
-        startDate: '2019-12-12 20:00:00',
-        endDate: '2020-12-12 20:00:00'
-      },
-      {
-        venueId: 1,
-        groupId: 1,
-        name: 'Another-Another-Past-Event-One',
-        description: 'One again again',
-        type: 'In Person',
-        capacity: 2,
-        price: '30',
-        startDate: '2020-12-12 20:00:00',
-        endDate: '2021-12-12 20:00:00'
-      },
+      // {
+      //   venueId: 1,
+      //   groupId: 1,
+      //   name: 'Another-Past-Event-One',
+      //   description: 'One again',
+      //   type: 'In Person',
+      //   capacity: 2,
+      //   price: '30',
+      //   startDate: '2019-12-12 20:00:00',
+      //   endDate: '2020-12-12 20:00:00'
+      // },
+      // {
+      //   venueId: 1,
+      //   groupId: 1,
+      //   name: 'Another-Another-Past-Event-One',
+      //   description: 'One again again',
+      //   type: 'In Person',
+      //   capacity: 2,
+      //   price: '30',
+      //   startDate: '2020-12-12 20:00:00',
+      //   endDate: '2021-12-12 20:00:00'
+      // },
       {
         venueId: 2,
         groupId: 2,
