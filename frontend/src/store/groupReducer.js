@@ -15,10 +15,11 @@ export const loadGroups = (groups) => {
     }
 }
 
-export const loadGroup = (group) => {
+export const loadGroup = (group, events) => {
     return {
         type: GET_GROUP,
-        group
+        group,
+        events
     }
 }
 
@@ -34,11 +35,27 @@ export const fetchGroups = () => async dispatch => {
 }
 
 export const fetchGroup = (id) => async dispatch => {
-    const res = await csrfFetch(`/api/groups/${id}`);
+    const groupRes = await csrfFetch(`/api/groups/${id}`);
 
-    if (res.ok) {
-        const group = await res.json();
-        dispatch(loadGroup(group))
+    if (groupRes.ok) {
+        const group = await groupRes.json();
+        const eventsRes = await csrfFetch(`/api/groups/${id}/events`);
+
+        if (eventsRes.ok) {
+            const events = await eventsRes.json();
+            //For of look up promise.all too
+            let i = 0
+            for (const event of Object.values(events)) {
+                const eventImgRes = await csrfFetch(`/api/events/${event.id}`)
+
+                if (eventImgRes.ok) {
+                    const eventImg = await eventImgRes.json()
+                    events[i].url = eventImg.EventImages[0].url
+                    dispatch(loadGroup(group, events))
+                }
+                i++
+            }
+        }
     }
 }
 
@@ -58,8 +75,12 @@ const GroupReducer = (state = initialState, action) => {
             }
         case GET_GROUP:
             {
-                const newState = { ...state }
-                newState.singleGroup = action.group
+                const newState = { ...state, allGroups: { ...state.allGroups }, singleGroup: { ...state.singleGroup } }
+                newState.singleGroup = { ...action.group }
+                newState.singleGroup.Events = {}
+                action.events.forEach(event => {
+                    newState.singleGroup.Events[event.id] = event
+                })
                 return newState;
             }
         default:
