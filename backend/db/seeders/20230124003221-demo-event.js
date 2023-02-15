@@ -32,6 +32,17 @@ module.exports = {
         endDate: '2031-12-12 20:00:00'
       },
       {
+        venueId: 1,
+        groupId: 1,
+        name: 'Past-Event-One',
+        description: 'One',
+        type: 'Online',
+        capacity: 2,
+        price: '50',
+        startDate: '2017-12-12 20:00:00',
+        endDate: '2018-12-12 20:00:00'
+      },
+      {
         venueId: 2,
         groupId: 2,
         name: 'Event-Two',
