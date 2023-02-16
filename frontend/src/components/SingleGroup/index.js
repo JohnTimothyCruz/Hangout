@@ -56,15 +56,15 @@ const onClick = () => {
 const SingleGroup = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const user = useSelector(state => state.session)
     const group = useSelector(state => state.groups.singleGroup)
 
     useEffect(() => {
         dispatch(fetchGroup(id))
-        console.log('hi')
     }, [])
 
     if (group === undefined || !Object.values(group).length) return null
-    console.log('group')
+
     const upcomingEvents = allUpcomingEvents(group);
     const pastEvents = allPastEvents(group);
 
@@ -93,7 +93,11 @@ const SingleGroup = () => {
                             </div>
                         </div>
                         <div className='group-middle-right-bottom'>
-                            <div className='group-join-button' onClick={onClick}>Join this group</div>
+                            {
+                                user.id === group.Organizer.id ?
+                                <div>hi</div> :
+                                <div className='group-join-button' onClick={onClick}>Join this group</div>
+                            }
                         </div>
                     </div>
                 </div>

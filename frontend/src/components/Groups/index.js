@@ -7,14 +7,13 @@ import './Groups.css'
 const GroupList = () => {
     const dispatch = useDispatch();
     const groups = useSelector(state => state.groups.allGroups)
-    console.log('index here: ', groups)
 
     useEffect(() => {
         dispatch(fetchGroups())
     }, []);
 
     if (!Object.values(groups).length || groups === undefined) return null;
-    console.log(groups)
+
     return (
         <div className="main-page">
             <div className="menu">
@@ -29,7 +28,7 @@ const GroupList = () => {
             {
                 Object.values(groups).map((group, idx) => {
                     const url = group.GroupImages[0].url
-                    
+
                     return (
                         <div className="group-container" key={idx}>
                             <NavLink to={`/groups/${group.id}`} className="group-card">

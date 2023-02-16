@@ -49,7 +49,6 @@ export const fetchGroup = (id) => async dispatch => {
 
     if (groupRes.ok) {
         const group = await groupRes.json();
-        console.log('Thunk here: ', group)
         const eventsRes = await csrfFetch(`/api/groups/${id}/events`);
 
         if (eventsRes.ok) {
@@ -94,6 +93,8 @@ export const postGroup = (groupInfo) => async (dispatch) => {
         if (imgRes.ok) {
             const img = await imgRes.json()
             dispatch(createGroup(group, img))
+
+            return group
         }
     }
 }

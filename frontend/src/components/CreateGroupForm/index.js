@@ -10,6 +10,7 @@ const publicityOptions = ['(select one)', 'Public', 'Private'];
 const CreateGroupForm = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const state = useSelector(state => state)
     const user = useSelector(state => state.session.user)
 
     const [location, setLocation] = useState('')
@@ -37,10 +38,10 @@ const CreateGroupForm = () => {
         if (location.split(',').length !== 2 && location.split(', ').length !== 2) errs.location = ('Please use "City, State" format')
         if (!location) errs.location = 'Location is required'
         if (!name) errs.name = 'Name is required'
-        if (!about || about.length < 30) errs.description = 'Description must be at least 30 characters long'
+        if (!about || about.length < 50) errs.description = 'Description must be at least 30 characters long'
         if (type === '(select one)') errs.type = 'Group Type is required'
         if (publicity === '(select one)') errs.publicity = 'Visibility Type is required'
-        if (!image || !image.endsWith('.jpg') || !image.endsWith('.png') || !image.endsWith('.jpeg')) errs.image = 'Image URL must end in .png, .jpg, or .jpeg'
+        if (!image || (!image.endsWith('.jpg') && !image.endsWith('.png') && !image.endsWith('.jpeg'))) errs.image = 'Image URL must end in .png, .jpg, or .jpeg'
 
         setErrors(errs)
 
@@ -63,9 +64,8 @@ const CreateGroupForm = () => {
             organizerId: user.id
         }
 
-        const newGroup = dispatch(postGroup(payload))
-
-        history.push(`/api/groups/${newGroup.id}`)
+        const createdGroup = await dispatch(postGroup(payload))
+        history.push(`/api/groups/${createdGroup.id}`)
     }
 
     return (
