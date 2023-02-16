@@ -618,8 +618,6 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
 
 router.post('/', requireAuth, async (req, res, next) => {
 
-    console.log('Hello to terminal', req.body)
-
     const { name, about, type, private, city, state } = req.body;
     const { user } = req;
 

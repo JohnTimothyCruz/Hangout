@@ -25,10 +25,11 @@ export const loadGroup = (group, events) => {
     }
 }
 
-export const createGroup = (group) => {
+export const createGroup = (group, img) => {
     return {
         type: POST_GROUP,
-        group
+        group,
+        img
     }
 }
 
@@ -48,40 +49,52 @@ export const fetchGroup = (id) => async dispatch => {
 
     if (groupRes.ok) {
         const group = await groupRes.json();
+        console.log('Thunk here: ', group)
         const eventsRes = await csrfFetch(`/api/groups/${id}/events`);
 
         if (eventsRes.ok) {
             const events = await eventsRes.json();
             //For of look up promise.all too
-            let i = 0
-            for (const event of Object.values(events)) {
-                const eventImgRes = await csrfFetch(`/api/events/${event.id}`)
 
-                if (eventImgRes.ok) {
-                    const eventImg = await eventImgRes.json()
-                    events[i].url = eventImg.EventImages[0].url
-                    dispatch(loadGroup(group, events))
+            if (events[0]) {
+                let i = 0
+                for (const event of Object.values(events)) {
+                    const eventImgRes = await csrfFetch(`/api/events/${event.id}`)
+
+                    if (eventImgRes.ok) {
+                        const eventImg = await eventImgRes.json()
+                        events[i].url = eventImg.EventImages[0].url
+                        dispatch(loadGroup(group, events))
+                    }
+                    i++
                 }
-                i++
+            } else {
+                dispatch(loadGroup(group, events))
             }
         }
     }
 }
 
 export const postGroup = (groupInfo) => async (dispatch) => {
-    console.log('In thunk', groupInfo)
-    console.log('also in thunk: ', JSON.stringify(groupInfo))
-    const res = await csrfFetch('/api/groups', {
+    const groupRes = await csrfFetch('/api/groups', {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(groupInfo)
     })
 
-    // console.log('In thunk: ', console.log(res))
+    if (groupRes.ok) {
+        const group = await groupRes.json()
 
-    if (res.ok) {
-        const group = await res.json()
-        dispatch(createGroup(group))
+        const imgRes = await csrfFetch(`/api/groups/${group.id}/images`, {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(groupInfo.imageInfo)
+        })
+
+        if (imgRes.ok) {
+            const img = await imgRes.json()
+            dispatch(createGroup(group, img))
+        }
     }
 }
 
@@ -113,9 +126,10 @@ const GroupReducer = (state = initialState, action) => {
             {
                 const newState = {
                     ...state,
-                    allGroups: { ...state.allGroups, [action.group.id]: action.group},
+                    allGroups: { ...state.allGroups, [action.group.id]: { ...action.group, Events: {}}},
                     singleGroup: { ...action.group }
                 };
+                newState.singleGroup.GroupImages = [{ ...action.group.img }]
                 return newState;
             }
         default:

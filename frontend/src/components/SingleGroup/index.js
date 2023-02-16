@@ -60,10 +60,11 @@ const SingleGroup = () => {
 
     useEffect(() => {
         dispatch(fetchGroup(id))
+        console.log('hi')
     }, [])
 
     if (group === undefined || !Object.values(group).length) return null
-
+    console.log('group')
     const upcomingEvents = allUpcomingEvents(group);
     const pastEvents = allPastEvents(group);
 
@@ -106,7 +107,12 @@ const SingleGroup = () => {
                     <h2>What we're about</h2>
                     <p>{group.about}</p>
                 </div>
-                <div className='group-upcoming-events'>
+                <div className='group-no-events'>
+                    {
+                        (!anyPast && !anyUpcoming) && <h2>No Upcoming Events</h2>
+                    }
+                </div>
+                <div className={`group-upcoming-events ${anyUpcoming ? '' : 'hidden'}`}>
                     <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents.length})</h2>
                     {
                         anyUpcoming && upcomingEvents.map((event, idx) => {
@@ -128,7 +134,7 @@ const SingleGroup = () => {
                         })
                     }
                 </div>
-                <div className='group-past-events'>
+                <div className={`group-past-events ${anyUpcoming ? '' : 'hidden'}`}>
                     <h2 className={anyPast ? '' : 'hidden'}>Past Events ({pastEvents.length})</h2>
                     {
                         anyPast && pastEvents.map((event, idx) => {
