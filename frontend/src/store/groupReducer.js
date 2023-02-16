@@ -8,6 +8,8 @@ const GET_GROUP = 'groups/GET_GROUP'
 
 const POST_GROUP = 'groups/POST-GROUP'
 
+const DELETE_GROUP = 'groups.DELETE_GROUP'
+
 // -Actions-------------------------
 
 export const loadGroups = (groups) => {
@@ -30,6 +32,13 @@ export const createGroup = (group, img) => {
         type: POST_GROUP,
         group,
         img
+    }
+}
+
+export const removeGroup = (id) => {
+    return {
+        type: DELETE_GROUP,
+        id
     }
 }
 
@@ -99,6 +108,8 @@ export const postGroup = (groupInfo) => async (dispatch) => {
     }
 }
 
+// export const deleteGroup = ()
+
 // -Reducer-------------------------
 
 const initialState = { allGroups: {}, singleGroup: {} }
@@ -124,7 +135,7 @@ const GroupReducer = (state = initialState, action) => {
                 return newState;
             }
         case POST_GROUP:
-            console.log('reducer here:' ,action)
+            console.log('reducer here:', action)
             {
                 const newState = {
                     ...state,

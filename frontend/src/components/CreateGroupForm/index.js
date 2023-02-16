@@ -65,7 +65,7 @@ const CreateGroupForm = () => {
         }
 
         const createdGroup = await dispatch(postGroup(payload))
-        console.log(createdGroup)
+        console.log('Here in singleGroup component: ', createdGroup)
         history.push(`/groups/${createdGroup.id}`)
     }
 
@@ -103,9 +103,9 @@ const CreateGroupForm = () => {
                         <h2 className='CreateGroupForm-section-title'>Now describe what your group will be about.</h2>
                         <h5>People will see this when we promote your group, but you'll be able to add to it later, too.</h5>
                         <ol className='CreateGroupForm-ol'>
-                            <li>What's the purpose of the group?</li>
-                            <li>Who should join?</li>
-                            <li>What will you do at your events?</li>
+                            <li className='CreateGroupForm-li'>What's the purpose of the group?</li>
+                            <li className='CreateGroupForm-li'>Who should join?</li>
+                            <li className='CreateGroupForm-li'>What will you do at your events?</li>
                         </ol>
                         <textarea
                             placeholder='Please write at least 50 characters'

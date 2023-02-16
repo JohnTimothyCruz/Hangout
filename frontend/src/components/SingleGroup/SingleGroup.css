@@ -35,9 +35,13 @@
     justify-content: start;
 }
 
-.group-organizer-name,
+.group-name,
 .group-group-details h4 {
     margin: 0 0 10px 0;
+}
+
+.group-group-details h4 {
+    color: gray;
 }
 
 .group-middle-left {
@@ -119,4 +123,22 @@
 
 .group-card-location {
     color: gray;
+}
+
+.group-button-container {
+    display: flex;
+}
+
+.group-button-container * {
+    padding: 15px 20px;
+    text-align: center;
+    color: white;
+    background-color: gray;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+    cursor: pointer;
+}
+
+.group-update-event-button {
+    margin: 0 10px;
 }

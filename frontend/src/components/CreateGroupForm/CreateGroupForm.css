@@ -30,7 +30,7 @@
     padding: 5px;
 }
 
-li {
+.CreateGroupForm-li {
     list-style-type: decimal;
     color: black;
 }
