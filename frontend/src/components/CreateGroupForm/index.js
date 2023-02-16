@@ -58,7 +58,7 @@ const CreateGroupForm = () => {
         let cityState = location.split(', ');
         if (cityState.length !== 2) cityState = location.split(',');
 
-        const payload = {
+        const groupInfo = {
             city: cityState[0],
             state: cityState[1],
             name,
@@ -72,8 +72,7 @@ const CreateGroupForm = () => {
             organizerId: user.id
         }
 
-        const createdGroup = await dispatch(postGroup(payload))
-        console.log('Here in singleGroup component: ', createdGroup)
+        const createdGroup = await dispatch(postGroup(groupInfo, user))
         history.push(`/groups/${createdGroup.id}`)
     }
 
