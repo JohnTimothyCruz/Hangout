@@ -15,17 +15,53 @@
 
 .CreateGroupForm-section {
     border-bottom: 1px solid gray;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
 }
 
 .CreateGroupForm-title {
-    padding-bottom: 0;
+    padding: 0;
 }
 
+.CreateGroupForm-input {
+    width: 30%;
+    background-color: rgba(48, 147, 228, .3);
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 5px;
+}
 
+li {
+    list-style-type: decimal;
+    color: black;
+}
 
-.CreateGroupForm-create-button {
+.CreateGroupForm-errors {
+    margin: 5px 0 0 0;
+    color: #FF5A5F
+}
+
+.CreateGroupForm-ol {
+    padding-left: 15px;
+}
+
+.CreateGroupForm-ol li {
+    padding: 5px;
+}
+
+.CreateGroupForm-section-title {
+    margin-bottom: 5px;
+}
+
+.CreateGroupForm-hidden {
+    visibility: hidden;
+}
+
+.CreateGroupForm-create-button * {
+    margin-top: 20px;
+    margin-bottom: 300px;
+    padding: 15px 20px;
     text-align: center;
+    color: white;
     background-color: #FF5A5F;
     border: 2px solid black;
     box-shadow: 3px 3px black;
