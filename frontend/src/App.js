@@ -32,7 +32,7 @@ function App() {
             <CreateEvent />
           </Route>
 
-          <Route path='/group/:id/edit'>
+          <Route path='/groups/:id/edit'>
             <UpdateGroup />
           </Route>
 

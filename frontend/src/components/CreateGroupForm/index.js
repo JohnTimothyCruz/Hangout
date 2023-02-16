@@ -10,23 +10,22 @@ const publicityOptions = ['(select one)', 'Public', 'Private'];
 const CreateGroupForm = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const state = useSelector(state => state)
     const user = useSelector(state => state.session.user)
 
-    // const [location, setLocation] = useState('')
-    // const [name, setName] = useState('')
-    // const [about, setAbout] = useState('')
-    // const [type, setType] = useState(typeOptions[0])
-    // const [publicity, setPublicity] = useState(typeOptions[0])
-    // const [image, setImage] = useState('')
+    // const [location, setLocation] = useState('City, State')
+    // const [name, setName] = useState('Test Group')
+    // const [about, setAbout] = useState('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    // const [type, setType] = useState('Online')
+    // const [publicity, setPublicity] = useState('Public')
+    // const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
     // const [errors, setErrors] = useState({})
 
-    const [location, setLocation] = useState('City, ST')
+    const [location, setLocation] = useState('')
     const [name, setName] = useState('')
-    const [about, setAbout] = useState('a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ')
-    const [type, setType] = useState(typeOptions[1])
-    const [publicity, setPublicity] = useState('Public')
-    const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
+    const [about, setAbout] = useState('')
+    const [type, setType] = useState(typeOptions[0])
+    const [publicity, setPublicity] = useState(typeOptions[0])
+    const [image, setImage] = useState('')
     const [errors, setErrors] = useState({})
 
     const updateLocation = (e) => setLocation(e.target.value);

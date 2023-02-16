@@ -38,11 +38,15 @@ export const createGroup = (group, img, user) => {
     }
 }
 
-export const updateGroup = (group, img) => {
+export const updateGroup = (group, img, user, events, venues, images) => {
     return {
         type: PUT_GROUP,
         group,
-        img
+        img,
+        user,
+        events,
+        venues,
+        images
     }
 }
 
@@ -119,8 +123,8 @@ export const postGroup = (groupInfo, user) => async (dispatch) => {
     }
 }
 
-export const putGroup = (groupInfo) => async (dispatch) => {
-    const groupRes = await csrfFetch('/api/groups', {
+export const putGroup = (groupInfo, user, events, venues, images) => async (dispatch) => {
+    const groupRes = await csrfFetch(`/api/groups/${groupInfo.id}/edit`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(groupInfo)
@@ -131,7 +135,7 @@ export const putGroup = (groupInfo) => async (dispatch) => {
 
         let img = null;
 
-        if (group.imageInfo.url) {
+        if (groupInfo.imageInfo.url) {
             const imgRes = await csrfFetch(`/api/groups/${group.id}/images`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
@@ -142,8 +146,7 @@ export const putGroup = (groupInfo) => async (dispatch) => {
                 img = await imgRes.json()
             }
         }
-
-        dispatch(createGroup(group, img))
+        dispatch(updateGroup(group, img, user, events, venues, images))
 
         return group
     }
@@ -159,6 +162,7 @@ export const deleteGroup = (user, id) => async (dispatch) => {
 
     if (deleteRes.ok) {
         dispatch(removeGroup(id))
+        return deleteRes
     }
 }
 
@@ -199,12 +203,13 @@ const GroupReducer = (state = initialState, action) => {
             }
         case PUT_GROUP:
             {
-                const newState = {
-                    ...state,
-                    allGroups: { ...state.allGroups, [action.group.id]: { ...action.group, Events: {} } },
-                    singleGroup: { ...action.group }
-                };
-                if (action.url) {
+                const newState = { ...state };
+                newState.singleGroup = { ...action.group }
+                newState.singleGroup.Organizer = { ...action.user }
+                newState.singleGroup.Events = { ...action.events }
+                newState.singleGroup.Venues = { ...action.venues }
+                newState.singleGroup.GroupImages = { ...action.images }
+                if (action.img) {
                     newState.singleGroup.GroupImages[0] = { ...action.img }
                 }
                 return newState;
@@ -212,6 +217,7 @@ const GroupReducer = (state = initialState, action) => {
         case DELETE_GROUP:
             {
                 const newState = { ...state }
+                newState.singleGroup = {}
                 delete newState.allGroups[action.id]
                 return newState
             }
