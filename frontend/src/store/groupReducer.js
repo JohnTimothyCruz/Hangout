@@ -124,13 +124,14 @@ const GroupReducer = (state = initialState, action) => {
                 return newState;
             }
         case POST_GROUP:
+            console.log('reducer here:' ,action)
             {
                 const newState = {
                     ...state,
-                    allGroups: { ...state.allGroups, [action.group.id]: { ...action.group, Events: {}}},
-                    singleGroup: { ...action.group }
+                    singleGroup: { ...action.group, [action.group.id]: action.group }
                 };
                 newState.singleGroup.GroupImages = [{ ...action.group.img }]
+                console.log('state: ', newState)
                 return newState;
             }
         default:

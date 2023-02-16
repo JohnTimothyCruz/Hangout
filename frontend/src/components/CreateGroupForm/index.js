@@ -65,7 +65,8 @@ const CreateGroupForm = () => {
         }
 
         const createdGroup = await dispatch(postGroup(payload))
-        history.push(`/api/groups/${createdGroup.id}`)
+        console.log(createdGroup)
+        history.push(`/groups/${createdGroup.id}`)
     }
 
     return (
