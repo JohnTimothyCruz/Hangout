@@ -1,13 +1,13 @@
+import './UpdateGroupForm.css'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { postGroup } from '../../store/groupReducer'
-import './CreateGroupForm.css'
 
-const typeOptions = ['(select one)', 'Online', 'In Person'];
-const publicityOptions = ['(select one)', 'Public', 'Private'];
+const UpdateGroup = () => {
 
-const CreateGroupForm = () => {
+    const typeOptions = ['(select one)', 'Online', 'In Person'];
+    const publicityOptions = ['(select one)', 'Public', 'Private'];
+
     const dispatch = useDispatch();
     const history = useHistory();
     const state = useSelector(state => state)
@@ -26,7 +26,7 @@ const CreateGroupForm = () => {
     const [about, setAbout] = useState('a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ')
     const [type, setType] = useState(typeOptions[1])
     const [publicity, setPublicity] = useState('Public')
-    const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
+    const [image, setImage] = useState('')
     const [errors, setErrors] = useState({})
 
     const updateLocation = (e) => setLocation(e.target.value);
@@ -49,7 +49,9 @@ const CreateGroupForm = () => {
         if (!about || about.length < 50) errs.description = 'Description must be at least 30 characters long'
         if (type === '(select one)') errs.type = 'Group Type is required'
         if (publicity === '(select one)') errs.publicity = 'Visibility Type is required'
-        if (!image || (!image.endsWith('.jpg') && !image.endsWith('.png') && !image.endsWith('.jpeg'))) errs.image = 'Image URL must end in .png, .jpg, or .jpeg'
+        if (image) {
+            if ((!image.endsWith('.jpg') && !image.endsWith('.png') && !image.endsWith('.jpeg'))) errs.image = 'Image URL must end in .png, .jpg, or .jpeg'
+        }
 
         setErrors(errs)
 
@@ -72,9 +74,9 @@ const CreateGroupForm = () => {
             organizerId: user.id
         }
 
-        const createdGroup = await dispatch(postGroup(payload))
-        console.log('Here in singleGroup component: ', createdGroup)
-        history.push(`/groups/${createdGroup.id}`)
+        // const createdGroup = await dispatch(postGroup(payload))
+        console.log('Here in updateGroup component: ', payload)
+        // history.push(`/groups/${createdGroup.id}`)
     }
 
     return (
@@ -82,11 +84,11 @@ const CreateGroupForm = () => {
             <div className='CreateGroupForm-body'>
                 <form className='CreateGroupForm-form' onSubmit={handleSubmit}>
                     <div className='CreateGroupForm-title CreateGroupForm-section'>
-                        <h4 className='CreateGroupForm-first-text'>BECOME AN ORGANIZER</h4>
-                        <h2 className='CreateGroupForm-second-text'>We'll walk you through a few steps to build your local commumnity</h2>
+                        <h4 className='CreateGroupForm-first-text'>UPDATE YOUR GROUP'S INFORMATION</h4>
+                        <h2 className='CreateGroupForm-second-text'>We'll walk you through a few steps to update your group's information</h2>
                     </div>
                     <div className='CreateGroupForm-location CreateGroupForm-section'>
-                        <h2 className='CreateGroupForm-section-title'v>First, set your group's location.</h2>
+                        <h2 className='CreateGroupForm-section-title' v>First, set your group's location.</h2>
                         <h5 className='CreateGroupForm-section-description'>Meetup groups meet locally, in person and online. We'll connect you with people in your area, and more can join you online.</h5>
                         <input
                             placeholder='City, STATE'
@@ -164,7 +166,7 @@ const CreateGroupForm = () => {
                         <h5 className={`CreateGroupForm-errors ${errors.image ? '' : 'hidden'}`}>{errors.image}</h5>
                     </div>
                     <div className='CreateGroupForm-create-button'>
-                        <button type='submit'>Create group</button>
+                        <button type='submit'>Update group</button>
                     </div>
                 </form>
             </div>
@@ -172,4 +174,4 @@ const CreateGroupForm = () => {
     )
 }
 
-export default CreateGroupForm
+export default UpdateGroup

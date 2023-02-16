@@ -6,7 +6,9 @@ const GET_GROUPS = 'groups/GET_GROUPS'
 
 const GET_GROUP = 'groups/GET_GROUP'
 
-const POST_GROUP = 'groups/POST-GROUP'
+const POST_GROUP = 'groups/POST_GROUP'
+
+const PUT_GROUP = 'groups/PUT_GROUP'
 
 const DELETE_GROUP = 'groups.DELETE_GROUP'
 
@@ -30,6 +32,14 @@ export const loadGroup = (group, events) => {
 export const createGroup = (group, img) => {
     return {
         type: POST_GROUP,
+        group,
+        img
+    }
+}
+
+export const updateGroup = (group, img) => {
+    return {
+        type: PUT_GROUP,
         group,
         img
     }
@@ -86,7 +96,7 @@ export const fetchGroup = (id) => async dispatch => {
 export const postGroup = (groupInfo) => async (dispatch) => {
     const groupRes = await csrfFetch('/api/groups', {
         method: 'POST',
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(groupInfo)
     })
 
@@ -95,7 +105,7 @@ export const postGroup = (groupInfo) => async (dispatch) => {
 
         const imgRes = await csrfFetch(`/api/groups/${group.id}/images`, {
             method: 'POST',
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(groupInfo.imageInfo)
         })
 
@@ -108,7 +118,48 @@ export const postGroup = (groupInfo) => async (dispatch) => {
     }
 }
 
-// export const deleteGroup = ()
+export const putGroup = (groupInfo) => async (dispatch) => {
+    const groupRes = await csrfFetch('/api/groups', {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(groupInfo)
+    })
+
+    if (groupRes.ok) {
+        const group = await groupRes.json()
+
+        let img = null;
+
+        if (group.imageInfo.url) {
+            const imgRes = await csrfFetch(`/api/groups/${group.id}/images`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(groupInfo.imageInfo)
+            })
+
+            if (imgRes.ok) {
+                img = await imgRes.json()
+            }
+        }
+
+        dispatch(createGroup(group, img))
+
+        return group
+    }
+}
+
+export const deleteGroup = (user, id) => async (dispatch) => {
+    const req = { ...user, ...id }
+    const deleteRes = await csrfFetch(`/api/groups/${id}`, {
+        method: 'DELETE',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(req)
+    })
+
+    if (deleteRes.ok) {
+        dispatch(removeGroup(id))
+    }
+}
 
 // -Reducer-------------------------
 
@@ -120,7 +171,7 @@ const GroupReducer = (state = initialState, action) => {
             {
                 const newState = { ...state, allGroups: { ...state.allGroups }, singleGroup: { ...state.singleGroup } };
                 action.groups.forEach(group => {
-                    newState.allGroups[group.id] = { ...group}
+                    newState.allGroups[group.id] = { ...group }
                 })
                 return newState;
             }
@@ -137,13 +188,29 @@ const GroupReducer = (state = initialState, action) => {
         case POST_GROUP:
             console.log('reducer here:', action)
             {
+                const newState = { ...state };
+                newState.allGroups[action.group.id] = { ...action.group }
+                newState.singleGroup = { ...action.group }
+                newState.singleGroup.GroupImages = [{ ...action.img }]
+                return newState;
+            }
+        case PUT_GROUP:
+            {
                 const newState = {
                     ...state,
-                    singleGroup: { ...action.group, [action.group.id]: action.group }
+                    allGroups: { ...state.allGroups, [action.group.id]: { ...action.group, Events: {} } },
+                    singleGroup: { ...action.group }
                 };
-                newState.singleGroup.GroupImages = [{ ...action.group.img }]
-                console.log('state: ', newState)
+                if (action.url) {
+                    newState.singleGroup.GroupImages[0] = { ...action.img }
+                }
                 return newState;
+            }
+        case DELETE_GROUP:
+            {
+                const newState = { ...state }
+                delete newState.allGroups[action.id]
+                return newState
             }
         default:
             return state;
