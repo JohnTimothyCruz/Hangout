@@ -642,7 +642,7 @@ router.post('/', requireAuth, async (req, res, next) => {
     if (!about || about.length < 50) {
         err.errors.about = "About must be 50 characters or more"
     }
-    if (!type || type !== "Online" && type !== "In person") {
+    if (!type || type !== "Online" && type !== "In Person") {
         err.errors.type = "Type must be 'Online' or 'In person'"
     }
     if (private !== true && private !== false) {

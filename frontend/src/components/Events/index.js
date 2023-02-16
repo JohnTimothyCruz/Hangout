@@ -12,9 +12,7 @@ const EventList = () => {
         dispatch(fetchEvents())
     }, []);
 
-    console.log('Check if events obj is empty: ', !Object.values(events).length || events === undefined)
     if (!Object.values(events).length || events === undefined) return null;
-    console.log('In component, events obj: ', Object.values(events)[0].EventImages, Object.values(events)[0].EventImages.url)
 
     return (
         <div className="main-page">
