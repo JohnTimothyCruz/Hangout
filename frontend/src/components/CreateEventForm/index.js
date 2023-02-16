@@ -1,1 +1,7 @@
-import 'CreateEventForm.css'
+import './CreateEventForm.css'
+
+const CreateEvent = () => {
+
+}
+
+export default CreateEvent
