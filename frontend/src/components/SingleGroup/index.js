@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
+import { useModal } from '../../context/Modal'
 import { fetchGroup } from '../../store/groupReducer'
 import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
@@ -61,7 +62,6 @@ const onClick = () => {
 
 const SingleGroup = () => {
     const dispatch = useDispatch();
-    const history = useHistory();
     const { id } = useParams();
     const state = useSelector(state => state)
     const group = state.groups.singleGroup
@@ -71,16 +71,7 @@ const SingleGroup = () => {
         dispatch(fetchGroup(id))
     }, [])
 
-    // if (group !== undefined && group !== null && Object.values(group).length) {
     if (group === undefined || group === null || !Object.values(group).length) return null;
-
-    const organizerCreateButtonHandler = () => {
-        history.push(`/groups/${id}/events/new`)
-    }
-
-    const organizerUpdateButtonHandler = () => {
-        history.push(`/group/${id}/edit`)
-    }
 
     const upcomingEvents = allUpcomingEvents(group);
     const pastEvents = allPastEvents(group);
@@ -113,12 +104,12 @@ const SingleGroup = () => {
                             {
                                 (user && user.id === group.Organizer.id) ?
                                     <div className='group-button-container'>
-                                        <div className='group-create-event-button' onClick={organizerCreateButtonHandler}>Create event</div>
-                                        <div className='group-update-event-button' onClick={organizerUpdateButtonHandler}>Update</div>
+                                        <NavLink to={`/groups/${id}/events/new`} className='group-create-event-button'>Create event</NavLink>
+                                        <NavLink to={`/groups/${id}/edit`} className='group-update-event-button'>Update</NavLink>
                                         <OpenModalMenuItem
                                             className='group-delete-event-button'
                                             itemText="Delete"
-                                            modalComponent={<DeleteGroupModal />}
+                                            modalComponent={<DeleteGroupModal key={id} />}
                                         />
                                     </div> :
                                     <div className='group-join-button' onClick={onClick}>Join this group</div>

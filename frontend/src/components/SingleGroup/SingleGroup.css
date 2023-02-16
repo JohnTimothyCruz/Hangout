@@ -127,9 +127,11 @@
 
 .group-button-container {
     display: flex;
+    align-items: center;
 }
 
 .group-button-container * {
+    text-decoration: none;
     padding: 15px 20px;
     text-align: center;
     color: white;
@@ -137,6 +139,7 @@
     border: 2px solid black;
     box-shadow: 3px 3px black;
     cursor: pointer;
+    height: min-content;
 }
 
 .group-update-event-button {

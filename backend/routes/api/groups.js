@@ -803,7 +803,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     res.json(updatedMembership)
 })
 
-router.put('/:groupId', requireAuth, async (req, res, next) => {
+router.put('/:groupId/edit', requireAuth, async (req, res, next) => {
 
     const { user } = req;
     const { groupId } = req.params;

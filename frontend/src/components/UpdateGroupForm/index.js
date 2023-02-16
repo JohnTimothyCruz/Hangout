@@ -1,7 +1,7 @@
 import './UpdateGroupForm.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { putGroup } from '../../store/groupReducer'
 
 const UpdateGroup = () => {
@@ -10,24 +10,20 @@ const UpdateGroup = () => {
     const publicityOptions = ['(select one)', 'Public', 'Private'];
 
     const dispatch = useDispatch();
+    const { id } = useParams();
     const history = useHistory();
-    const state = useSelector(state => state)
     const user = useSelector(state => state.session.user)
+    const group = useSelector(state => state.groups.singleGroup)
+    const events = group.Events
+    const venues = group.Venues
+    const images = group.GroupImages
 
-    // const [location, setLocation] = useState('')
-    // const [name, setName] = useState('')
-    // const [about, setAbout] = useState('')
-    // const [type, setType] = useState(typeOptions[0])
-    // const [publicity, setPublicity] = useState(typeOptions[0])
-    // const [image, setImage] = useState('')
-    // const [errors, setErrors] = useState({})
-
-    const [location, setLocation] = useState('City, ST')
-    const [name, setName] = useState('')
-    const [about, setAbout] = useState('a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ')
-    const [type, setType] = useState(typeOptions[1])
-    const [publicity, setPublicity] = useState('Public')
-    const [image, setImage] = useState('')
+    const [location, setLocation] = useState(`${group.city}, ${group.state}`)
+    const [name, setName] = useState(group.name)
+    const [about, setAbout] = useState(group.about)
+    const [type, setType] = useState(group.type)
+    const [publicity, setPublicity] = useState(group.private)
+    const [image, setImage] = useState(group.GroupImages[0].url)
     const [errors, setErrors] = useState({})
 
     const updateLocation = (e) => setLocation(e.target.value);
@@ -61,7 +57,8 @@ const UpdateGroup = () => {
         let cityState = location.split(', ');
         if (cityState.length !== 2) cityState = location.split(',');
 
-        const payload = {
+        const groupInfo = {
+            id,
             city: cityState[0],
             state: cityState[1],
             name,
@@ -75,8 +72,8 @@ const UpdateGroup = () => {
             organizerId: user.id
         }
 
-        const createdGroup = await dispatch(putGroup(payload))
-        history.push(`/groups/${createdGroup.id}`)
+        const editedGroup = await dispatch(putGroup(groupInfo, user, events, venues, images))
+        history.push(`/groups/${editedGroup.id}`)
     }
 
     return (

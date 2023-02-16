@@ -12,7 +12,7 @@ const GroupList = () => {
         dispatch(fetchGroups())
     }, []);
 
-    if (!Object.values(groups).length || groups === undefined) return null;
+    if (groups === undefined || groups === null || !Object.values(groups).length) return null;
 
     return (
         <div className="main-page">
