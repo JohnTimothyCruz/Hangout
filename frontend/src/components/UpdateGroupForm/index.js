@@ -2,6 +2,7 @@ import './UpdateGroupForm.css'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { putGroup } from '../../store/groupReducer'
 
 const UpdateGroup = () => {
 
@@ -74,9 +75,8 @@ const UpdateGroup = () => {
             organizerId: user.id
         }
 
-        // const createdGroup = await dispatch(postGroup(payload))
-        console.log('Here in updateGroup component: ', payload)
-        // history.push(`/groups/${createdGroup.id}`)
+        const createdGroup = await dispatch(putGroup(payload))
+        history.push(`/groups/${createdGroup.id}`)
     }
 
     return (

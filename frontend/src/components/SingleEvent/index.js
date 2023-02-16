@@ -23,7 +23,6 @@ const SingleEvent = () => {
         dispatch(fetchSingleEvent(id));
     }, [])
 
-    console.log('Here in singleEvent component: ', event)
     if (event === undefined || event === null || !Object.values(event).length) return null;
 
     return (

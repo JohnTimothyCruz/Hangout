@@ -14,9 +14,8 @@ const compareFn = (a, b) => {
 
 const allUpcomingEvents = (group) => {
     const now = Date.now();
-    console.log('Here in allUpcomingEvents func, group: ', group)
     const allEvents = group.Events;
-    console.log('Here in allUpcomingEvents func, allEvents: ', allEvents)
+
     if (allEvents === undefined) return {};
 
     const upcoming = [];
@@ -66,9 +65,7 @@ const SingleGroup = () => {
     const { id } = useParams();
     const state = useSelector(state => state)
     const group = state.groups.singleGroup
-    console.log(group)
     const user = state.session.user
-    console.log(user)
 
     useEffect(() => {
         dispatch(fetchGroup(id))

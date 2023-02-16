@@ -29,11 +29,12 @@ export const loadGroup = (group, events) => {
     }
 }
 
-export const createGroup = (group, img) => {
+export const createGroup = (group, img, user) => {
     return {
         type: POST_GROUP,
         group,
-        img
+        img,
+        user
     }
 }
 
@@ -93,7 +94,7 @@ export const fetchGroup = (id) => async dispatch => {
     }
 }
 
-export const postGroup = (groupInfo) => async (dispatch) => {
+export const postGroup = (groupInfo, user) => async (dispatch) => {
     const groupRes = await csrfFetch('/api/groups', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -111,7 +112,7 @@ export const postGroup = (groupInfo) => async (dispatch) => {
 
         if (imgRes.ok) {
             const img = await imgRes.json()
-            dispatch(createGroup(group, img))
+            dispatch(createGroup(group, img, user))
 
             return group
         }
@@ -186,11 +187,13 @@ const GroupReducer = (state = initialState, action) => {
                 return newState;
             }
         case POST_GROUP:
-            console.log('reducer here:', action)
             {
                 const newState = { ...state };
                 newState.allGroups[action.group.id] = { ...action.group }
                 newState.singleGroup = { ...action.group }
+                newState.singleGroup.Events = {}
+                newState.singleGroup.Venues = [{}]
+                newState.singleGroup.Organizer = { ...action.user }
                 newState.singleGroup.GroupImages = [{ ...action.img }]
                 return newState;
             }
