@@ -6,6 +6,8 @@ const GET_EVENTS = 'events/GET_EVENTS'
 
 const GET_SINGLE_EVENT = 'events/GET_SINGLE_EVENT'
 
+const POST_EVENT = 'events/POST_EVENT'
+
 // -Actions-------------------------
 
 export const loadEvents = (events) => {
@@ -19,6 +21,16 @@ export const loadSingleEvent = (event, user, group) => {
     return {
         type: GET_SINGLE_EVENT,
         event,
+        user,
+        group
+    }
+}
+
+export const createEvent = (event, image, user, group) => {
+    return {
+        type: POST_EVENT,
+        event,
+        image,
         user,
         group
     }
@@ -53,6 +65,32 @@ export const fetchSingleEvent = (id) => async dispatch => {
     }
 }
 
+export const postEvent = (eventInfo, user, group) => async dispatch => {
+    const eventRes = await csrfFetch(`/api/groups/${group.id}/events`, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(eventInfo)
+    })
+
+    if (eventRes.ok) {
+        const event = await eventRes.json()
+
+        console.log('Thunk here: ', event)
+        const imgRes = await csrfFetch(`/api/events/${event.id}/images`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: eventInfo.image, preview: true })
+        })
+
+        if (imgRes.ok) {
+            const img = await imgRes.json()
+            dispatch(createEvent(event, img, user, group))
+
+            return event
+        }
+    }
+}
+
 // -Reducer-------------------------
 
 const initialState = { allEvents: {}, singleEvent: {} }
@@ -68,13 +106,25 @@ const EventReducer = (state = initialState, action) => {
                 return newState;
             }
         case GET_SINGLE_EVENT:
-        {
-            const newState = { ...state };
-            newState.singleEvent = action.event;
-            newState.singleEvent.organizer = action.user
-            newState.singleEvent.Group = action.group
-            return newState;
-        }
+            {
+                const newState = { ...state };
+                newState.singleEvent = action.event;
+                newState.singleEvent.Organizer = action.user
+                newState.singleEvent.Group = action.group
+                return newState;
+            }
+        case POST_EVENT:
+            {
+                const newState = { ...state };
+                // newState.allEvents[action.event.id] = { ...action.event }
+                newState.singleEvent = { ...action.event }
+                newState.singleEvent.Group = { ...action.group }
+                newState.singleEvent.Events = {}
+                newState.singleEvent.Venues = [{}]
+                newState.singleEvent.Organizer = { ...action.user }
+                newState.singleEvent.EventImages = [{ ...action.img }]
+                return newState;
+            }
         default:
             return state;
     }

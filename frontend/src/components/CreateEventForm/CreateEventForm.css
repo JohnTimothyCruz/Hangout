@@ -1,0 +1,58 @@
+.CreateEventForm-main {
+    position: absolute;
+    top: 91px;
+    left: 0;
+    right: 0;
+}
+
+.CreateEventForm-body {
+    padding: 0 30%;
+}
+
+.CreateEventForm-section {
+    padding-bottom: 20px;
+    border-bottom: 1px solid gray;
+}
+
+.CreateEventForm-question {
+    margin-bottom: 10px;
+}
+
+.CreateEventForm-form-name,
+.CreateEventForm-form-image {
+    width: 66%;
+}
+
+.CreateEventForm-form-price {
+    width: 10%;
+}
+
+.fa-calendar-days {
+    padding-left: 10px;
+}
+
+.CreateEventForm-form-start,
+.CreateEventForm-form-end {
+    width: 22%;
+}
+
+.CreateEventForm-form-description {
+    width: 100%;
+}
+
+.CreateEventForm-button {
+    margin-top: 20px;
+    margin-bottom: 300px;
+    padding: 15px 20px;
+    text-align: center;
+    color: white;
+    background-color: #FF5A5F;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+    cursor: pointer;
+}
+
+.CreateEventForm-errors {
+    margin-top: 5px;
+    color: #FF5A5F
+}

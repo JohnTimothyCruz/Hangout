@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useHistory, useParams } from 'react-router-dom'
-import { useModal } from '../../context/Modal'
+import { NavLink, useParams } from 'react-router-dom'
 import { fetchGroup } from '../../store/groupReducer'
 import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
@@ -90,7 +89,7 @@ const SingleGroup = () => {
                     <NavLink to='/groups' className='group-groups-redirect'>Groups</NavLink>
                 </div>
                 <div className='group-main-middle'>
-                    <img src={group.GroupImages['0'].url} className='group-middle-left'></img>
+                    <img src={group.GroupImages['0'].url} alt='group' className='group-middle-left'></img>
                     <div className='group-middle-right'>
                         <div className='group-middle-right-top'>
                             <h2 className='group-name'>{group.name}</h2>
@@ -140,7 +139,7 @@ const SingleGroup = () => {
                                 <div className='group-event-card'>
                                     <NavLink to={`/events/${event.id}`} key={idx} className='group-event-link'>
                                         <div className='group-event-card-top'>
-                                            <img src={event.url} className='group-card-top-left'></img>
+                                            <img src={event.url} alt='event' className='group-card-top-left'></img>
                                             <div className='group-card-top-left'>
                                                 <h4 className='group-card-time'>{getStartTime(event)}</h4>
                                                 <h3 className='group-card-title'>{event.name}</h3>
@@ -162,7 +161,7 @@ const SingleGroup = () => {
                                 <div className='group-event-card'>
                                     <NavLink to={`/events/${event.id}`} key={idx} className='group-event-link'>
                                         <div className='group-event-card-top'>
-                                            <img src={event.url} className='group-card-top-left'></img>
+                                            <img src={event.url} alt='event' className='group-card-top-left'></img>
                                             <div className='group-card-top-left'>
                                                 <h4 className='group-card-time'>{getStartTime(event)}</h4>
                                                 <h3 className='group-card-title'>{event.name}</h3>

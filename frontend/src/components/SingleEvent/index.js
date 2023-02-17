@@ -33,13 +33,13 @@ const SingleEvent = () => {
                     <NavLink to='/events' className='events-redirect'>Events</NavLink>
                 </div>
                 <h2>{event.name}</h2>
-                <h4 className='organizer'>Hosted by {event.organizer.firstName} {event.organizer.firstName}</h4>
+                <h4 className='organizer'>Hosted by {event.Organizer.firstName} {event.Organizer.lastName}</h4>
             </div>
             <div className='main-middle'>
-                <img src={event.EventImages[0].url} className='event-img middle-left'></img>
+                <img src={event.EventImages[0].url} alt='even' className='event-img middle-left'></img>
                 <div className='middle-right'>
                     <NavLink to={`/groups/${event.Group.id}`} className='group-card-info'>
-                        <img src={event.Group.GroupImages['0'].url} className='group-img'></img>
+                        <img src={event.Group.GroupImages['0'].url} alt='group' className='group-img'></img>
                         <div className='group-info'>
                             <h4 className='group-name'>{event.Group.name}</h4>
                             <h5 className='group-status'>{event.Group.private ? 'Private' : 'Public'}</h5>

@@ -34,7 +34,7 @@ const EventList = () => {
                         <div className="event-container" key={idx}>
                             <NavLink to={`/events/${event.id}`} className="event-card">
                                 <div className="card-top">
-                                    <img src={url} className="event-image card-top-left"></img>
+                                    <img src={url} alt='event' className="event-image card-top-left"></img>
                                     <div className="card-top-right">
                                         <h5 className="event-time">
                                             {time.getFullYear()}-{time.getMonth()}-{time.getDay()} · {time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}

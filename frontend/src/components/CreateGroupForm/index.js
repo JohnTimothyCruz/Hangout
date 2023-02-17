@@ -12,21 +12,21 @@ const CreateGroupForm = () => {
     const history = useHistory();
     const user = useSelector(state => state.session.user)
 
-    // const [location, setLocation] = useState('City, State')
-    // const [name, setName] = useState('Test Group')
-    // const [about, setAbout] = useState('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    // const [type, setType] = useState('Online')
-    // const [publicity, setPublicity] = useState('Public')
-    // const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
-    // const [errors, setErrors] = useState({})
-
-    const [location, setLocation] = useState('')
-    const [name, setName] = useState('')
-    const [about, setAbout] = useState('')
-    const [type, setType] = useState(typeOptions[0])
-    const [publicity, setPublicity] = useState(typeOptions[0])
-    const [image, setImage] = useState('')
+    const [location, setLocation] = useState('City, State')
+    const [name, setName] = useState('Test Group')
+    const [about, setAbout] = useState('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    const [type, setType] = useState('Online')
+    const [publicity, setPublicity] = useState('Public')
+    const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
     const [errors, setErrors] = useState({})
+
+    // const [location, setLocation] = useState('')
+    // const [name, setName] = useState('')
+    // const [about, setAbout] = useState('')
+    // const [type, setType] = useState(typeOptions[0])
+    // const [publicity, setPublicity] = useState(typeOptions[0])
+    // const [image, setImage] = useState('')
+    // const [errors, setErrors] = useState({})
 
     const updateLocation = (e) => setLocation(e.target.value);
     const updateName = (e) => setName(e.target.value);
@@ -42,7 +42,7 @@ const CreateGroupForm = () => {
 
         const errs = {}
 
-        if (location.split(',').length !== 2 && location.split(', ').length !== 2) errs.location = ('Please use "City, State" format')
+        if (location.split(',').length !== 2 && location.split(', ').length !== 2) errs.location = 'Please use "City, State" format'
         if (!location) errs.location = 'Location is required'
         if (!name) errs.name = 'Name is required'
         if (!about || about.length < 50) errs.description = 'Description must be at least 30 characters long'
