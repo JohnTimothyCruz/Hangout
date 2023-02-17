@@ -29,12 +29,13 @@ export const loadGroup = (group, events) => {
     }
 }
 
-export const createGroup = (group, img, user) => {
+export const createGroup = (group, img, user, venue) => {
     return {
         type: POST_GROUP,
         group,
         img,
-        user
+        user,
+        venue
     }
 }
 
@@ -108,17 +109,34 @@ export const postGroup = (groupInfo, user) => async (dispatch) => {
     if (groupRes.ok) {
         const group = await groupRes.json()
 
-        const imgRes = await csrfFetch(`/api/groups/${group.id}/images`, {
+        const venueRes = await csrfFetch(`/api/groups/${group.id}/venues`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(groupInfo.imageInfo)
+            body: JSON.stringify({
+                groupId: group.id,
+                address: 'Online',
+                city: 'Online',
+                lat: 1,
+                lng: 1,
+                state: 'Online'
+            })
         })
 
-        if (imgRes.ok) {
-            const img = await imgRes.json()
-            dispatch(createGroup(group, img, user))
+        if (venueRes.ok) {
+            const venue = await venueRes.json()
 
-            return group
+            const imgRes = await csrfFetch(`/api/groups/${group.id}/images`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(groupInfo.imageInfo)
+            })
+
+            if (imgRes.ok) {
+                const img = await imgRes.json()
+                dispatch(createGroup(group, img, user, venue))
+
+                return group
+            }
         }
     }
 }
@@ -193,10 +211,10 @@ const GroupReducer = (state = initialState, action) => {
         case POST_GROUP:
             {
                 const newState = { ...state };
-                newState.allGroups[action.group.id] = { ...action.group }
+                // newState.allGroups[action.group.id] = { ...action.group }
                 newState.singleGroup = { ...action.group }
                 newState.singleGroup.Events = {}
-                newState.singleGroup.Venues = [{}]
+                newState.singleGroup.Venues = [action.venue]
                 newState.singleGroup.Organizer = { ...action.user }
                 newState.singleGroup.GroupImages = [{ ...action.img }]
                 return newState;

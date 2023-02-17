@@ -32,7 +32,6 @@
     display: flex;
     background-color: white;
     padding: 0 0 30px 0;
-    justify-content: start;
 }
 
 .group-name,

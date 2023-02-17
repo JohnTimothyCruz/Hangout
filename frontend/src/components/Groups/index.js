@@ -32,7 +32,7 @@ const GroupList = () => {
                     return (
                         <div className="group-container" key={idx}>
                             <NavLink to={`/groups/${group.id}`} className="group-card">
-                                <img src={url} className='group-image card-left'></img>
+                                <img src={url} alt='group' className='group-image card-left'></img>
                                 <div className="card-right">
                                     <h2 className="group-name">{group.name}</h2>
                                     <h4 className="group-location">{group.city}, {group.state}</h4>
