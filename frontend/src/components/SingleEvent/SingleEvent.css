@@ -162,5 +162,13 @@ h5 {
 }
 
 .join-event-button {
+    text-decoration: none;
+    padding: 15px 20px;
+    text-align: center;
+    color: white;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+    cursor: pointer;
+    height: min-content;
     background-color: #FF5A5F;
 }

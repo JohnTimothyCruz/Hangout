@@ -136,8 +136,8 @@ const SingleGroup = () => {
                     {
                         anyUpcoming && upcomingEvents.map((event, idx) => {
                             return (
-                                <div className='group-event-card'>
-                                    <NavLink to={`/events/${event.id}`} key={idx} className='group-event-link'>
+                                <div className='group-event-card' key={idx}>
+                                    <NavLink to={`/events/${event.id}`} className='group-event-link'>
                                         <div className='group-event-card-top'>
                                             <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
                                             <div className='group-card-top-left'>
@@ -158,8 +158,8 @@ const SingleGroup = () => {
                     {
                         anyPast && pastEvents.map((event, idx) => {
                             return (
-                                <div className='group-event-card'>
-                                    <NavLink to={`/events/${event.id}`} key={idx} className='group-event-link'>
+                                <div className='group-event-card' key={idx}>
+                                    <NavLink to={`/events/${event.id}`} className='group-event-link'>
                                         <div className='group-event-card-top'>
                                             <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
                                             <div className='group-card-top-left'>
