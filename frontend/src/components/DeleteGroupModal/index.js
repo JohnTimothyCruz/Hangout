@@ -1,11 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { useState } from 'react'
 import { deleteGroup } from '../../store/groupReducer'
-import './DeleteGroupModal.css'
-import { useRef } from 'react'
-import { useEffect } from 'react'
 import { useModal } from '../../context/Modal'
+import './DeleteGroupModal.css'
 
 const DeleteGroupModal = () => {
     const dispatch = useDispatch()

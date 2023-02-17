@@ -8,6 +8,8 @@ const GET_SINGLE_EVENT = 'events/GET_SINGLE_EVENT'
 
 const POST_EVENT = 'events/POST_EVENT'
 
+const DELETE_EVENT = 'events/DELETE_EVENT'
+
 // -Actions-------------------------
 
 export const loadEvents = (events) => {
@@ -33,6 +35,13 @@ export const createEvent = (event, image, user, group) => {
         image,
         user,
         group
+    }
+}
+
+export const removeEvent = (id) => {
+    return {
+        type: DELETE_EVENT,
+        id
     }
 }
 
@@ -91,6 +100,20 @@ export const postEvent = (eventInfo, user, group) => async dispatch => {
     }
 }
 
+export const deleteEvent = (user, id) => async (dispatch) => {
+    const req = { ...user, ...id }
+    const deleteRes = await csrfFetch(`/api/events/${id}`, {
+        method: 'DELETE',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(req)
+    })
+
+    if (deleteRes.ok) {
+        dispatch(removeEvent(id))
+        return deleteRes
+    }
+}
+
 // -Reducer-------------------------
 
 const initialState = { allEvents: {}, singleEvent: {} }
@@ -124,6 +147,13 @@ const EventReducer = (state = initialState, action) => {
                 newState.singleEvent.Organizer = { ...action.user }
                 newState.singleEvent.EventImages = [{ ...action.img }]
                 return newState;
+            }
+            case DELETE_EVENT:
+            {
+                const newState = { ...state }
+                newState.singleEvent = {}
+                delete newState.allEvents[action.id]
+                return newState
             }
         default:
             return state;
