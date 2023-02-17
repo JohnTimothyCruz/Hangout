@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
 import { fetchSingleEvent } from '../../store/eventReducer'
+import DeleteEventModal from '../DeleteEventModal'
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleEvent.css'
 
 const getStartTime = (event) => {
@@ -17,11 +19,16 @@ const getEndTime = (event) => {
 const SingleEvent = () => {
     const dispatch = useDispatch()
     const { id } = useParams()
+    const user = useSelector(state => state.session.user)
     const event = useSelector(state => state.events.singleEvent)
 
     useEffect(() => {
         dispatch(fetchSingleEvent(id));
     }, [])
+
+    const handleJoin = () => {
+        window.alert('Feature coming soon...')
+    }
 
     if (event === undefined || event === null || !Object.values(event).length) return null;
 
@@ -62,8 +69,21 @@ const SingleEvent = () => {
                             <h4>${event.price}</h4>
                         </div>
                         <div className='status'>
-                            <i className="fa-solid fa-map-pin fa-2x"></i>
-                            <h4>{event.type}</h4>
+                            <div className='status-left'>
+                                <i className="fa-solid fa-map-pin fa-2x"></i>
+                                <h4>{event.type}</h4>
+                            </div>
+                            {
+                                (user && user.id === event.Organizer.id) ?
+                                    <div className='status-right'>
+                                        <OpenModalMenuItem
+                                            itemText="Delete"
+                                            className='delete-event-button'
+                                            modalComponent={<DeleteEventModal />}
+                                        />
+                                    </div> :
+                                    <div className='status-right join-event-button' onClick={handleJoin}>Join this event</div>
+                            }
                         </div>
                     </div>
                 </div>

@@ -144,3 +144,8 @@
 .group-update-event-button {
     margin: 0 10px;
 }
+
+.SingleGroup-event-image {
+    width: 178px;
+    height: 124px;
+}

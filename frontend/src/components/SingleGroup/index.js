@@ -89,7 +89,7 @@ const SingleGroup = () => {
                     <NavLink to='/groups' className='group-groups-redirect'>Groups</NavLink>
                 </div>
                 <div className='group-main-middle'>
-                    <img src={group.GroupImages['0'].url} alt='group' className='group-middle-left'></img>
+                    <img src={group.GroupImages['0'].url} alt='group' className='group-middle-left SingleGroup-group-image'></img>
                     <div className='group-middle-right'>
                         <div className='group-middle-right-top'>
                             <h2 className='group-name'>{group.name}</h2>
@@ -108,7 +108,7 @@ const SingleGroup = () => {
                                         <OpenModalMenuItem
                                             className='group-delete-event-button'
                                             itemText="Delete"
-                                            modalComponent={<DeleteGroupModal key={id} />}
+                                            modalComponent={<DeleteGroupModal />}
                                         />
                                     </div> :
                                     <div className='group-join-button' onClick={onClick}>Join this group</div>
@@ -139,7 +139,7 @@ const SingleGroup = () => {
                                 <div className='group-event-card'>
                                     <NavLink to={`/events/${event.id}`} key={idx} className='group-event-link'>
                                         <div className='group-event-card-top'>
-                                            <img src={event.url} alt='event' className='group-card-top-left'></img>
+                                            <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
                                             <div className='group-card-top-left'>
                                                 <h4 className='group-card-time'>{getStartTime(event)}</h4>
                                                 <h3 className='group-card-title'>{event.name}</h3>
@@ -161,7 +161,7 @@ const SingleGroup = () => {
                                 <div className='group-event-card'>
                                     <NavLink to={`/events/${event.id}`} key={idx} className='group-event-link'>
                                         <div className='group-event-card-top'>
-                                            <img src={event.url} alt='event' className='group-card-top-left'></img>
+                                            <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
                                             <div className='group-card-top-left'>
                                                 <h4 className='group-card-time'>{getStartTime(event)}</h4>
                                                 <h3 className='group-card-title'>{event.name}</h3>
