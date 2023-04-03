@@ -42,7 +42,7 @@ module.exports = {
         organizerId: 3,
         name: 'Group-Three',
         about: 'We\'re group three.',
-        type: 'In person',
+        type: 'In Person',
         private: false,
         city: 'Threemouth',
         state: 'AK'
@@ -60,7 +60,7 @@ module.exports = {
         organizerId: 5,
         name: 'Group-Five',
         about: 'We\'re group Five.',
-        type: 'In person',
+        type: 'In Person',
         private: false,
         city: 'Fiveburg',
         state: 'PA'
