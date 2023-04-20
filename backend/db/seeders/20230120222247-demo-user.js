@@ -11,54 +11,61 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(options, [
       {
-        firstName: 'One',
-        lastName: 'One',
-        username: 'User-One',
+        firstName: 'Marnie',
+        lastName: 'Anderson',
+        username: 'Marnie Anderson',
         hashedPassword: bcrypt.hashSync('password'),
-        email: 'one@user.io',
+        email: 'marnie@user.io',
       },
       {
-        firstName: 'Two',
-        lastName: 'Two',
-        username: 'User-Two',
+        firstName: 'Daniel',
+        lastName: 'Evans',
+        username: 'Dan',
         hashedPassword: bcrypt.hashSync('password'),
-        email: 'two@user.io',
+        email: 'daniel@user.io',
       },
       {
-        firstName: 'Three',
-        lastName: 'Three',
-        username: 'User-Three',
+        firstName: 'Kelli',
+        lastName: 'Philps',
+        username: 'Normal Account',
         hashedPassword: bcrypt.hashSync('password'),
-        email: 'three@user.io',
+        email: 'kelli@user.io',
       },
       {
-        firstName: 'Four',
-        lastName: 'Four',
-        username: 'User-Four',
+        firstName: 'Ellis',
+        lastName: 'Ann',
+        username: 'Socialperson',
         hashedPassword: bcrypt.hashSync('password'),
-        email: 'four@user.io',
+        email: 'ellis@user.io',
       },
       {
-        firstName: 'Five',
-        lastName: 'Five',
-        username: 'User-Five',
+        firstName: 'Jack',
+        lastName: 'Browne',
+        username: 'Jack',
         hashedPassword: bcrypt.hashSync('password'),
-        email: 'five@user.io',
+        email: 'jack@user.io',
       },
       {
         firstName: 'Demo',
         lastName: 'User',
-        username: 'DemoUser',
+        username: 'Demo User',
         hashedPassword: bcrypt.hashSync('password'),
         email: 'demo@user.io',
-      }
+      },
+      {
+        firstName: 'Danny',
+        lastName: 'Dan',
+        username: 'DD',
+        hashedPassword: bcrypt.hashSync('password'),
+        email: 'danny@user.io',
+      },
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['User-One', 'User-Two', 'User-Three', 'User-Four', 'User-Five', 'DemoUser'] }
+      id: { [Op.gte]: 0 }
     }, {});
   }
 };
