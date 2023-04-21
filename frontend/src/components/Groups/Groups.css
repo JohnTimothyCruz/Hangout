@@ -78,3 +78,15 @@
     color: gray;
     margin: 0;
 }
+
+.no-more-groups-message {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.no-more-groups-message i {
+    color: rgb(235, 69, 119);
+}

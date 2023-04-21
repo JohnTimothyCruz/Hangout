@@ -13,8 +13,6 @@ const GroupList = () => {
         dispatch(clearGroup())
     }, []);
 
-    if (groups === undefined || groups === null || !Object.values(groups).length) return null;
-
     return (
         <div className="main-page">
             <div className="menu">
@@ -26,8 +24,7 @@ const GroupList = () => {
                 </NavLink>
                 <h4 className="title">Groups in Meetup</h4>
             </div>
-            {
-                Object.values(groups).map((group, idx) => {
+            {Object.values(groups) && Object.values(groups).map((group, idx) => {
                     const url = group.GroupImages[0].url
 
                     return (
@@ -45,6 +42,10 @@ const GroupList = () => {
                     )
                 })
             }
+            <div className="no-more-groups-message">
+                <i className="fa-solid fa-face-grin-beam-sweat fa-2xl" />
+                <p>Looks like there are no more groups to join... Why not make one?</p>
+            </div>
             <div className="takes-space-bottom"></div>
         </div>
     )

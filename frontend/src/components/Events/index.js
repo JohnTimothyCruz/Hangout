@@ -14,8 +14,6 @@ const EventList = () => {
         dispatch(clearEvent())
     }, []);
 
-    if (!Object.values(events).length || events === undefined) return null;
-
     const compareFn = (a, b) => {
         if (new Date(a.startDate) > new Date(b.startDate)) return -1;
         if (new Date(a.startDate) < new Date(b.startDate)) return 1;
@@ -91,6 +89,10 @@ const EventList = () => {
                     )
                 })
             }
+            <div className="no-more-events-message">
+                <i className="fa-solid fa-face-grin-beam-sweat fa-2xl" />
+                <p>Looks like there are no more upcoming events to join... Why not make one?</p>
+            </div>
             <div className="takes-space-bottom"></div>
         </div>
     )

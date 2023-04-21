@@ -3,6 +3,8 @@
     width: 50%;
     padding: 0px 25%;
     margin: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .menu {
@@ -102,5 +104,17 @@
 }
 
 .event-spots-left {
+    color: rgb(235, 69, 119);
+}
+
+.no-more-events-message {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.no-more-events-message i {
     color: rgb(235, 69, 119);
 }
