@@ -177,16 +177,18 @@ const SingleGroup = () => {
                         }
                     </div>
                 </div>
-                <div className='group-no-events'>
-                    {
-                        (!anyPast && !anyUpcoming) && <h2>No Upcoming Events</h2>
-                    }
-                </div>
+                {(!anyPast && !anyUpcoming) &&
+                    <div className='group-no-events'>
+                        <h2>No Upcoming Events</h2>
+                    </div>
+                }
                 <div className={`group-upcoming-events ${anyUpcoming ? '' : 'hidden'}`}>
                     <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents?.length})</h2>
                     {
+                        console.log("upcoming", anyUpcoming, upcomingEvents)
+                    }
+                    {
                         anyUpcoming && upcomingEvents.map((event) => {
-                            console.log(event)
                             return (
                                 <div className='group-event-card' key={event?.id}>
                                     <NavLink to={`/events/${event.id}`} className='group-event-link'>
@@ -205,12 +207,15 @@ const SingleGroup = () => {
                         })
                     }
                 </div>
-                <div className={`group-past-events ${anyUpcoming ? '' : 'hidden'}`}>
+                <div className={`group-past-events ${anyPast ? '' : 'hidden'}`}>
                     <h2 className={anyPast ? '' : 'hidden'}>Past Events ({pastEvents?.length})</h2>
                     {
-                        anyPast && pastEvents.map((event, idx) => {
+                        console.log("past", anyPast, pastEvents)
+                    }
+                    {
+                        anyPast && pastEvents.map((event) => {
                             return (
-                                <div className='group-event-card' key={idx}>
+                                <div className='group-event-card' key={event?.id}>
                                     <NavLink to={`/events/${event.id}`} className='group-event-link'>
                                         <div className='group-event-card-top'>
                                             <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
