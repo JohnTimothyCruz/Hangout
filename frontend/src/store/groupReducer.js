@@ -10,7 +10,9 @@ const POST_GROUP = 'groups/POST_GROUP'
 
 const PUT_GROUP = 'groups/PUT_GROUP'
 
-const DELETE_GROUP = 'groups.DELETE_GROUP'
+const DELETE_GROUP = 'groups/DELETE_GROUP'
+
+const CLEAR_GROUP = 'groups/CLEAR_GROUP'
 
 // -Actions-------------------------
 
@@ -55,6 +57,12 @@ export const removeGroup = (id) => {
     return {
         type: DELETE_GROUP,
         id
+    }
+}
+
+export const clearGroup = () => {
+    return {
+        type: CLEAR_GROUP
     }
 }
 
@@ -237,6 +245,12 @@ const GroupReducer = (state = initialState, action) => {
                 const newState = { ...state }
                 newState.singleGroup = {}
                 delete newState.allGroups[action.id]
+                return newState
+            }
+        case CLEAR_GROUP:
+            {
+                const newState = { ...state }
+                newState.singleGroup = {}
                 return newState
             }
         default:

@@ -1,18 +1,46 @@
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from "react";
-import { fetchEvents } from "../../store/eventReducer";
+import { clearEvent, fetchEvents } from "../../store/eventReducer";
 import './Events.css';
 
 const EventList = () => {
     const dispatch = useDispatch();
     const events = useSelector(state => state.events.allEvents)
+    let futureEvents;
 
     useEffect(() => {
         dispatch(fetchEvents())
+        dispatch(clearEvent())
     }, []);
 
-    if (!Object.values(events).length || events === undefined) return null;
+    const compareFn = (a, b) => {
+        if (new Date(a.startDate) > new Date(b.startDate)) return -1;
+        if (new Date(a.startDate) < new Date(b.startDate)) return 1;
+        if (new Date(a.startDate) === new Date(b.startDate)) return 0
+    }
+
+    const allUpcomingEvents = (eventsObj) => {
+        const now = Date.now();
+        const allEvents = Object.values(eventsObj);
+        const upcoming = [];
+
+        allEvents.forEach(event => {
+            const end = new Date(event.endDate)
+            if (end > now) {
+                upcoming.push(event)
+            }
+        })
+
+        const sortedUpcoming = upcoming.sort(compareFn)
+        return sortedUpcoming;
+    }
+
+    if (Object.values(events).length) {
+        futureEvents = allUpcomingEvents(events);
+    } else {
+        futureEvents = [];
+    }
 
     return (
         <div className="main-page">
@@ -25,17 +53,21 @@ const EventList = () => {
                 </NavLink>
                 <h4 className="title">Events in Meetup</h4>
             </div>
-            {
-                Object.values(events).map((event, idx) => {
-                    const time = new Date(event.startDate)
-                    const url = event.EventImages[0].url
+            {Object.values(futureEvents).map((event) => {
+                const time = new Date(event.startDate)
+                let url;
+                if (event?.EventImages[0]) {
+                    url = event.EventImages[0].url
+                }
 
-                    return (
-                        <div className="event-container" key={idx}>
-                            <NavLink to={`/events/${event.id}`} className="event-card">
-                                <div className="card-top">
-                                    <img src={url} alt='event' className="event-image card-top-left"></img>
-                                    <div className="card-top-right">
+                return (
+                    <div className="event-container" key={event.id}>
+                        <NavLink to={`/events/${event.id}`} className="event-card">
+                            <div className="card-top">
+                                <img src={url} alt='event' className="event-image card-top-left"></img>
+                                <div className="card-top-right">
+                                    <div>
+
                                         <h5 className="event-time">
                                             {time.getFullYear()}-{time.getMonth()}-{time.getDay()} · {time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                                         </h5>
@@ -43,19 +75,27 @@ const EventList = () => {
                                             {event.name}
                                         </h4>
                                         <h4 className="event-location">
-                                            {event.Venue.city} · {event.Venue.state}
+                                            {event.Group.name} · {event.Venue.city}, {event.Venue.state}
                                         </h4>
                                     </div>
-                                </div>
-                                <div className="card-bottom">
                                     <div className="event-description">
-                                        {event.description}
+                                        {event.numAttending} attendents · <span className="event-spots-left">{event.capacity - event.numAttending} spots left</span>
                                     </div>
                                 </div>
-                            </NavLink>
-                        </div>
-                    )
-                })
+                            </div>
+                        </NavLink>
+                    </div>
+                )
+            })
+            }
+            {Object.values(events).length !== 0 &&
+                <>
+                    <div className="no-more-events-message">
+                        <i className="fa-solid fa-face-grin-beam-sweat fa-2xl" />
+                        <p>Looks like there are no more upcoming events to join... Why not make one?</p>
+                    </div>
+                    <div className="takes-space-bottom"></div>
+                </>
             }
         </div>
     )

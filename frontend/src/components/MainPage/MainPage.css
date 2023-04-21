@@ -1,13 +1,16 @@
 .main-page-container {
+    background-color: white;
     width: 70%;
+    height: calc(100vh - 93px);
     margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 30px;
+    padding: 30px 15% 0px 15%;
 }
 
 .main-page-top {
+    margin-top: 30px;
     display: flex;
     align-items: center;
     width: 100%;
@@ -21,7 +24,16 @@
 
 .title-text {
     font-size: 50px;
-    font-weight: bold;
+    font-weight: 900;
+    margin: 0px;
+}
+
+.top-left p {
+    width: 550px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 33px;
 }
 
 .top-right {
@@ -42,8 +54,15 @@
     width: 100%;
 }
 
+.caption h2 {
+    margin-bottom: 10px;
+    font-weight: 800;
+    font-size: 30px;
+}
+
 .caption-text {
     margin: 0;
+    font-weight: 400;
     width: 33%;
 }
 
@@ -59,6 +78,7 @@
     justify-content: space-between;
     width: 75%;
     height: 30%;
+    margin-top: 30px;
 }
 
 .option {
@@ -69,20 +89,54 @@
     justify-content: center;
 }
 
-img {
-    /* width: 50%; */
+.option img {
     align-self: center;
+    height: 152px;
 }
 
 .link {
+    align-self: center;
+    background-color: teal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 20px;
+    width: 100px;
+    height: 22px;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
     text-decoration: none;
-    color: teal;
+}
+
+.link:hover {
+    background-color: rgba(0, 128, 128, 0.897)
 }
 
 .inactive-link {
+    align-self: center;
+    background-color: grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 20px;
+    width: 100px;
+    height: 22px;
+    color: white;
+    border-radius: 10px;
     text-decoration: none;
-    color: gray;
-    pointer-events: none;
+    cursor: default;
+}
+
+.option h4 {
+    height: 100px;
+    font-weight: 400;
 }
 
 .join-button-container {
@@ -93,9 +147,22 @@ img {
 
 .join-button {
     background-color: teal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 20px;
+    width: 100px;
+    height: 22px;
     color: white;
-    padding: 7px 10px;
-    border: 2px solid black;
-    box-shadow: 3px 3px black;
+    border-radius: 10px;
     cursor: pointer;
+    margin: 15px 0px 5px 0px;
+    text-decoration: none;
+}
+
+.join-button:hover {
+    background-color: rgba(0, 128, 128, 0.753);
 }

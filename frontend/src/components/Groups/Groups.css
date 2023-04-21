@@ -1,8 +1,3 @@
-.main-page {
-    width: 40%;
-    margin: auto;
-}
-
 .menu {
     padding-top: 50px;
     border-bottom: 1px solid grey;
@@ -36,6 +31,7 @@
 /* Group card css below */
 .group-container {
     border-bottom: 1px solid gray;
+    width: 100%;
 }
 
 .group-card {
@@ -46,11 +42,17 @@
 }
 
 .group-image {
-    padding-right: 12px;
+    margin-right: 12px;
     width: 178px;
     height: 124px;
     align-self: baseline;
     flex-shrink: 0;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.card-right {
+    width: 760px;
 }
 
 .group-name {
@@ -60,16 +62,32 @@
 }
 
 .group-location {
-    color: gray;
+    color: rgb(131, 107, 80);
     margin: 0;
     font-weight: bold;
 }
 
 .group-about {
     color: black;
+    max-width: 100%;
+    font-weight: 400;
+    overflow-wrap: break-word;
 }
 
 .group-details {
     color: gray;
     margin: 0;
+    font-weight: 400;
+}
+
+.no-more-groups-message {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.no-more-groups-message i {
+    color: rgb(235, 69, 119);
 }

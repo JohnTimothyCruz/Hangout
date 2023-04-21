@@ -1,1 +1,24 @@
 /* TODO Add site wide styles */
+body {
+    background-color: lightgray;
+    margin: 0px;
+}
+
+body * {
+    font-family: 'Lato', sans-serif;
+}
+
+@keyframes loadingShimer {
+    0% {
+        background-color: rgb(224, 224, 224);
+    }
+    100% {
+        background-color: rgb(97, 97, 97);
+    }
+}
+
+.empty-and-loading {
+    border-radius: 10px;
+    background-color: grey;
+    animation: 1s infinite loadingShimer;
+}

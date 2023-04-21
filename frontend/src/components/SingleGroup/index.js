@@ -5,6 +5,7 @@ import { fetchGroup } from '../../store/groupReducer'
 import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleGroup.css'
+import { clearEvent } from '../../store/eventReducer'
 
 const compareFn = (a, b) => {
     if (new Date(a.startDate) > new Date(b.startDate)) return -1;
@@ -68,39 +69,73 @@ const SingleGroup = () => {
 
     useEffect(() => {
         dispatch(fetchGroup(id))
+        dispatch(clearEvent())
     }, [])
 
-    if (group === undefined || group === null || !Object.values(group).length) return null;
-
-    const upcomingEvents = allUpcomingEvents(group);
-    const pastEvents = allPastEvents(group);
-
+    let upcomingEvents = false;
+    let pastEvents = false;
     let anyUpcoming = false;
-    Object.values(upcomingEvents).length ? anyUpcoming = true : anyUpcoming = false;
-
     let anyPast = false;
-    Object.values(pastEvents).length ? anyPast = true : anyPast = false;
+
+    if (Object.values(group)) {
+        upcomingEvents = allUpcomingEvents(group);
+        pastEvents = allPastEvents(group);
+
+        if (Object.values(upcomingEvents).length) anyUpcoming = true;
+        if (Object.values(pastEvents).length) anyPast = true;
+    }
 
     return (
         <div className='group-body'>
             <div className='group-main-top'>
                 <div className='group-groups-redirect-container'>
-                    <h4 className='group-arrow'>{'<'}</h4>
-                    <NavLink to='/groups' className='group-groups-redirect'>Groups</NavLink>
+                    <i className="fa-solid fa-angle-left group-arrow" />
+                    {Object.values(group).length ?
+                        <NavLink to='/groups' className='group-groups-redirect'>Back to Groups</NavLink>
+                        :
+                        <div to='/groups' className='group-groups-redirect'>Back to Groups</div>
+                    }
                 </div>
                 <div className='group-main-middle'>
-                    <img src={group.GroupImages['0'].url} alt='group' className='group-middle-left SingleGroup-group-image'></img>
+                    {Object.values(group).length ?
+                        <img src={group.GroupImages['0'].url} alt='group' className='group-middle-left SingleGroup-group-image'></img>
+                        :
+                        <div className='empty-group-image empty-and-loading'></div>
+                    }
                     <div className='group-middle-right'>
                         <div className='group-middle-right-top'>
-                            <h2 className='group-name'>{group.name}</h2>
+                            {Object.values(group).length ?
+                                <h2 className='group-name'>{group.name}</h2>
+                                :
+                                <h2 className='empty-group-name empty-and-loading'></h2>
+                            }
                             <div className='group-group-details'>
-                                <h4>{group.city}, {group.state}</h4>
-                                <h4>{Object.values(group.Events).length} events · {group.private ? 'Private' : 'Public'}</h4>
-                                <h4>Organized by {group.Organizer.firstName} {group.Organizer.lastName}</h4>
+                                {Object.values(group).length ?
+                                    <>
+                                        <div>
+                                            <i className="fa-solid fa-location-dot" />
+                                            <h4>{group.city}, {group.state}</h4>
+                                        </div>
+                                        <div>
+                                            <i className="fa-solid fa-users" />
+                                            <h4>{Object.values(group.Events).length} events · {group.private ? 'Private' : 'Public'}</h4>
+                                        </div>
+                                        <div>
+                                            <i className="fa-solid fa-user" />
+                                            <h4>Organized by {group.Organizer.firstName} {group.Organizer.lastName}</h4>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <h4 className='empty-group-location empty-and-loading'></h4>
+                                        <h4 className='empty-group-events-count empty-and-loading'></h4>
+                                        <h4 className='empty-group-organizer empty-and-loading'></h4>
+                                    </>
+                                }
                             </div>
                         </div>
                         <div className='group-middle-right-bottom'>
-                            {
+                            {Object.values(group).length ?
                                 (user && user.id === group.Organizer.id) ?
                                     <div className='group-button-container'>
                                         <NavLink to={`/groups/${id}/events/new`} className='group-create-event-button'>Create event</NavLink>
@@ -112,31 +147,46 @@ const SingleGroup = () => {
                                         />
                                     </div> :
                                     <div className='group-join-button' onClick={onClick}>Join this group</div>
+                                :
+                                <></>
                             }
                         </div>
                     </div>
                 </div>
             </div>
             <div className='group-main-bottom'>
-                <div className='group-organizer'>
-                    <h2>Organizer</h2>
-                    <h5>{group.Organizer.firstName} {group.Organizer.lastName}</h5>
+                <div className='group-main-bottom-info'>
+                    <div className='group-about'>
+                        <h2>What we're about</h2>
+                        {Object.values(group).length ?
+                            <p>{group.about}</p>
+                            :
+                            <p className='empty-group-about empty-and-loading'></p>
+                        }
+                    </div>
+                    <div className='group-organizer'>
+                        <h2>Organizer</h2>
+                        {Object.values(group).length ?
+                            <div className='group-organizer-section'>
+                                <i className="fa-solid fa-circle-user fa-2xl" />
+                                <h5>{group.Organizer.firstName} {group.Organizer.lastName}</h5>
+                            </div>
+                            :
+                            <h5 className='empty-group-organizer-small empty-and-loading'></h5>
+                        }
+                    </div>
                 </div>
-                <div className='group-about'>
-                    <h2>What we're about</h2>
-                    <p>{group.about}</p>
-                </div>
-                <div className='group-no-events'>
-                    {
-                        (!anyPast && !anyUpcoming) && <h2>No Upcoming Events</h2>
-                    }
-                </div>
+                {(!anyPast && !anyUpcoming) &&
+                    <div className='group-no-events'>
+                        <h2>No Upcoming Events</h2>
+                    </div>
+                }
                 <div className={`group-upcoming-events ${anyUpcoming ? '' : 'hidden'}`}>
-                    <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents.length})</h2>
+                    <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents?.length})</h2>
                     {
-                        anyUpcoming && upcomingEvents.map((event, idx) => {
+                        anyUpcoming && upcomingEvents.map((event) => {
                             return (
-                                <div className='group-event-card' key={idx}>
+                                <div className='group-event-card' key={event?.id}>
                                     <NavLink to={`/events/${event.id}`} className='group-event-link'>
                                         <div className='group-event-card-top'>
                                             <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
@@ -153,12 +203,12 @@ const SingleGroup = () => {
                         })
                     }
                 </div>
-                <div className={`group-past-events ${anyUpcoming ? '' : 'hidden'}`}>
-                    <h2 className={anyPast ? '' : 'hidden'}>Past Events ({pastEvents.length})</h2>
+                <div className={`group-past-events ${anyPast ? '' : 'hidden'}`}>
+                    <h2 className={anyPast ? '' : 'hidden'}>Past Events ({pastEvents?.length})</h2>
                     {
-                        anyPast && pastEvents.map((event, idx) => {
+                        anyPast && pastEvents.map((event) => {
                             return (
-                                <div className='group-event-card' key={idx}>
+                                <div className='group-event-card' key={event?.id}>
                                     <NavLink to={`/events/${event.id}`} className='group-event-link'>
                                         <div className='group-event-card-top'>
                                             <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>

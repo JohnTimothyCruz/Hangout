@@ -4,7 +4,7 @@
 
 .logo,
 .logo-container {
-    color: rgb(235, 69, 69);
+    color: rgb(235, 69, 119);
     text-decoration: none;
     font-family: 'Dancing Script', cursive;
     font-size: 34px;
@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: teal;
 }
 
 .header {
@@ -59,6 +60,14 @@
     padding-right: 20px;
 }
 
+.session-options * {
+    cursor: pointer;
+}
+
+.session-options p:hover {
+    color: teal;
+}
+
 .user-menu {
     display: flex;
     width: 225px;
@@ -90,7 +99,6 @@ ul {
 
 li {
     list-style-type: none;
-    /* to become a navlink element */
     font-size: 14px;
     font-weight: lighter;
     padding: 8px 0;
@@ -100,4 +108,9 @@ li {
 .button:hover {
     color: teal;
     cursor: pointer;
+}
+
+.nav-link {
+    color: teal;
+    text-decoration: none;
 }
