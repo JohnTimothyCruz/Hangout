@@ -73,13 +73,14 @@
 /* Everything else */
 .body {
     position: absolute;
-    top: 91px;
+    top: 71px;
     left: 0;
     right: 0;
 }
 
 .main-top {
-    padding: 0 15%;
+    padding: 20px 15% 10px 15%;
+    background-color: white;
 }
 
 .events-redirect-container {
@@ -93,6 +94,12 @@
 
 .events-redirect {
     color: teal;
+    text-decoration: none;
+    margin-bottom: 3px;
+}
+
+.events-redirect:hover {
+    text-decoration: underline;
 }
 
 .event-name-top {
@@ -150,6 +157,10 @@
     height: 57px;
     cursor: pointer;
     text-decoration: none;
+}
+
+.group-card-info:hover .group-name {
+    color: teal;
 }
 
 .group-name {
@@ -255,7 +266,7 @@ h5 {
 }
 
 .main-bottom {
-    padding: 0 15%;
+    padding: 20px 15% 0px 15%;
 }
 
 .status-left {
@@ -300,6 +311,11 @@ h5 {
     pointer-events: none;
 }
 
+.event-details h2 {
+    margin: 10px 0px;
+}
+
 .event-details p {
     font-weight: 400;
+    margin: 0px;
 }

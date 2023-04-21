@@ -1,5 +1,7 @@
 .main-page {
-    width: 40%;
+    background-color: white;
+    width: 50%;
+    padding: 0px 25%;
     margin: auto;
 }
 
@@ -45,12 +47,13 @@
 }
 
 .event-image {
-    flex-shrink: 0;
+    object-fit: contain;
+    border-radius: 10px;
+    padding: 0px;
 }
 
 .card-top {
     display: flex;
-    padding-bottom: 15px;
 }
 
 .card-top * {
@@ -60,16 +63,21 @@
 .card-top-left {
     width: 178px;
     height: 124px;
-    padding-right: 12px;
+    margin-right: 12px;
+    align-self: flex-start;
+    border-radius: 10px;
 }
 
 .card-top-right {
     display: flex;
     flex-direction: column;
+    gap: 65px;
 }
 
 .event-time {
-    color: teal;
+    color: rgb(131, 107, 80);
+    font-weight: 800;
+    font-size: 15px;
 }
 
 .event-name {
@@ -78,9 +86,21 @@
 }
 
 .event-location {
-    color: grey;
+    font-weight: 400;
+    color: rgb(97, 97, 97);
 }
 
 .event-description {
-    color: black;
+    color: rgb(97, 97, 97);
+    justify-self: flex-end;
+    overflow-wrap: break-word;
+    font-weight: 400;
+}
+
+.takes-space-bottom {
+    height: 500px;
+}
+
+.event-spots-left {
+    color: rgb(235, 69, 119);
 }

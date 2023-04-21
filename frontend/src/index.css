@@ -1,4 +1,9 @@
 /* TODO Add site wide styles */
+body {
+    background-color: lightgray;
+    margin: 0px;
+}
+
 body * {
     font-family: 'Lato', sans-serif;
 }

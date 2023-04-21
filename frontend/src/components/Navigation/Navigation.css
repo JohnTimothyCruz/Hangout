@@ -4,7 +4,7 @@
 
 .logo,
 .logo-container {
-    color: rgb(235, 69, 69);
+    color: rgb(235, 69, 119);
     text-decoration: none;
     font-family: 'Dancing Script', cursive;
     font-size: 34px;
@@ -57,6 +57,14 @@
     display: flex;
     justify-content: space-between;
     padding-right: 20px;
+}
+
+.session-options * {
+    cursor: pointer;
+}
+
+.session-options p:hover {
+    color: teal;
 }
 
 .user-menu {

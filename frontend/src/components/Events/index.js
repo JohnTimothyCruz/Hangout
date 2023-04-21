@@ -7,6 +7,7 @@ import './Events.css';
 const EventList = () => {
     const dispatch = useDispatch();
     const events = useSelector(state => state.events.allEvents)
+    let futureEvents;
 
     useEffect(() => {
         dispatch(fetchEvents())
@@ -14,6 +15,34 @@ const EventList = () => {
     }, []);
 
     if (!Object.values(events).length || events === undefined) return null;
+
+    const compareFn = (a, b) => {
+        if (new Date(a.startDate) > new Date(b.startDate)) return -1;
+        if (new Date(a.startDate) < new Date(b.startDate)) return 1;
+        if (new Date(a.startDate) === new Date(b.startDate)) return 0
+    }
+
+    const allUpcomingEvents = (eventsObj) => {
+        const now = Date.now();
+        const allEvents = Object.values(eventsObj);
+        const upcoming = [];
+
+        allEvents.forEach(event => {
+            const end = new Date(event.endDate)
+            if (end > now) {
+                upcoming.push(event)
+            }
+        })
+
+        const sortedUpcoming = upcoming.sort(compareFn)
+        return sortedUpcoming;
+    }
+
+    if (Object.values(events).length) {
+        futureEvents = allUpcomingEvents(events);
+    } else {
+        futureEvents = [];
+    }
 
     return (
         <div className="main-page">
@@ -27,7 +56,7 @@ const EventList = () => {
                 <h4 className="title">Events in Meetup</h4>
             </div>
             {
-                Object.values(events).map((event, idx) => {
+                Object.values(futureEvents).map((event) => {
                     const time = new Date(event.startDate)
                     let url;
                     if (event?.EventImages[0]) {
@@ -35,25 +64,26 @@ const EventList = () => {
                     }
 
                     return (
-                        <div className="event-container" key={idx}>
+                        <div className="event-container" key={event.id}>
                             <NavLink to={`/events/${event.id}`} className="event-card">
                                 <div className="card-top">
                                     <img src={url} alt='event' className="event-image card-top-left"></img>
                                     <div className="card-top-right">
-                                        <h5 className="event-time">
-                                            {time.getFullYear()}-{time.getMonth()}-{time.getDay()} · {time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                                        </h5>
-                                        <h4 className="event-name">
-                                            {event.name}
-                                        </h4>
-                                        <h4 className="event-location">
-                                            {event.Venue.city} · {event.Venue.state}
-                                        </h4>
-                                    </div>
-                                </div>
-                                <div className="card-bottom">
-                                    <div className="event-description">
-                                        {event.description}
+                                        <div>
+
+                                            <h5 className="event-time">
+                                                {time.getFullYear()}-{time.getMonth()}-{time.getDay()} · {time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                                            </h5>
+                                            <h4 className="event-name">
+                                                {event.name}
+                                            </h4>
+                                            <h4 className="event-location">
+                                                {event.Group.name} · {event.Venue.city}, {event.Venue.state}
+                                            </h4>
+                                        </div>
+                                        <div className="event-description">
+                                            {event.numAttending} attendents · <span className="event-spots-left">{event.capacity - event.numAttending} spots left</span>
+                                        </div>
                                     </div>
                                 </div>
                             </NavLink>
@@ -61,6 +91,7 @@ const EventList = () => {
                     )
                 })
             }
+            <div className="takes-space-bottom"></div>
         </div>
     )
 };

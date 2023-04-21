@@ -45,6 +45,7 @@ const GroupList = () => {
                     )
                 })
             }
+            <div className="takes-space-bottom"></div>
         </div>
     )
 }
