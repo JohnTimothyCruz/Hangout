@@ -46,7 +46,7 @@ function ProfileButton({ user }) {
         <>
             {user ? (
                 <div className="user-menu">
-                    <NavLink to='/groups/new' className='link'>Start a new group</NavLink>
+                    <NavLink to='/groups/new' className='nav-link'>Start a new group</NavLink>
                     <button onClick={openMenu} className='user-icon'>
                         <i className="fas fa-user-circle fa-3x" />
                     </button>

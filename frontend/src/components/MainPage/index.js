@@ -19,7 +19,7 @@ function MainPage() {
             <div className='main-page-bottom'>
                 <div>
                     <div className='caption'>
-                        <h3>How hangOut works</h3>
+                        <h2>How hangOut works</h2>
                         <p className='caption-text'>Meet new people who share your interests through online and in-person events. It's free to create an account.</p>
                     </div>
 
@@ -39,14 +39,14 @@ function MainPage() {
 
                             <div className='option'>
                                 <img src='https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256'></img>
-                                <NavLink to='/groups/new' className={user.user === null ? 'inactive-link' : 'link'}>Start a new group</NavLink>
+                                {user.user ?
+                                    <NavLink to='/groups/new' className='link'>Start a group</NavLink>
+                                    :
+                                    <div className='inactive-link'>Start a group</div>
+                                }
                                 <h4>You don't have to be an expert to gather people together and explore shared interests.</h4>
                             </div>
                         </div>
-                    </div>
-
-                    <div className='join-button-container'>
-                        <div className='join-button'>Join hangOut</div>
                     </div>
                 </div>
             </div>

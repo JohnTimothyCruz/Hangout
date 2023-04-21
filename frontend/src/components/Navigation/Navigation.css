@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: teal;
 }
 
 .header {
@@ -98,7 +99,6 @@ ul {
 
 li {
     list-style-type: none;
-    /* to become a navlink element */
     font-size: 14px;
     font-weight: lighter;
     padding: 8px 0;
@@ -108,4 +108,9 @@ li {
 .button:hover {
     color: teal;
     cursor: pointer;
+}
+
+.nav-link {
+    color: teal;
+    text-decoration: none;
 }

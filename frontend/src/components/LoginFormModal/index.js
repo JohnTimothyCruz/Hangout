@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -15,6 +17,7 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors([]);
     return dispatch(sessionActions.login({ credential, password }))
+      .then(history.push("/groups"))
       .then(closeModal)
       .catch(
         async (res) => {
@@ -25,7 +28,8 @@ function LoginFormModal() {
   };
 
   const signInDemoUser = () => {
-    return dispatch(sessionActions.login({ credential: 'DemoUser', password: 'password' }))
+    return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
+      .then(history.push("/groups"))
       .then(closeModal)
   }
 
