@@ -1,10 +1,4 @@
 /* Empty group styles */
-.empty-and-loading {
-    border-radius: 10px;
-    background-color: grey;
-    animation: 1s infinite loadingShimer;
-}
-
 .empty-group-image {
     width: 591px;
     height: 320px;

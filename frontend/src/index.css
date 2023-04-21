@@ -11,3 +11,9 @@ body * {
         background-color: rgb(97, 97, 97);
     }
 }
+
+.empty-and-loading {
+    border-radius: 10px;
+    background-color: grey;
+    animation: 1s infinite loadingShimer;
+}

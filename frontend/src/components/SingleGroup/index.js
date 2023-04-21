@@ -94,7 +94,7 @@ const SingleGroup = () => {
                     {Object.values(group).length ?
                         <NavLink to='/groups' className='group-groups-redirect'>Back to Groups</NavLink>
                         :
-                        <div to='/groups' className='group-groups-redirect'>Groups</div>
+                        <div to='/groups' className='group-groups-redirect'>Back to Groups</div>
                     }
                 </div>
                 <div className='group-main-middle'>
