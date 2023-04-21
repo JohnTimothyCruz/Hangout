@@ -1,3 +1,58 @@
+/* Empty group styles */
+@keyframes loadingShimer {
+    0% {
+        background-color: rgb(224, 224, 224);
+    }
+    100% {
+        background-color: rgb(97, 97, 97);
+    }
+}
+
+.empty-and-loading {
+    border-radius: 10px;
+    background-color: grey;
+    animation: 1s infinite loadingShimer;
+}
+
+.empty-group-image {
+    width: 591px;
+    height: 320px;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.empty-group-name {
+    width: 240px;
+    height: 28px;
+    margin: 0 0 10px 0;
+}
+
+.empty-group-location {
+    width: 170px;
+    height: 18px;
+}
+
+.empty-group-events-count {
+    width: 190px;
+    height: 18px;
+}
+
+.empty-group-organizer {
+    width: 200px;
+    height: 18px;
+}
+
+.empty-group-organizer-small {
+    width: 200px;
+    height: 18px;
+}
+
+.empty-group-about {
+    width: 1292px;
+    height: 54px;
+}
+
+/* Everything else */
 .group-body {
     position: absolute;
     top: 91px;
@@ -44,9 +99,11 @@
 }
 
 .group-middle-left {
-    width: 544px;
-    height: 320px;
-    padding-right: 20px;
+    object-fit: contain;
+    min-width: 544px;
+    min-height: 320px;
+    margin-right: 20px;
+    border-radius: 10px;
 }
 
 .group-middle-right {
@@ -146,6 +203,8 @@
 }
 
 .SingleGroup-event-image {
+    object-fit: contain;
     width: 178px;
     height: 124px;
+    border-radius: 10px;
 }
