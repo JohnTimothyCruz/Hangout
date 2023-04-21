@@ -48,7 +48,6 @@ const allPastEvents = (group) => {
     })
 
     const sortedPast = past.sort(compareFn)
-    console.log(sortedPast)
     return sortedPast;
 }
 
@@ -185,9 +184,6 @@ const SingleGroup = () => {
                 <div className={`group-upcoming-events ${anyUpcoming ? '' : 'hidden'}`}>
                     <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents?.length})</h2>
                     {
-                        console.log("upcoming", anyUpcoming, upcomingEvents)
-                    }
-                    {
                         anyUpcoming && upcomingEvents.map((event) => {
                             return (
                                 <div className='group-event-card' key={event?.id}>
@@ -209,9 +205,6 @@ const SingleGroup = () => {
                 </div>
                 <div className={`group-past-events ${anyPast ? '' : 'hidden'}`}>
                     <h2 className={anyPast ? '' : 'hidden'}>Past Events ({pastEvents?.length})</h2>
-                    {
-                        console.log("past", anyPast, pastEvents)
-                    }
                     {
                         anyPast && pastEvents.map((event) => {
                             return (

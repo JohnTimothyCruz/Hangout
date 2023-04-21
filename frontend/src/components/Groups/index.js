@@ -35,7 +35,7 @@ const GroupList = () => {
                                     <h2 className="group-name">{group.name}</h2>
                                     <h4 className="group-location">{group.city}, {group.state}</h4>
                                     <h4 className="group-about">{group.about}</h4>
-                                    <h5 className="group-details">{group.Events.length} events · {group.private ? 'Private' : 'Public'}</h5>
+                                    <div className="group-details">{group.Events.length} events · {group.private ? 'Private' : 'Public'}</div>
                                 </div>
                             </NavLink>
                         </div>

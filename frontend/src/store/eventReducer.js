@@ -92,7 +92,6 @@ export const postEvent = (eventInfo, user, group) => async dispatch => {
     if (eventRes.ok) {
         const event = await eventRes.json()
 
-        console.log('Thunk here: ', event)
         const imgRes = await csrfFetch(`/api/events/${event.id}/images`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },

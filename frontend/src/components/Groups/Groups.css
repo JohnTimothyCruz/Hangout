@@ -77,6 +77,7 @@
 .group-details {
     color: gray;
     margin: 0;
+    font-weight: 400;
 }
 
 .no-more-groups-message {
