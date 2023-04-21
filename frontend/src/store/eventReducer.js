@@ -10,6 +10,8 @@ const POST_EVENT = 'events/POST_EVENT'
 
 const DELETE_EVENT = 'events/DELETE_EVENT'
 
+const CLEAR_EVENT = 'events/CLEAR_EVENT'
+
 // -Actions-------------------------
 
 export const loadEvents = (events) => {
@@ -42,6 +44,12 @@ export const removeEvent = (id) => {
     return {
         type: DELETE_EVENT,
         id
+    }
+}
+
+export const clearEvent = () => {
+    return {
+        type: CLEAR_EVENT
     }
 }
 
@@ -148,11 +156,17 @@ const EventReducer = (state = initialState, action) => {
                 newState.singleEvent.EventImages = [{ ...action.img }]
                 return newState;
             }
-            case DELETE_EVENT:
+        case DELETE_EVENT:
             {
                 const newState = { ...state }
                 newState.singleEvent = {}
                 delete newState.allEvents[action.id]
+                return newState
+            }
+        case CLEAR_EVENT:
+            {
+                const newState = { ...state };
+                newState.singleEvent = {}
                 return newState
             }
         default:

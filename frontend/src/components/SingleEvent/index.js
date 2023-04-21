@@ -5,6 +5,7 @@ import { fetchSingleEvent } from '../../store/eventReducer'
 import DeleteEventModal from '../DeleteEventModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleEvent.css'
+import { clearGroup } from '../../store/groupReducer'
 
 const getStartTime = (event) => {
     const startTime = new Date(event.startDate)
@@ -24,6 +25,7 @@ const SingleEvent = () => {
 
     useEffect(() => {
         dispatch(fetchSingleEvent(id));
+        dispatch(clearGroup())
     }, [])
 
     const handleJoin = () => {

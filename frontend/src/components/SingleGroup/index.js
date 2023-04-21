@@ -5,6 +5,7 @@ import { fetchGroup } from '../../store/groupReducer'
 import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleGroup.css'
+import { clearEvent } from '../../store/eventReducer'
 
 const compareFn = (a, b) => {
     if (new Date(a.startDate) > new Date(b.startDate)) return -1;
@@ -68,6 +69,7 @@ const SingleGroup = () => {
 
     useEffect(() => {
         dispatch(fetchGroup(id))
+        dispatch(clearEvent())
     }, [])
 
     if (group === undefined || group === null || !Object.values(group).length) return null;

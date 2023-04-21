@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from "react";
-import { fetchGroups } from "../../store/groupReducer";
+import { clearGroup, fetchGroups } from "../../store/groupReducer";
 import './Groups.css'
 
 const GroupList = () => {
@@ -10,6 +10,7 @@ const GroupList = () => {
 
     useEffect(() => {
         dispatch(fetchGroups())
+        dispatch(clearGroup())
     }, []);
 
     if (groups === undefined || groups === null || !Object.values(groups).length) return null;

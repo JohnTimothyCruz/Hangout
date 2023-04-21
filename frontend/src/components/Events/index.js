@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from "react";
-import { fetchEvents } from "../../store/eventReducer";
+import { clearEvent, fetchEvents } from "../../store/eventReducer";
 import './Events.css';
 
 const EventList = () => {
@@ -10,6 +10,7 @@ const EventList = () => {
 
     useEffect(() => {
         dispatch(fetchEvents())
+        dispatch(clearEvent())
     }, []);
 
     if (!Object.values(events).length || events === undefined) return null;
@@ -28,7 +29,10 @@ const EventList = () => {
             {
                 Object.values(events).map((event, idx) => {
                     const time = new Date(event.startDate)
-                    const url = event.EventImages[0].url
+                    let url;
+                    if (event?.EventImages[0]) {
+                        url = event.EventImages[0].url
+                    }
 
                     return (
                         <div className="event-container" key={idx}>
