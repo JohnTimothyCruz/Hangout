@@ -14,21 +14,21 @@ const CreateGroupForm = () => {
 
     // -Uncomment these comments to auto fill forms-
 
-    // const [location, setLocation] = useState('City, State')
-    // const [name, setName] = useState('Test Group')
-    // const [about, setAbout] = useState('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    // const [type, setType] = useState('Online')
-    // const [publicity, setPublicity] = useState('Public')
-    // const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
-    // const [errors, setErrors] = useState({})
-
-    const [location, setLocation] = useState('')
-    const [name, setName] = useState('')
-    const [about, setAbout] = useState('')
-    const [type, setType] = useState(typeOptions[0])
-    const [publicity, setPublicity] = useState(typeOptions[0])
-    const [image, setImage] = useState('')
+    const [location, setLocation] = useState('City, State')
+    const [name, setName] = useState('Test Group')
+    const [about, setAbout] = useState('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    const [type, setType] = useState('Online')
+    const [publicity, setPublicity] = useState('Public')
+    const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
     const [errors, setErrors] = useState({})
+
+    // const [location, setLocation] = useState('')
+    // const [name, setName] = useState('')
+    // const [about, setAbout] = useState('')
+    // const [type, setType] = useState(typeOptions[0])
+    // const [publicity, setPublicity] = useState(typeOptions[0])
+    // const [image, setImage] = useState('')
+    // const [errors, setErrors] = useState({})
 
     const updateLocation = (e) => setLocation(e.target.value);
     const updateName = (e) => setName(e.target.value);
@@ -68,7 +68,8 @@ const CreateGroupForm = () => {
             private: publicity === 'Private' ? true : false,
             imageInfo: {
                 url: image,
-                preview: true
+                preview: true,
+                description: "group-cover"
             },
             organizerId: user.id
         }
