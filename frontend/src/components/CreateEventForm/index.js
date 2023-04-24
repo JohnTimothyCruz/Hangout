@@ -22,27 +22,29 @@ const CreateEvent = () => {
         }
     }
 
-    // const [name, setName] = useState('Test Event')
-    // const [type, setType] = useState('Online')
-    // const [capacity, setCapacity] = useState(5)
-    // const [venueId, setVenueId] = useState('')
-    // const [price, setPrice] = useState(10)
-    // const [description, setDescription] = useState('This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. ')
-    // const [startDate, setStartDate] = useState('12-12-2023 20:00:00')
-    // const [endDate, setEndDate] = useState('12-12-2023 20:50:00')
-    // const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
-    // const [errors, setErrors] = useState({})
+    // -Uncomment these comments to auto fill forms-
 
-    const [name, setName] = useState('')
-    const [type, setType] = useState(typeOptions[0])
-    const [capacity, setCapacity] = useState('')
+    const [name, setName] = useState('Test Event')
+    const [type, setType] = useState('Online')
+    const [capacity, setCapacity] = useState(5)
     const [venueId, setVenueId] = useState('')
-    const [price, setPrice] = useState('')
-    const [description, setDescription] = useState('')
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
-    const [image, setImage] = useState('')
+    const [price, setPrice] = useState(10)
+    const [description, setDescription] = useState('This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. ')
+    const [startDate, setStartDate] = useState('12-12-2023 20:00:00')
+    const [endDate, setEndDate] = useState('12-12-2023 20:50:00')
+    const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
     const [errors, setErrors] = useState({})
+
+    // const [name, setName] = useState('')
+    // const [type, setType] = useState(typeOptions[0])
+    // const [capacity, setCapacity] = useState('')
+    // const [venueId, setVenueId] = useState('')
+    // const [price, setPrice] = useState('')
+    // const [description, setDescription] = useState('')
+    // const [startDate, setStartDate] = useState('')
+    // const [endDate, setEndDate] = useState('')
+    // const [image, setImage] = useState('')
+    // const [errors, setErrors] = useState({})
 
     const updateName = (e) => setName(e.target.value)
     const updateType = (e) => setType(e.target.value)
@@ -70,9 +72,11 @@ const CreateEvent = () => {
         if (!name) errs.name = 'Name is required'
         if (type === '(select one)') errs.type = 'Event Type is required'
         if (capacity < 2) errs.capacity = 'Enter a valid capacity'
+        if (!Number.isInteger(capacity)) errs.capacity = 'Enter a valid capacity'
         if (!capacity) errs.capacity = 'Capacity is required'
         if (type !== 'Online' && !venueId) errs.venueId = 'Venue is required'
         if (price < 0) errs.price = 'Enter a valid price'
+        if (!Number.isInteger(price)) errs.price = 'Enter a valid price'
         if (!description || description.length < 30) errs.description = 'Description must be at least 30 characters long'
         if (!startDate) errs.startDate = 'Event start is required'
         if (!endDate) errs.endDate = 'Event end is required'

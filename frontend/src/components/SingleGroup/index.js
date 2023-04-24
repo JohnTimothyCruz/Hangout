@@ -176,10 +176,14 @@ const SingleGroup = () => {
                         }
                     </div>
                 </div>
-                {(!anyPast && !anyUpcoming) &&
+                {Object.values(group).length ?
+                    (!anyPast && !anyUpcoming) &&
                     <div className='group-no-events'>
                         <h2>No Upcoming Events</h2>
+                        <p>...for now...</p>
                     </div>
+                    :
+                    <></>
                 }
                 <div className={`group-upcoming-events ${anyUpcoming ? '' : 'hidden'}`}>
                     <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents?.length})</h2>

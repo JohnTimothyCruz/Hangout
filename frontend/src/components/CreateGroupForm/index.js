@@ -12,6 +12,8 @@ const CreateGroupForm = () => {
     const history = useHistory();
     const user = useSelector(state => state.session.user)
 
+    // -Uncomment these comments to auto fill forms-
+
     // const [location, setLocation] = useState('City, State')
     // const [name, setName] = useState('Test Group')
     // const [about, setAbout] = useState('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
