@@ -66,7 +66,7 @@
 }
 
 .empty-event-description {
-    width: 1344px;
+    width: 1000px;
     height: 48px;
 }
 
@@ -267,6 +267,8 @@ h5 {
 
 .main-bottom {
     padding: 20px 15% 0px 15%;
+    width: 1384px;
+    display: flex;
 }
 
 .status-left {
@@ -314,6 +316,12 @@ h5 {
     pointer-events: none;
 }
 
+.event-details {
+    min-width: 1000px;
+    max-width: 1000px;
+    overflow-wrap: break-word;
+}
+
 .event-details h2 {
     margin: 10px 0px;
 }
@@ -321,4 +329,53 @@ h5 {
 .event-details p {
     font-weight: 400;
     margin: 0px;
+}
+
+.event-venue-details {
+    flex-grow: 1;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.event-venue-prompt {
+    margin: 0px 0px 10px 0px;
+}
+
+.event-venue-details-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.event-venue-details-container i {
+    margin-bottom: 5px;
+    color: teal;
+}
+
+.event-venue-detail-info {
+    font-weight: 400;
+    margin-left: 5px;
+    color: rgb(49, 49, 49);
+}
+
+.event-venue-address {
+    margin: 0px;
+    width: 300px;
+    overflow-wrap: break-word;
+}
+
+.event-venue-address .event-venue-detail-info {
+    width: 240px;
+    overflow-wrap: break-word;
+}
+
+.event-venue-coordinates * {
+    margin: 0px;
+}
+
+.event-venue-lat span,
+.event-venue-lng span {
+    margin-left: 5px;
 }
