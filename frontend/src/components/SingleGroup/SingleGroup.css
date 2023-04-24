@@ -191,6 +191,10 @@
     font-size: 15px;
 }
 
+.group-no-events p {
+    font-weight: 400;
+}
+
 .group-join-button {
     display: flex;
     align-items: center;
@@ -261,11 +265,15 @@
     padding: 15px 20px;
     text-align: center;
     color: white;
-    background-color: gray;
-    border: 2px solid black;
-    box-shadow: 3px 3px black;
+    background-color: #e02856;
     cursor: pointer;
     height: min-content;
+    border-radius: 10px;
+}
+
+.group-button-container *:hover,
+.group-button-container p:hover {
+    background-color: #e02856ea;
 }
 
 .group-update-event-button {

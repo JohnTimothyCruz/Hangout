@@ -21,6 +21,8 @@ const CreateEvent = () => {
             venueOptions.push(venue.address)
         }
     }
+    
+    // -Uncomment these comments to auto fill forms-
 
     // const [name, setName] = useState('Test Event')
     // const [type, setType] = useState('Online')
