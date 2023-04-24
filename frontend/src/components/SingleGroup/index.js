@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
 import { fetchGroup } from '../../store/groupReducer'
@@ -64,6 +64,7 @@ const SingleGroup = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const state = useSelector(state => state)
+    const [chosenMenuOption, setChosenMenuOption] = useState('about')
     const group = state.groups.singleGroup
     const user = state.session.user
 
@@ -154,82 +155,118 @@ const SingleGroup = () => {
                     </div>
                 </div>
             </div>
-            <div className='group-main-bottom'>
-                <div className='group-main-bottom-info'>
-                    <div className='group-about'>
-                        <h2>What we're about</h2>
-                        {Object.values(group).length ?
-                            <p>{group.about}</p>
-                            :
-                            <p className='empty-group-about empty-and-loading'></p>
-                        }
-                    </div>
-                    <div className='group-organizer'>
-                        <h2>Organizer</h2>
-                        {Object.values(group).length ?
-                            <div className='group-organizer-section'>
-                                <i className="fa-solid fa-circle-user fa-2xl" />
-                                <h5>{group.Organizer.firstName} {group.Organizer.lastName}</h5>
-                            </div>
-                            :
-                            <h5 className='empty-group-organizer-small empty-and-loading'></h5>
-                        }
-                    </div>
+            <div className='single-group-menu'>
+                <div className={`single-group-menu-option ${chosenMenuOption === 'about' ? "selected" : ""}`} onClick={() => setChosenMenuOption("about")}>
+                    About
                 </div>
-                {Object.values(group).length ?
-                    (!anyPast && !anyUpcoming) &&
-                    <div className='group-no-events'>
-                        <h2>No Upcoming Events</h2>
-                        <p>...for now...</p>
-                    </div>
-                    :
-                    <></>
-                }
-                <div className={`group-upcoming-events ${anyUpcoming ? '' : 'hidden'}`}>
-                    <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents?.length})</h2>
-                    {
-                        anyUpcoming && upcomingEvents.map((event) => {
-                            return (
-                                <div className='group-event-card' key={event?.id}>
-                                    <NavLink to={`/events/${event.id}`} className='group-event-link'>
-                                        <div className='group-event-card-top'>
-                                            <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
-                                            <div className='group-card-top-left'>
-                                                <h4 className='group-card-time'>{getStartTime(event)}</h4>
-                                                <h3 className='group-card-title'>{event.name}</h3>
-                                                <h4 className='group-card-location'>{event.Venue.city}, {event.Venue.state}</h4>
-                                            </div>
-                                        </div>
-                                        <div className='group-event-card-description'>{event.description}</div>
-                                    </NavLink>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <div className={`group-past-events ${anyPast ? '' : 'hidden'}`}>
-                    <h2 className={anyPast ? '' : 'hidden'}>Past Events ({pastEvents?.length})</h2>
-                    {
-                        anyPast && pastEvents.map((event) => {
-                            return (
-                                <div className='group-event-card' key={event?.id}>
-                                    <NavLink to={`/events/${event.id}`} className='group-event-link'>
-                                        <div className='group-event-card-top'>
-                                            <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
-                                            <div className='group-card-top-left'>
-                                                <h4 className='group-card-time'>{getStartTime(event)}</h4>
-                                                <h3 className='group-card-title'>{event.name}</h3>
-                                                <h4 className='group-card-location'>{event.Venue.city}, {event.Venue.state}</h4>
-                                            </div>
-                                        </div>
-                                        <div className='group-event-card-description'>{event.description}</div>
-                                    </NavLink>
-                                </div>
-                            )
-                        })
-                    }
+                <div className={`single-group-menu-option ${chosenMenuOption === 'photos' ? "selected" : ""}`} onClick={() => setChosenMenuOption("photos")}>
+                    Photos
                 </div>
             </div>
+            {chosenMenuOption === "about" ?
+                <div className='group-main-bottom'>
+                    <div className='group-main-bottom-info'>
+                        <div className='group-about'>
+                            <h2>What we're about</h2>
+                            {Object.values(group).length ?
+                                <p>{group.about}</p>
+                                :
+                                <p className='empty-group-about empty-and-loading'></p>
+                            }
+                        </div>
+                        <div className='group-organizer'>
+                            <h2>Organizer</h2>
+                            {Object.values(group).length ?
+                                <div className='group-organizer-section'>
+                                    <i className="fa-solid fa-circle-user fa-2xl" />
+                                    <h5>{group.Organizer.firstName} {group.Organizer.lastName}</h5>
+                                </div>
+                                :
+                                <h5 className='empty-group-organizer-small empty-and-loading'></h5>
+                            }
+                        </div>
+                    </div>
+                    {Object.values(group).length ?
+                        (!anyPast && !anyUpcoming) &&
+                        <div className='group-no-events'>
+                            <h2>No Upcoming Events</h2>
+                            <p>...for now...</p>
+                        </div>
+                        :
+                        <></>
+                    }
+                    <div className={`group-upcoming-events ${anyUpcoming ? '' : 'hidden'}`}>
+                        <h2 className={anyUpcoming ? '' : 'hidden'}>Upcoming Events ({upcomingEvents?.length})</h2>
+                        {
+                            anyUpcoming && upcomingEvents.map((event) => {
+                                return (
+                                    <div className='group-event-card' key={event?.id}>
+                                        <NavLink to={`/events/${event.id}`} className='group-event-link'>
+                                            <div className='group-event-card-top'>
+                                                <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
+                                                <div className='group-card-top-left'>
+                                                    <h4 className='group-card-time'>{getStartTime(event)}</h4>
+                                                    <h3 className='group-card-title'>{event.name}</h3>
+                                                    <h4 className='group-card-location'>{event.Venue.city}, {event.Venue.state}</h4>
+                                                </div>
+                                            </div>
+                                            <div className='group-event-card-description'>{event.description}</div>
+                                        </NavLink>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                    <div className={`group-past-events ${anyPast ? '' : 'hidden'}`}>
+                        <h2 className={anyPast ? '' : 'hidden'}>Past Events ({pastEvents?.length})</h2>
+                        {
+                            anyPast && pastEvents.map((event) => {
+                                return (
+                                    <div className='group-event-card' key={event?.id}>
+                                        <NavLink to={`/events/${event.id}`} className='group-event-link'>
+                                            <div className='group-event-card-top'>
+                                                <img src={event.url} alt='event' className='group-card-top-left SingleGroup-event-image'></img>
+                                                <div className='group-card-top-left'>
+                                                    <h4 className='group-card-time'>{getStartTime(event)}</h4>
+                                                    <h3 className='group-card-title'>{event.name}</h3>
+                                                    <h4 className='group-card-location'>{event.Venue.city}, {event.Venue.state}</h4>
+                                                </div>
+                                            </div>
+                                            <div className='group-event-card-description'>{event.description}</div>
+                                        </NavLink>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+                :
+                <div className='group-main-bottom'>
+                    <div className='group-pictures'>
+                        <div className='group-pictures-header'>
+                            <h2>
+                                Photos ({group?.GroupImages?.length - 1})
+                            </h2>
+                            <div className='add-group-photo-button'>
+                                Add Photo
+                            </div>
+                        </div>
+                        <div className='group-pictures-images-container'>
+                            {Object.values(group?.GroupImages).length > 1 ?
+                                group.GroupImages[1, -1].map(image => (
+                                    <div className='group-images-image-container' key={image.id}>
+                                        <img src={image.url} className='group-images-image' />
+                                    </div>
+                                ))
+                                :
+                                <p className='group-images-image-empty-message'>
+                                    There are no photos... yet. Why post some memories?
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     )
 }
