@@ -281,8 +281,8 @@
 }
 
 .SingleGroup-event-image {
-    object-fit: scale-down;
-    max-width: 178px;
-    height: 124px;
+    object-fit: contain;
+    min-width: 178px;
+    max-height: 124px;
     border-radius: 10px;
 }

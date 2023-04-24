@@ -142,8 +142,8 @@
     object-fit: contain;
     background-color: white;
     border-radius: 10px;
-    width: 544px;
-    height: 320px;
+    min-width: 544px;
+    max-height: 320px;
     margin-right: 10px;
 }
 
@@ -273,16 +273,19 @@ h5 {
     display: flex;
 }
 
-.status-right * {
+.status-right p {
     text-decoration: none;
     padding: 15px 20px;
     text-align: center;
     color: white;
-    background-color: gray;
-    border: 2px solid black;
-    box-shadow: 3px 3px black;
+    background-color: #e02856;
     cursor: pointer;
     height: min-content;
+    border-radius: 10px;
+}
+
+.status-right p:hover {
+    background-color: #e02856ea;
 }
 
 .join-event-button {

@@ -119,15 +119,18 @@ const SingleEvent = () => {
                                     <div className='empty-event-type empty-and-loading'></div>
                                 }
                             </div>
-                            {(user && user.id === event.Organizer.id) ?
-                                <div className={`status-right ${Object.values(event).length ? "disable-clicks" : ""}`}>
-                                    <OpenModalMenuItem
-                                        itemText="Delete"
-                                        className='delete-event-button'
-                                        modalComponent={<DeleteEventModal />}
-                                    />
-                                </div> :
-                                <div className='status-right join-event-button' onClick={handleJoin}>Join this event</div>
+                            {Object.values(event).length ?
+                                (user && user?.id === event?.Organizer?.id) ?
+                                    <div className={`status-right ${Object.values(event).length ? "" : "disable-clicks"}`}>
+                                        <OpenModalMenuItem
+                                            itemText="Delete"
+                                            className='delete-event-button'
+                                            modalComponent={<DeleteEventModal />}
+                                        />
+                                    </div> :
+                                    <div className='status-right join-event-button' onClick={handleJoin}>Join this event</div>
+                                :
+                                <></>
                             }
                         </div>
                     </div>
