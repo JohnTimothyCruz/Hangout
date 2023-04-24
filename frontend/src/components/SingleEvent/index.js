@@ -32,6 +32,8 @@ const SingleEvent = () => {
         window.alert('Feature coming soon...')
     }
 
+    console.log(event)
+
     return (
         <div className='body'>
             <div className='main-top'>
@@ -143,6 +145,45 @@ const SingleEvent = () => {
                         <p>{event.description}</p>
                         :
                         <p className='empty-event-description empty-and-loading'></p>
+                    }
+                </div>
+                <div className='event-venue-details'>
+                    <h2 className='event-venue-prompt'>
+                        Venue Details
+                    </h2>
+                    {Object.values(event).length ?
+                        <div className='event-venue-details-container'>
+                            {event.type === 'In Person' ?
+                                <>
+                                    <i className="fa-solid fa-map-location-dot fa-2xl" />
+                                    <div>
+                                        <h5 className='event-venue-address'>
+                                            Address: <span className='event-venue-detail-info'>{event?.Venue?.address}, {event?.Venue?.city}, {event?.Venue?.state}</span>
+                                        </h5>
+                                        <div className='event-venue-coordinates'>
+                                            <h5 className='event-venue-lat'>
+                                                Lat: <span className='event-venue-detail-info'>{event?.Venue?.lat}</span>
+                                            </h5>
+                                            <h5 className='event-venue-lng'>
+                                                Lng: <span className='event-venue-detail-info'>{event?.Venue?.lng}</span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <i className="fa-solid fa-map-location-dot fa-2xl" />
+                                    <div>
+                                        <h5 className='event-venue-address'>
+                                            Address: <span className='event-venue-detail-info'>Event is online</span>
+                                        </h5>
+                                    </div>
+                                </>
+                            }
+                        </div>
+                        :
+                        <div className='empty-event-venue-details-container empty-and-loading'>
+                        </div>
                     }
                 </div>
             </div>
