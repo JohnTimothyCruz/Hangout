@@ -22,3 +22,7 @@ body * {
     background-color: grey;
     animation: 1s infinite loadingShimer;
 }
+
+.hidden {
+    display: none;
+}

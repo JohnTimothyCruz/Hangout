@@ -7,6 +7,7 @@ import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleGroup.css'
 import { clearEvent, clearEvents } from '../../store/eventReducer'
 import CreateGroupImageModal from '../CreateGroupImageModal'
+import SingleGroupImage from '../SingleGroupImage'
 
 const compareFn = (a, b) => {
     if (new Date(a.startDate) > new Date(b.startDate)) return -1;
@@ -270,10 +271,7 @@ const SingleGroup = () => {
                                 group.GroupImages.map(image => {
                                     if (image?.id !== findPreviewImg(group?.GroupImages)?.id) {
                                         return (
-                                            <div className='group-images-image-container' key={image.id}>
-                                                <img src={image.url} className='group-images-image' />
-                                                <p>{image?.description}</p>
-                                            </div>
+                                            <SingleGroupImage image={image} key={image.id} />
                                         )
                                     }
                                 })

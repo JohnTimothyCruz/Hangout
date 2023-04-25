@@ -14,6 +14,8 @@ const PUT_GROUP = 'groups/PUT_GROUP'
 
 const DELETE_GROUP = 'groups/DELETE_GROUP'
 
+const DELETE_GROUP_IMAGE = 'groups/DELETE_GROUP_IMAGE'
+
 const CLEAR_GROUP = 'groups/CLEAR_GROUP'
 
 const CLEAR_GROUPS = 'groups/CLEAR_GROUPS'
@@ -67,6 +69,13 @@ export const updateGroup = (group, img, user, events, venues, images) => {
 export const removeGroup = (id) => {
     return {
         type: DELETE_GROUP,
+        id
+    }
+}
+
+export const removeGroupImage = (id) => {
+    return {
+        type: DELETE_GROUP_IMAGE,
         id
     }
 }
@@ -216,15 +225,29 @@ export const putGroup = (groupInfo, user, events, venues, images) => async (disp
 
 export const deleteGroup = (user, id) => async (dispatch) => {
     const req = { ...user, ...id }
-    const deleteRes = await csrfFetch(`/api/groups/${id}`, {
+    const res = await csrfFetch(`/api/groups/${id}`, {
         method: 'DELETE',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(req)
     })
 
-    if (deleteRes.ok) {
+    if (res.ok) {
+        const deleteRes = res.json()
         dispatch(removeGroup(id))
         return deleteRes
+    }
+}
+
+export const deleteGroupImage = (id) => async (dispatch) => {
+    const res = await csrfFetch(`/api/group-images/${id}`, {
+        method: 'DELETE',
+        headers: { "Content-Type": "application/json" },
+    })
+
+    if (res.ok) {
+        const response = await res.json()
+        dispatch(removeGroupImage(id))
+        return response
     }
 }
 
@@ -265,7 +288,7 @@ const GroupReducer = (state = initialState, action) => {
         case POST_GROUP_IMAGE:
             {
                 const newState = { ...state }
-                newState.singleGroup.images = [ ...state.singleGroup.GroupImages, action.image ]
+                newState.singleGroup.images = [...state.singleGroup.GroupImages, action.image]
                 return newState
             }
         case PUT_GROUP:
@@ -288,13 +311,20 @@ const GroupReducer = (state = initialState, action) => {
                 delete newState.allGroups[action.id]
                 return newState
             }
+        case DELETE_GROUP_IMAGE:
+            {
+                const newState = { ...state }
+                const updated = Object.values(newState.singleGroup.GroupImages).filter(img => img.id !== action.id)
+                newState.singleGroup.GroupImages = [ ...updated ]
+                return newState
+            }
         case CLEAR_GROUP:
             {
                 const newState = { ...state }
                 newState.singleGroup = {}
                 return newState
             }
-        case CLEAR_GROUP:
+        case CLEAR_GROUPS:
             {
                 const newState = { ...state }
                 newState.allGroups = {}

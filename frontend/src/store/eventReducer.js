@@ -176,7 +176,7 @@ const EventReducer = (state = initialState, action) => {
                 newState.singleEvent = {}
                 return newState
             }
-        case CLEAR_EVENT:
+        case CLEAR_EVENTS:
             {
                 const newState = { ...state };
                 newState.allEvents = {}
