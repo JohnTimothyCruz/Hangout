@@ -262,8 +262,7 @@ router.get('/', async (req, res, next) => {
     res.json(groups);
 })
 
-router.post('/:groupId/images', requireAuth, async (req, res, next) => {
-
+router.post('/:groupId/images', async (req, res, next) => {
     const { user } = req;
     const { groupId } = req.params;
 
@@ -285,7 +284,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         res.json(err);
     };
 
-    const { url, preview } = req.body;
+    const { url, preview, description } = req.body;
 
     if (!url) {
         const err = {};
@@ -303,9 +302,18 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         res.json(err);
     };
 
+    if (!description) {
+        const err = {};
+        err.message = "Please enter an image description.";
+        err.statusCode = 400;
+        res.statusCode = 400;
+        res.json(err)
+    }
+
     const newGroupImage = GroupImage.build({
         url,
         preview,
+        description,
         groupId
     });
 

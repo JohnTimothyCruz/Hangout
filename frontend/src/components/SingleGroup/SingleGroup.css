@@ -144,6 +144,30 @@
     display: flex;
 }
 
+.single-group-menu {
+    border-top: 1px solid lightgrey;
+    height: 70px;
+    background-color: white;
+    padding: 10px calc(15% + 20px);
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.single-group-menu-option {
+    font-weight: 400;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.single-group-menu-option.selected {
+    color: rgb(0, 170, 170);
+}
+
+.single-group-menu-option:hover:not(.selected) {
+    color: grey;
+}
+
 .group-about {
     width: 1000px;
 }
@@ -284,5 +308,64 @@
     object-fit: contain;
     min-width: 178px;
     max-height: 124px;
+    border-radius: 10px;
+}
+
+/* Group Image page styles */
+.group-pictures {
+    background-color: white;
+    width: 100%;
+    height: fit-content;
+    margin: 0px 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.group-pictures-header {
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px;
+}
+
+.group-pictures-header * {
+    margin: 0px;
+}
+
+.group-pictures-header p {
+    text-decoration: none;
+    padding: 10px 15px;
+    text-align: center;
+    color: white;
+    background-color: teal;
+    cursor: pointer;
+    height: min-content;
+    border-radius: 10px;
+}
+
+.group-pictures-header p:hover {
+    background-color: rgba(0, 128, 128, 0.863);
+}
+
+.group-pictures-images-container {
+    margin: 20px 0px 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.group-images-image-container {
+    margin: 0px;
+}
+
+.group-images-image-empty-message {
+    font-weight: 400;
+    margin: 0px 0px 5px 0px;
+}
+
+.group-images-image {
+    width: 310px;
+    height: 180px;
     border-radius: 10px;
 }

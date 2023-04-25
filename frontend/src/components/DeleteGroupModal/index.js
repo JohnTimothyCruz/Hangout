@@ -12,11 +12,9 @@ const DeleteGroupModal = () => {
     const { closeModal } = useModal()
 
     const handleDelete = async () => {
-        const res = await dispatch(deleteGroup(user, id))
-        closeModal()
-        if (res) {
-            history.push('/groups')
-        }
+        dispatch(deleteGroup(user, id))
+        .then(closeModal())
+        .then(history.push('/groups'))
     }
 
     return (

@@ -12,16 +12,6 @@ const CreateGroupForm = () => {
     const history = useHistory();
     const user = useSelector(state => state.session.user)
 
-    // -Uncomment these comments to auto fill forms-
-
-    // const [location, setLocation] = useState('City, State')
-    // const [name, setName] = useState('Test Group')
-    // const [about, setAbout] = useState('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    // const [type, setType] = useState('Online')
-    // const [publicity, setPublicity] = useState('Public')
-    // const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
-    // const [errors, setErrors] = useState({})
-
     const [location, setLocation] = useState('')
     const [name, setName] = useState('')
     const [about, setAbout] = useState('')
@@ -68,7 +58,28 @@ const CreateGroupForm = () => {
             private: publicity === 'Private' ? true : false,
             imageInfo: {
                 url: image,
-                preview: true
+                preview: true,
+                description: "group-cover"
+            },
+            organizerId: user.id
+        }
+
+        const createdGroup = await dispatch(postGroup(groupInfo, user))
+        history.push(`/groups/${createdGroup.id}`)
+    }
+
+    const handleTestSubmit = async () => {
+        const groupInfo = {
+            city: "Albategnius",
+            state: "Moon",
+            name: "Test Group",
+            about: "This text does meet the fifty character requirement.",
+            type: "Online",
+            private: true,
+            imageInfo: {
+                url: "https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg",
+                preview: true,
+                description: "group-cover"
             },
             organizerId: user.id
         }
@@ -86,7 +97,7 @@ const CreateGroupForm = () => {
                         <h2 className='CreateGroupForm-second-text'>We'll walk you through a few steps to build your local commumnity</h2>
                     </div>
                     <div className='CreateGroupForm-location CreateGroupForm-section'>
-                        <h2 className='CreateGroupForm-section-title'v>First, set your group's location.</h2>
+                        <h2 className='CreateGroupForm-section-title'>First, set your group's location.</h2>
                         <h5 className='CreateGroupForm-section-description'>Meetup groups meet locally, in person and online. We'll connect you with people in your area, and more can join you online.</h5>
                         <input
                             placeholder='City, STATE'
@@ -163,8 +174,9 @@ const CreateGroupForm = () => {
                         />
                         <h5 className={`CreateGroupForm-errors ${errors.image ? '' : 'hidden'}`}>{errors.image}</h5>
                     </div>
-                    <div className='CreateGroupForm-create-button'>
+                    <div className='CreateGroupForm-button-container'>
                         <button type='submit'>Create group</button>
+                        <div onClick={() => handleTestSubmit()}>Create default group</div>
                     </div>
                 </form>
             </div>

@@ -60,7 +60,13 @@
     visibility: hidden;
 }
 
-.CreateGroupForm-create-button * {
+.CreateGroupForm-button-container {
+    display: flex;
+    gap: 30px;
+}
+
+.CreateGroupForm-button-container button,
+.CreateGroupForm-button-container div {
     border: none;
     margin-top: 20px;
     margin-bottom: 300px;
@@ -71,8 +77,10 @@
     cursor: pointer;
     border-radius: 10px;
     font-weight: 600;
+    font-size: 15px;
 }
 
-.CreateGroupForm-create-button button:hover {
+.CreateGroupForm-button-container button:hover,
+.CreateGroupForm-button-container div:hover {
     background-color: #e02856ea;
 }

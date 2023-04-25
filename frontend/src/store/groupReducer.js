@@ -8,6 +8,8 @@ const GET_GROUP = 'groups/GET_GROUP'
 
 const POST_GROUP = 'groups/POST_GROUP'
 
+const POST_GROUP_IMAGE = 'groups/POST_GROUP_IMAGE'
+
 const PUT_GROUP = 'groups/PUT_GROUP'
 
 const DELETE_GROUP = 'groups/DELETE_GROUP'
@@ -38,6 +40,13 @@ export const createGroup = (group, img, user, venue) => {
         img,
         user,
         venue
+    }
+}
+
+export const createGroupImage = (image) => {
+    return {
+        type: POST_GROUP_IMAGE,
+        image
     }
 }
 
@@ -149,6 +158,25 @@ export const postGroup = (groupInfo, user) => async (dispatch) => {
     }
 }
 
+export const postGroupImage = (groupId, url, description, preview) => async (dispatch) => {
+    const imageRes = await csrfFetch(`/api/groups/${groupId}/images`, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({url, preview, description})
+    })
+
+    if (imageRes.ok) {
+        const image = await imageRes.json()
+
+        dispatch(createGroupImage(image))
+
+        return image
+    } else {
+        const res = await imageRes.json()
+        console.log(res)
+    }
+}
+
 export const putGroup = (groupInfo, user, events, venues, images) => async (dispatch) => {
     const groupRes = await csrfFetch(`/api/groups/${groupInfo.id}/edit`, {
         method: 'PUT',
@@ -219,13 +247,18 @@ const GroupReducer = (state = initialState, action) => {
         case POST_GROUP:
             {
                 const newState = { ...state };
-                // newState.allGroups[action.group.id] = { ...action.group }
                 newState.singleGroup = { ...action.group }
                 newState.singleGroup.Events = {}
                 newState.singleGroup.Venues = [action.venue]
                 newState.singleGroup.Organizer = { ...action.user }
                 newState.singleGroup.GroupImages = [{ ...action.img }]
                 return newState;
+            }
+        case POST_GROUP_IMAGE:
+            {
+                const newState = { ...state }
+                newState.singleGroup.images = [ ...state.singleGroup.GroupImages, action.image ]
+                return newState
             }
         case PUT_GROUP:
             {
