@@ -5,7 +5,7 @@ import { fetchSingleEvent } from '../../store/eventReducer'
 import DeleteEventModal from '../DeleteEventModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleEvent.css'
-import { clearGroup } from '../../store/groupReducer'
+import { clearGroup, clearGroups } from '../../store/groupReducer'
 
 const getStartTime = (event) => {
     const startTime = new Date(event.startDate)
@@ -26,13 +26,12 @@ const SingleEvent = () => {
     useEffect(() => {
         dispatch(fetchSingleEvent(id));
         dispatch(clearGroup())
-    }, [])
+        dispatch(clearGroups())
+    }, [dispatch])
 
     const handleJoin = () => {
         window.alert('Feature coming soon...')
     }
-
-    console.log(event)
 
     return (
         <div className='body'>

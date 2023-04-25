@@ -16,6 +16,8 @@ const DELETE_GROUP = 'groups/DELETE_GROUP'
 
 const CLEAR_GROUP = 'groups/CLEAR_GROUP'
 
+const CLEAR_GROUPS = 'groups/CLEAR_GROUPS'
+
 // -Actions-------------------------
 
 export const loadGroups = (groups) => {
@@ -72,6 +74,12 @@ export const removeGroup = (id) => {
 export const clearGroup = () => {
     return {
         type: CLEAR_GROUP
+    }
+}
+
+export const clearGroups = () => {
+    return {
+        type: CLEAR_GROUPS
     }
 }
 
@@ -162,7 +170,7 @@ export const postGroupImage = (groupId, url, description, preview) => async (dis
     const imageRes = await csrfFetch(`/api/groups/${groupId}/images`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({url, preview, description})
+        body: JSON.stringify({ url, preview, description })
     })
 
     if (imageRes.ok) {
@@ -284,6 +292,12 @@ const GroupReducer = (state = initialState, action) => {
             {
                 const newState = { ...state }
                 newState.singleGroup = {}
+                return newState
+            }
+        case CLEAR_GROUP:
+            {
+                const newState = { ...state }
+                newState.allGroups = {}
                 return newState
             }
         default:

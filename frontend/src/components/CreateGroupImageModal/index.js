@@ -25,10 +25,9 @@ const CreateGroupImageModal = ({ props }) => {
         if (Object.values(errs).length) {
             setErrors(errs)
         } else {
-            dispatch(postGroupImage(groupId, url, description, false));
-
-            closeModal();
-            dispatch(fetchGroup(groupId))
+            dispatch(postGroupImage(groupId, url, description, false))
+            .then(closeModal())
+            .then(dispatch(fetchGroup(groupId)))
         }
 
         setHandling(false);

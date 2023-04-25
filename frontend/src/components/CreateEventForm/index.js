@@ -22,29 +22,27 @@ const CreateEvent = () => {
         }
     }
 
-    // -Uncomment these comments to auto fill forms-
-
-    const [name, setName] = useState('Test Event')
-    const [type, setType] = useState('Online')
-    const [capacity, setCapacity] = useState(5)
-    const [venueId, setVenueId] = useState('')
-    const [price, setPrice] = useState(10)
-    const [description, setDescription] = useState('This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. ')
-    const [startDate, setStartDate] = useState('12-12-2023 20:00:00')
-    const [endDate, setEndDate] = useState('12-12-2023 20:50:00')
-    const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
-    const [errors, setErrors] = useState({})
-
-    // const [name, setName] = useState('')
-    // const [type, setType] = useState(typeOptions[0])
-    // const [capacity, setCapacity] = useState('')
+    // const [name, setName] = useState('Test Event')
+    // const [type, setType] = useState('Online')
+    // const [capacity, setCapacity] = useState(5)
     // const [venueId, setVenueId] = useState('')
-    // const [price, setPrice] = useState('')
-    // const [description, setDescription] = useState('')
-    // const [startDate, setStartDate] = useState('')
-    // const [endDate, setEndDate] = useState('')
-    // const [image, setImage] = useState('')
+    // const [price, setPrice] = useState(10)
+    // const [description, setDescription] = useState('This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. ')
+    // const [startDate, setStartDate] = useState('12-12-2023 20:00:00')
+    // const [endDate, setEndDate] = useState('12-12-2023 20:50:00')
+    // const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
     // const [errors, setErrors] = useState({})
+
+    const [name, setName] = useState('')
+    const [type, setType] = useState(typeOptions[0])
+    const [capacity, setCapacity] = useState('')
+    const [venueId, setVenueId] = useState('')
+    const [price, setPrice] = useState('')
+    const [description, setDescription] = useState('')
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [image, setImage] = useState('')
+    const [errors, setErrors] = useState({})
 
     const updateName = (e) => setName(e.target.value)
     const updateType = (e) => setType(e.target.value)
@@ -100,8 +98,32 @@ const CreateEvent = () => {
             endDate: theEndDate,
             venueId: group.Venues[0].id,
             capacity,
-            image,
+            image: {
+                url: image,
+                preview: true
+            },
             description,
+            organizerId: user.id
+        }
+
+        const createdEvent = await dispatch(postEvent(eventInfo, user, group))
+        history.push(`/events/${createdEvent.id}`)
+    }
+
+    const handleTestSubmit = async () => {
+        const eventInfo = {
+            name: "Test Event",
+            type: "Online",
+            price: 0,
+            startDate: '12-12-2099 20:00:00',
+            endDate: '12-12-2099 20:50:00',
+            venueId: group.Venues[0].id,
+            capacity: 1,
+            image: {
+                url: "https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg",
+                preview: true,
+            },
+            description: 'This description meets the 30 character requirement.',
             organizerId: user.id
         }
 
@@ -222,7 +244,10 @@ const CreateEvent = () => {
                         />
                         <h5 className={`CreateEventForm-errors ${errors.description ? '' : 'hidden'}`}>{errors.description}</h5>
                     </div>
-                    <button type='submit' className='CreateEventForm-button'>Create Event</button>
+                    <div className='CreateEventForm-button-container'>
+                        <button type='submit' className='CreateEventForm-button'>Create Event</button>
+                        <div onClick={() => handleTestSubmit()}>Create Default Event</div>
+                    </div>
                 </form>
             </div>
         </div>

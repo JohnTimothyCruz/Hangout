@@ -5,7 +5,7 @@ import { fetchGroup } from '../../store/groupReducer'
 import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleGroup.css'
-import { clearEvent } from '../../store/eventReducer'
+import { clearEvent, clearEvents } from '../../store/eventReducer'
 import CreateGroupImageModal from '../CreateGroupImageModal'
 
 const compareFn = (a, b) => {
@@ -80,6 +80,7 @@ const SingleGroup = () => {
     useEffect(() => {
         dispatch(fetchGroup(id))
         dispatch(clearEvent())
+        dispatch(clearEvents())
     }, [dispatch])
 
     let upcomingEvents = false;
@@ -256,7 +257,7 @@ const SingleGroup = () => {
                             <h2>
                                 Photos ({group?.GroupImages?.length - 1})
                             </h2>
-                            {user.id === group?.organizerId &&
+                            {user?.id === group?.organizerId &&
                                 <OpenModalMenuItem
                                     className='add-group-photo-button'
                                     itemText="Add Photo"
