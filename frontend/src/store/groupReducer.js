@@ -158,11 +158,11 @@ export const postGroup = (groupInfo, user) => async (dispatch) => {
     }
 }
 
-export const postGroupImage = (groupId, img) => async (dispatch) => {
-    const imageRes = await fetch(`/${groupId}/images`, {
+export const postGroupImage = (groupId, url, description, preview) => async (dispatch) => {
+    const imageRes = await csrfFetch(`/api/groups/${groupId}/images`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(img)
+        body: JSON.stringify({url, preview, description})
     })
 
     if (imageRes.ok) {
@@ -171,6 +171,9 @@ export const postGroupImage = (groupId, img) => async (dispatch) => {
         dispatch(createGroupImage(image))
 
         return image
+    } else {
+        const res = await imageRes.json()
+        console.log(res)
     }
 }
 
@@ -254,7 +257,7 @@ const GroupReducer = (state = initialState, action) => {
         case POST_GROUP_IMAGE:
             {
                 const newState = { ...state }
-                newState.singleGroup.images = [ ...state.singleGroup, ...action.image ]
+                newState.singleGroup.images = [ ...state.singleGroup.images, ...action.image ]
                 return newState
             }
         case PUT_GROUP:

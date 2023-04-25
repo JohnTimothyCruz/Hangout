@@ -6,6 +6,7 @@ import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleGroup.css'
 import { clearEvent } from '../../store/eventReducer'
+import CreateGroupImageModal from '../CreateGroupImageModal'
 
 const compareFn = (a, b) => {
     if (new Date(a.startDate) > new Date(b.startDate)) return -1;
@@ -247,20 +248,28 @@ const SingleGroup = () => {
                             <h2>
                                 Photos ({group?.GroupImages?.length - 1})
                             </h2>
-                            <div className='add-group-photo-button'>
-                                Add Photo
-                            </div>
+                            {user.id === group?.organizerId &&
+                                <OpenModalMenuItem
+                                    className='add-group-photo-button'
+                                    itemText="Add Photo"
+                                    modalComponent={<CreateGroupImageModal groupInfo={[id, group?.name]} />}
+                                />
+                            }
                         </div>
                         <div className='group-pictures-images-container'>
                             {Object.values(group?.GroupImages).length > 1 ?
-                                group.GroupImages[1, -1].map(image => (
+                                group.GroupImages.slice(1).map(image => (
                                     <div className='group-images-image-container' key={image.id}>
                                         <img src={image.url} className='group-images-image' />
                                     </div>
                                 ))
                                 :
                                 <p className='group-images-image-empty-message'>
-                                    There are no photos... yet. Why post some memories?
+                                    {user?.id === group?.organizerId ?
+                                        "There are no photos... yet. Why not post some memories?"
+                                        :
+                                        "There are no photos... yet. Ask the organizer to post some memories!"
+                                    }
                                 </p>
                             }
                         </div>

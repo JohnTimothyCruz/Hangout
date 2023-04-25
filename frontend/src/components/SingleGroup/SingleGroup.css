@@ -334,7 +334,7 @@
     margin: 0px;
 }
 
-.add-group-photo-button {
+.group-pictures-header p {
     text-decoration: none;
     padding: 10px 15px;
     text-align: center;
@@ -345,7 +345,7 @@
     border-radius: 10px;
 }
 
-.add-group-photo-button:hover {
+.group-pictures-header p:hover {
     background-color: rgba(0, 128, 128, 0.863);
 }
 

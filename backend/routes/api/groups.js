@@ -262,8 +262,7 @@ router.get('/', async (req, res, next) => {
     res.json(groups);
 })
 
-router.post('/:groupId/images', requireAuth, async (req, res, next) => {
-
+router.post('/:groupId/images', async (req, res, next) => {
     const { user } = req;
     const { groupId } = req.params;
 

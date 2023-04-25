@@ -1,0 +1,20 @@
+.post-image-modal {
+    width: 484px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: max-content;
+    padding: 20px;
+}
+
+
+
+
+
+.post-image-modal-form-button {
+
+}
+
+.post-image-modal-form-error {
+    color: red;
+}
