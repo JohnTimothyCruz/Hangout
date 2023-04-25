@@ -62,6 +62,66 @@ module.exports = {
         preview: true,
         description: 'group-cover'
       },
+      {
+        groupId: 1,
+        url: 'https://media.sproutsocial.com/uploads/2022/12/sprout-social-playlist.png',
+        preview: false,
+        description: 'Here\'s the final product! Wow. It is almost indistinguishable from Youtube!'
+      },
+      {
+        groupId: 1,
+        url: 'https://globalowls.com/wp-content/uploads/2017/12/GlobalOwls-on-uplifting-news-800x365.png',
+        preview: false,
+        description: 'Here is our Reddit! We ended up deciding to style it exactly, even though the actual site\'s design is... mid. Anyways, good job all around!'
+      },
+      {
+        groupId: 1,
+        url: 'https://blog.hootsuite.com/wp-content/uploads/2022/01/linkedin-for-business-3-620x306.png.webp',
+        preview: false,
+        description: 'LinkedIn! One of the more difficult sites to replicate fully, but here it is!'
+      },
+      {
+        groupId: 1,
+        url: 'https://www.ghacks.net/wp-content/uploads/2022/03/mdn-plus.webp',
+        preview: false,
+        description: 'MDN! We\'ve all used this before, so making this site was quick. We decided to go one step further and duplicate MDN Plus! The circle thing is pretty neat right?'
+      },
+      {
+        groupId: 1,
+        url: 'https://techcrunch.com/wp-content/uploads/2021/03/Desktop-Home-1.png?w=730&crop=1',
+        preview: false,
+        description: 'The green and black music site! Don\'t ask where we got the music. It was through completely legal means... The Spotify API. What else? :)'
+      },
+      {
+        groupId: 2,
+        url: 'https://upload.wikimedia.org/wikipedia/commons/c/c7/MaustonWisconsinLibraryWIS58WIS82US12WIS16.jpg',
+        preview: false,
+        description: 'I seem to have over-estimated how much nature was in this park. There were streets and a library a stone throw\'s away. I\'ll find a more scenic route next time. At least everyone had fun!'
+      },
+      {
+        groupId: 2,
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Gfp-wisconsin-buckhorn-state-park-buckhorn-barrens.jpg/800px-Gfp-wisconsin-buckhorn-state-park-buckhorn-barrens.jpg?20140628235410',
+        preview: false,
+        description: 'Now THAT is scenic. Buckhorn state park is a beautiful place.'
+      },
+      {
+        groupId: 2,
+        url: 'https://live.staticflickr.com/2214/1800915507_b21d718605_b.jpg',
+        preview: false,
+        description: 'Shout out to Paul for bringing in a tent and some boardgames!'
+      },
+      {
+        groupId: 4,
+        url: 'https://p0.pxfuel.com/preview/689/343/770/black-forest-cherry-cake-cake-cherry-pie-cream-cake.jpg',
+        preview: false,
+        description: 'Can\'t believe an actual professional chef came over on our first event! They really went extra with the presentation, and it was delicious!'
+      },
+      {
+        groupId: 7,
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Playing-risk.jpg/800px-Playing-risk.jpg?20170518191215',
+        preview: false,
+        description: 'That was one intense game! Nice hanging out with yall!'
+      },
     ], {})
   },
 

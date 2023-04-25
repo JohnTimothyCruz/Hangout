@@ -72,8 +72,8 @@ module.exports = {
         type: 'Online',
         capacity: 10,
         price: '2',
-        startDate: '2022-5-1 17:00:00',
-        endDate: '2022-6-1 17:00:00'
+        startDate: '2023-8-1 17:00:00',
+        endDate: '2023-9-1 17:00:00'
       },
       {
         venueId: 1,
@@ -116,8 +116,8 @@ module.exports = {
         type: 'In Person',
         capacity: 8,
         price: '10',
-        startDate: '2023-5-4 20:00:00',
-        endDate: '2023-5-4 21:45:00'
+        startDate: '2023-7-4 20:00:00',
+        endDate: '2023-7-4 21:45:00'
       },
       {
         venueId: 4,
@@ -171,8 +171,8 @@ module.exports = {
         type: 'In Person',
         capacity: 30,
         price: '0',
-        startDate: '2023-4-8 18:00:00',
-        endDate: '2023-4-8 19:25:00'
+        startDate: '2023-7-8 18:00:00',
+        endDate: '2023-8-8 19:25:00'
       },
       {
         venueId: 6,
@@ -182,8 +182,8 @@ module.exports = {
         type: 'Online',
         capacity: 20,
         price: '0',
-        startDate: '2019-4-8 15:00:00',
-        endDate: '2019-4-8 17:00:00'
+        startDate: '2023-12-8 15:00:00',
+        endDate: '2023-12-8 17:00:00'
       },
       {
         venueId: 7,

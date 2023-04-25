@@ -327,7 +327,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0px;
+    margin: 0px 0px 30px 0px;
 }
 
 .group-pictures-header * {
@@ -350,13 +350,23 @@
 }
 
 .group-pictures-images-container {
-    margin: 20px 0px 0px;
+    margin: 20px 0px 0px 0px;
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .group-images-image-container {
     margin: 0px;
+    width: 310px;
+    word-wrap: break-word;
+}
+
+.group-images-image-container p {
+    font-weight: 400;
+    margin: 15px 0px 20px 0px;
+    font-size: 15px;
 }
 
 .group-images-image-empty-message {
@@ -368,4 +378,5 @@
     width: 310px;
     height: 180px;
     border-radius: 10px;
+    margin: 0px;
 }
