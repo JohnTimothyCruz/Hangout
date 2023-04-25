@@ -272,6 +272,7 @@ const SingleGroup = () => {
                                         return (
                                             <div className='group-images-image-container' key={image.id}>
                                                 <img src={image.url} className='group-images-image' />
+                                                <p>{image?.description}</p>
                                             </div>
                                         )
                                     }
