@@ -88,9 +88,9 @@ module.exports = {
       },
       {
         groupId: 1,
-        url: 'https://techcrunch.com/wp-content/uploads/2021/03/Desktop-Home-1.png?w=730&crop=1',
+        url: 'https://help.kickstarter.com/hc/article_attachments/360045212034/English__1_.png',
         preview: false,
-        description: 'The green and black music site! Don\'t ask where we got the music. It was through completely legal means... The Spotify API. What else? :)'
+        description: 'Kickstarter! The site changed layout during production but hey, it is what it is. And it turned out nice!'
       },
       {
         groupId: 2,
