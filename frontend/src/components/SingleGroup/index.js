@@ -23,7 +23,7 @@ const allUpcomingEvents = (group) => {
     const upcoming = [];
 
     Object.values(allEvents).forEach(event => {
-        const end = new Date(event.endDate)
+        const end = new Date(event.startDate)
         if (end > now) {
             upcoming.push(event)
         }
@@ -42,7 +42,7 @@ const allPastEvents = (group) => {
     const past = [];
 
     Object.values(allEvents).forEach(events => {
-        const end = new Date(events.endDate)
+        const end = new Date(events.startDate)
         if (end < now) {
             past.push(events)
         }

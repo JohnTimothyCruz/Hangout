@@ -129,6 +129,7 @@ const SingleEvent = () => {
                                             modalComponent={<DeleteEventModal />}
                                         />
                                     </div> :
+                                    new Date(event.startDate) > Date.now() &&
                                     <div className='status-right join-event-button' onClick={handleJoin}>Join this event</div>
                                 :
                                 <></>

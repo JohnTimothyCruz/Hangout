@@ -21,18 +21,7 @@ const CreateEvent = () => {
             venueOptions.push(venue.address)
         }
     }
-
-    // const [name, setName] = useState('Test Event')
-    // const [type, setType] = useState('Online')
-    // const [capacity, setCapacity] = useState(5)
-    // const [venueId, setVenueId] = useState('')
-    // const [price, setPrice] = useState(10)
-    // const [description, setDescription] = useState('This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. ')
-    // const [startDate, setStartDate] = useState('12-12-2023 20:00:00')
-    // const [endDate, setEndDate] = useState('12-12-2023 20:50:00')
-    // const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
-    // const [errors, setErrors] = useState({})
-
+    
     const [name, setName] = useState('')
     const [type, setType] = useState(typeOptions[0])
     const [capacity, setCapacity] = useState('')

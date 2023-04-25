@@ -26,7 +26,7 @@ const EventList = () => {
         const upcoming = [];
 
         allEvents.forEach(event => {
-            const end = new Date(event.endDate)
+            const end = new Date(event.startDate)
             if (end > now) {
                 upcoming.push(event)
             }
