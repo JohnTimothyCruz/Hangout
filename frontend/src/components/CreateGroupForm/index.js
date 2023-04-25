@@ -12,23 +12,13 @@ const CreateGroupForm = () => {
     const history = useHistory();
     const user = useSelector(state => state.session.user)
 
-    // -Uncomment these comments to auto fill forms-
-
-    const [location, setLocation] = useState('City, State')
-    const [name, setName] = useState('Test Group')
-    const [about, setAbout] = useState('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    const [type, setType] = useState('Online')
-    const [publicity, setPublicity] = useState('Public')
-    const [image, setImage] = useState('https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg')
+    const [location, setLocation] = useState('')
+    const [name, setName] = useState('')
+    const [about, setAbout] = useState('')
+    const [type, setType] = useState(typeOptions[0])
+    const [publicity, setPublicity] = useState(typeOptions[0])
+    const [image, setImage] = useState('')
     const [errors, setErrors] = useState({})
-
-    // const [location, setLocation] = useState('')
-    // const [name, setName] = useState('')
-    // const [about, setAbout] = useState('')
-    // const [type, setType] = useState(typeOptions[0])
-    // const [publicity, setPublicity] = useState(typeOptions[0])
-    // const [image, setImage] = useState('')
-    // const [errors, setErrors] = useState({})
 
     const updateLocation = (e) => setLocation(e.target.value);
     const updateName = (e) => setName(e.target.value);
@@ -68,6 +58,26 @@ const CreateGroupForm = () => {
             private: publicity === 'Private' ? true : false,
             imageInfo: {
                 url: image,
+                preview: true,
+                description: "group-cover"
+            },
+            organizerId: user.id
+        }
+
+        const createdGroup = await dispatch(postGroup(groupInfo, user))
+        history.push(`/groups/${createdGroup.id}`)
+    }
+
+    const handleTestSubmit = async () => {
+        const groupInfo = {
+            city: "Albategnius",
+            state: "Moon",
+            name: "Test Group",
+            about: "This text does meet the fifty character requirement.",
+            type: "Online",
+            private: true,
+            imageInfo: {
+                url: "https://cdn.discordapp.com/attachments/544277536255770695/1074422964025569431/20230211_124849.jpg",
                 preview: true,
                 description: "group-cover"
             },
@@ -164,8 +174,9 @@ const CreateGroupForm = () => {
                         />
                         <h5 className={`CreateGroupForm-errors ${errors.image ? '' : 'hidden'}`}>{errors.image}</h5>
                     </div>
-                    <div className='CreateGroupForm-create-button'>
+                    <div className='CreateGroupForm-button-container'>
                         <button type='submit'>Create group</button>
+                        <div onClick={() => handleTestSubmit()}>Create default group</div>
                     </div>
                 </form>
             </div>

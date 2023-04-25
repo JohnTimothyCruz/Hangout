@@ -67,7 +67,8 @@ const UpdateGroup = () => {
             private: publicity === 'Private' ? true : false,
             imageInfo: {
                 url: image,
-                preview: true
+                preview: true,
+                description: "group-cover"
             },
             organizerId: user.id
         }

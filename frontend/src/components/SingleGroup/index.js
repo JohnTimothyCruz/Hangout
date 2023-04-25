@@ -61,6 +61,14 @@ const onClick = () => {
     alert("Feature Coming Soon...")
 }
 
+const findPreviewImg = (groupImages) => {
+    for (const image of groupImages) {
+        if (image?.preview) {
+            return image
+        }
+    }
+}
+
 const SingleGroup = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -72,7 +80,7 @@ const SingleGroup = () => {
     useEffect(() => {
         dispatch(fetchGroup(id))
         dispatch(clearEvent())
-    }, [])
+    }, [dispatch])
 
     let upcomingEvents = false;
     let pastEvents = false;
@@ -100,7 +108,7 @@ const SingleGroup = () => {
                 </div>
                 <div className='group-main-middle'>
                     {Object.values(group).length ?
-                        <img src={group.GroupImages['0'].url} alt='group' className='group-middle-left SingleGroup-group-image'></img>
+                        <img src={findPreviewImg(group?.GroupImages)?.url} alt='group' className='group-middle-left SingleGroup-group-image'></img>
                         :
                         <div className='empty-group-image empty-and-loading'></div>
                     }
@@ -252,17 +260,21 @@ const SingleGroup = () => {
                                 <OpenModalMenuItem
                                     className='add-group-photo-button'
                                     itemText="Add Photo"
-                                    modalComponent={<CreateGroupImageModal groupInfo={[id, group?.name]} />}
+                                    modalComponent={<CreateGroupImageModal props={[id, group?.name]} />}
                                 />
                             }
                         </div>
                         <div className='group-pictures-images-container'>
                             {Object.values(group?.GroupImages).length > 1 ?
-                                group.GroupImages.slice(1).map(image => (
-                                    <div className='group-images-image-container' key={image.id}>
-                                        <img src={image.url} className='group-images-image' />
-                                    </div>
-                                ))
+                                group.GroupImages.map(image => {
+                                    if (image?.id !== findPreviewImg(group?.GroupImages)?.id) {
+                                        return (
+                                            <div className='group-images-image-container' key={image.id}>
+                                                <img src={image.url} className='group-images-image' />
+                                            </div>
+                                        )
+                                    }
+                                })
                                 :
                                 <p className='group-images-image-empty-message'>
                                     {user?.id === group?.organizerId ?

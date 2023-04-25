@@ -351,6 +351,8 @@
 
 .group-pictures-images-container {
     margin: 20px 0px 0px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .group-images-image-container {

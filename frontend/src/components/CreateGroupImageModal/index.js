@@ -3,10 +3,12 @@ import "./CreateGroupImageModal.css";
 import { useModal } from '../../context/Modal'
 import { useDispatch } from "react-redux";
 import { postGroupImage } from "../../store/groupReducer";
+import { useHistory } from "react-router-dom";
 
-const CreateGroupImageModal = ({ groupInfo }) => {
+const CreateGroupImageModal = ({ props }) => {
     const dispatch = useDispatch();
-    const [groupId, groupName] = groupInfo;
+    const history = useHistory();
+    const [groupId, groupName] = props;
     const [url, setUrl] = useState("");
     const [description, setDescription] = useState("");
     const [errors, setErrors] = useState({});
@@ -25,13 +27,9 @@ const CreateGroupImageModal = ({ groupInfo }) => {
         if (Object.values(errs).length) {
             setErrors(errs)
         } else {
-            const res = dispatch(postGroupImage(groupId, url, description, false));
+            dispatch(postGroupImage(groupId, url, description, false));
 
-            if (res.ok) {
-                closeModal();
-            } else {
-                errs.server = "Sorry, there was a problem with the server. Please try again later.";
-            }
+            closeModal();
         }
 
         setHandling(false);

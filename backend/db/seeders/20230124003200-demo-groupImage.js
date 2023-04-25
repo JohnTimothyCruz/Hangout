@@ -35,7 +35,7 @@ module.exports = {
       {
         groupId: 3,
         url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4JwoS0hJ2ICiM3V-JArHqOtL3Rsyveu7ZKw&usqp=CAU',
-        preview: false,
+        preview: true,
         description: 'group-cover'
       },
       {
@@ -47,7 +47,7 @@ module.exports = {
       {
         groupId: 5,
         url: 'https://img.freepik.com/free-vector/flat-people-talking-illustration_52683-70673.jpg?size=626&ext=jpg',
-        preview: false,
+        preview: true,
         description: 'group-cover'
       },
       {

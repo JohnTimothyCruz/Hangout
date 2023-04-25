@@ -257,7 +257,7 @@ const GroupReducer = (state = initialState, action) => {
         case POST_GROUP_IMAGE:
             {
                 const newState = { ...state }
-                newState.singleGroup.images = [ ...state.singleGroup.images, ...action.image ]
+                newState.singleGroup.images = [ ...state.singleGroup.GroupImages, action.image ]
                 return newState
             }
         case PUT_GROUP:
