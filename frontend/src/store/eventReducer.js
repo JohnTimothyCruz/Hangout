@@ -12,6 +12,8 @@ const DELETE_EVENT = 'events/DELETE_EVENT'
 
 const CLEAR_EVENT = 'events/CLEAR_EVENT'
 
+const CLEAR_EVENTS = 'events/CLEAR_EVENTS'
+
 // -Actions-------------------------
 
 export const loadEvents = (events) => {
@@ -53,6 +55,12 @@ export const clearEvent = () => {
     }
 }
 
+export const clearEvents = () => {
+    return {
+        type: CLEAR_EVENTS
+    }
+}
+
 // -Thunks-------------------------
 
 export const fetchEvents = () => async dispatch => {
@@ -91,11 +99,12 @@ export const postEvent = (eventInfo, user, group) => async dispatch => {
 
     if (eventRes.ok) {
         const event = await eventRes.json()
+        console.log(event)
 
         const imgRes = await csrfFetch(`/api/events/${event.id}/images`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: eventInfo.image, preview: true })
+            body: JSON.stringify({ ...eventInfo.image })
         })
 
         if (imgRes.ok) {
@@ -146,7 +155,6 @@ const EventReducer = (state = initialState, action) => {
         case POST_EVENT:
             {
                 const newState = { ...state };
-                // newState.allEvents[action.event.id] = { ...action.event }
                 newState.singleEvent = { ...action.event }
                 newState.singleEvent.Group = { ...action.group }
                 newState.singleEvent.Events = {}
@@ -166,6 +174,12 @@ const EventReducer = (state = initialState, action) => {
             {
                 const newState = { ...state };
                 newState.singleEvent = {}
+                return newState
+            }
+        case CLEAR_EVENT:
+            {
+                const newState = { ...state };
+                newState.allEvents = {}
                 return newState
             }
         default:

@@ -53,6 +53,7 @@
     resize: vertical;
 }
 
+.CreateEventForm-button-container div,
 .CreateEventForm-button {
     border: none;
     margin-top: 20px;
@@ -64,6 +65,7 @@
     cursor: pointer;
     border-radius: 10px;
     font-weight: 600;
+    font-size: 15px;
 }
 
 .CreateEventForm-button:hover {
@@ -73,4 +75,9 @@
 .CreateEventForm-errors {
     margin-top: 5px;
     color: #FF5A5F
+}
+
+.CreateEventForm-button-container {
+    display: flex;
+    gap: 30px;
 }

@@ -572,7 +572,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     if (!Number.isInteger(capacity)) {
         err.errors.capacity = "Capacity must be an integer"
     };
-    if (!price || price < 0) {
+    if (!Number.isInteger(price) || price < 0) {
         err.errors.price = "Price is invalid"
     };
     if (!description) {

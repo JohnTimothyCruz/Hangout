@@ -175,8 +175,8 @@ const CreateGroupForm = () => {
                         <h5 className={`CreateGroupForm-errors ${errors.image ? '' : 'hidden'}`}>{errors.image}</h5>
                     </div>
                     <div className='CreateGroupForm-button-container'>
-                        <button type='submit'>Create group</button>
-                        <div onClick={() => handleTestSubmit()}>Create default group</div>
+                        <button type='submit'>Create Group</button>
+                        <div onClick={() => handleTestSubmit()}>Create Default Group</div>
                     </div>
                 </form>
             </div>
