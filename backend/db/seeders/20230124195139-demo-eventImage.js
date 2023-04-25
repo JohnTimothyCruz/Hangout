@@ -33,7 +33,7 @@ module.exports = {
       {
         eventId: 3,
         url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/LinkedIn_2021.svg/200px-LinkedIn_2021.svg.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 4,
@@ -42,22 +42,22 @@ module.exports = {
       }, {
         eventId: 5,
         url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/220px-Spotify_logo_with_text.svg.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 6,
         url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Kickstarter_logo_2019.svg/220px-Kickstarter_logo_2019.svg.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 7,
         url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hiking_to_the_Ice_Lakes._San_Juan_National_Forest%2C_Colorado.jpg/300px-Hiking_to_the_Ice_Lakes._San_Juan_National_Forest%2C_Colorado.jpg',
-        preview: false
+        preview: true
       },
       {
         eventId: 8,
         url: 'https://www.nps.gov/grte/planyourvisit/images/JLCG_tents_Teewinot_2008_mattson_1.JPG?maxwidth=1300&maxheight=1300&autorotate=false',
-        preview: false
+        preview: true
       },
       {
         eventId: 9,
@@ -72,12 +72,12 @@ module.exports = {
       {
         eventId: 11,
         url: 'https://nmcdn.io/e186d21f8c7946a19faed23c3da2f0da/556712d9bf0f4cb2a916cc810687d52b/files/blog-drafts/talking.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 12,
         url: 'https://nmcdn.io/e186d21f8c7946a19faed23c3da2f0da/556712d9bf0f4cb2a916cc810687d52b/files/blog-drafts/talking.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 13,
@@ -86,17 +86,17 @@ module.exports = {
       }, {
         eventId: 14,
         url: 'https://nmcdn.io/e186d21f8c7946a19faed23c3da2f0da/556712d9bf0f4cb2a916cc810687d52b/files/blog-drafts/talking.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 15,
         url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvbHgztZzrbHP-lwbZrRXIwChwUJh9g9QNxA&usqp=CAU',
-        preview: false
+        preview: true
       },
       {
         eventId: 16,
         url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbWMwFgcYFDCq46r9UIxm1sfq3a1P3ifVbxQ&usqp=CAU',
-        preview: false
+        preview: true
       },
     ], {})
   },
