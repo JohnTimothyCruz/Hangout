@@ -2,12 +2,10 @@ import { useState } from "react";
 import "./CreateGroupImageModal.css";
 import { useModal } from '../../context/Modal'
 import { useDispatch } from "react-redux";
-import { postGroupImage } from "../../store/groupReducer";
-import { useHistory } from "react-router-dom";
+import { fetchGroup, postGroupImage } from "../../store/groupReducer";
 
 const CreateGroupImageModal = ({ props }) => {
     const dispatch = useDispatch();
-    const history = useHistory();
     const [groupId, groupName] = props;
     const [url, setUrl] = useState("");
     const [description, setDescription] = useState("");
@@ -30,6 +28,7 @@ const CreateGroupImageModal = ({ props }) => {
             dispatch(postGroupImage(groupId, url, description, false));
 
             closeModal();
+            dispatch(fetchGroup(groupId))
         }
 
         setHandling(false);
