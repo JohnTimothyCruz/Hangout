@@ -63,7 +63,7 @@ router.get('/:groupId/members', async (req, res, next) => {
     };
 
     const pagination = {};
-    if (user.id !== group.organizerId) {
+    if (user?.id !== group.organizerId) {
         pagination.status = {
             [Op.not]: 'pending'
         }

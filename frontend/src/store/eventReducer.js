@@ -12,6 +12,8 @@ const POST_EVENT = 'events/POST_EVENT'
 
 const POST_EVENT_ATTENDEE = 'events/POST_EVENT_ATTENDEE'
 
+const PUT_EVENT_ATTENDEE = 'events/PUT_EVENT_ATTENDEE'
+
 const DELETE_EVENT = 'events/DELETE_EVENT'
 
 const DELETE_EVENT_ATTENDEE = 'events/DELETE_EVENT_ATTENDEE'
@@ -60,6 +62,14 @@ export const createEventAttendee = (eventId, attendance) => {
         type: POST_EVENT_ATTENDEE,
         eventId,
         attendance
+    }
+}
+
+export const editEventAttendee = (userId, status) => {
+    return {
+        type: PUT_EVENT_ATTENDEE,
+        userId,
+        status
     }
 }
 
@@ -172,6 +182,21 @@ export const postEventAttendee = (eventId) => async dispatch => {
     }
 }
 
+export const putEventAttendee = (eventId, userId, status) => async dispatch=> {
+    const res = await csrfFetch(`/api/events/${eventId}/attendance`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, status })
+    })
+
+    if (res.ok) {
+        const confirmation = await res.json();
+        dispatch(editEventAttendee(userId, status))
+
+        return confirmation
+    }
+}
+
 export const deleteEvent = (user, id) => async (dispatch) => {
     const req = { ...user, ...id }
     const res = await csrfFetch(`/api/events/${id}`, {
@@ -246,6 +271,16 @@ const EventReducer = (state = initialState, action) => {
                 newState.singleEvent.attendees.push(action.attendance);
                 return newState;
             }
+        case PUT_EVENT_ATTENDEE:
+            {
+                const newState = { ...state };
+                for (const attendee of newState.singleEvent.attendees) {
+                    if (attendee.userId === action.userId) {
+                        attendee.status = action.status
+                    }
+                }
+                return newState
+            }
         case DELETE_EVENT:
             {
                 const newState = { ...state }
@@ -257,7 +292,6 @@ const EventReducer = (state = initialState, action) => {
             {
                 const newState = { ...state }
                 const updated = newState.singleEvent.attendees.filter(attendee => attendee.userId !== action.userId)
-                console.log(updated)
                 newState.singleEvent.attendees = updated
                 return newState
             }

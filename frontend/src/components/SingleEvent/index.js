@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { deleteEventAttendee, fetchEventAttendees, fetchSingleEvent, postEventAttendee } from '../../store/eventReducer'
+import { deleteEventAttendee, fetchEventAttendees, fetchSingleEvent, postEventAttendee, putEventAttendee } from '../../store/eventReducer'
 import DeleteEventModal from '../DeleteEventModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleEvent.css'
@@ -15,6 +15,28 @@ const getStartTime = (event) => {
 const getEndTime = (event) => {
     const endTime = new Date(event.endDate)
     return `${endTime.getFullYear()}-${endTime.getMonth()}-${endTime.getDay()} · ${endTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+}
+
+const anyAttending = (event) => {
+    if (event?.attendees) {
+        for (const attendee of event.attendees) {
+            if (attendee.status === 'attending') {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+const anyPending = (event) => {
+    if (event?.attendees) {
+        for (const attendee of event.attendees) {
+            if (attendee.status === 'pending') {
+                return true
+            }
+        }
+    }
+    return false
 }
 
 const attendingStatus = (event, userId) => {
@@ -62,8 +84,15 @@ const SingleEvent = () => {
         }
     }
 
-    const handleCancel = async () => {
-        const res = await dispatch(deleteEventAttendee(event.id, user.id))
+    const handleCancel = async (userId) => {
+        const res = await dispatch(deleteEventAttendee(event.id, userId))
+        if (res) {
+            setProcessing(false)
+        }
+    }
+
+    const handleApproval = async (userId) => {
+        const res = await dispatch(putEventAttendee(event.id, userId, "attending"))
         if (res) {
             setProcessing(false)
         }
@@ -165,12 +194,11 @@ const SingleEvent = () => {
                                             modalComponent={<DeleteEventModal />}
                                         />
                                     </div> :
-                                    // new Date(event.startDate) > Date.now() ?
-                                    true ?
-                                        event.Group.private && !isMember(members, user.id) ?
+                                    new Date(event.startDate) > Date.now() ?
+                                        event.Group.private && !isMember(members, user?.id) ?
                                             <div>Sorry, this event is for group members only.</div>
                                             :
-                                            !attendingStatus(event, user.id) ?
+                                            !attendingStatus(event, user?.id) ?
                                                 event.capacity !== event.numAttending ?
                                                     <div className='event-spot-container'>
                                                         <p>{event.numAttending}/{event.capacity} spots left!</p>
@@ -186,7 +214,7 @@ const SingleEvent = () => {
                                                     <div className='attending-status-container'>
                                                         <div className='attending-status-message'>Waiting approval</div>
                                                         <div className={`attending-status-cancel ${processing ? "disabled" : ""}`} onClick={() => {
-                                                            handleCancel()
+                                                            handleCancel(user.id)
                                                             setProcessing(true)
                                                         }}>Cancel</div>
                                                     </div>
@@ -194,7 +222,7 @@ const SingleEvent = () => {
                                                     <div className='attending-status-container'>
                                                         <div className='attending-status-message'>You're in!</div>
                                                         <div className={`attending-status-cancel ${processing ? "disabled" : ""}`} onClick={() => {
-                                                            handleCancel()
+                                                            handleCancel(user.id)
                                                             setProcessing(true)
                                                         }}>Cancel</div>
                                                     </div>
@@ -256,18 +284,69 @@ const SingleEvent = () => {
                     }
                 </div>
             </div>
-            {(Object.values(event).length || event?.Organizer?.id === user?.id) ?
+            {(Object.values(event).length && event?.Organizer?.id === user?.id) ?
                 <div className='event-attendants'>
                     <h2 className='event-attendants-prompt'>Attendants</h2>
                     <div className='event-attendants-list-container'>
-                        {event?.attendees?.length ?
-                            event.attendees.map(attendant => (
-                                <>
-                                    <div key={attendant.id}>{attendant?.firstName} {attendant?.lastName}, {attendant.status}</div>
-                                </>
-                            ))
+                        <div className='event-attendants-header'>
+                            <p className={attendantMenu === 'attending' ? "chosen" : ""} onClick={() => setAttendantMenu("attending")}>Attending</p>
+                            <p className={attendantMenu === 'pending' ? "chosen" : ""} onClick={() => setAttendantMenu("pending")}>Pending</p>
+                        </div>
+                        {(attendantMenu !== 'pending') ?
+                            anyAttending(event) ? event.attendees.map(attendant => {
+                                if (attendant.status !== 'pending') {
+                                    return (
+                                        <div className='event-attendant' key={attendant.id}>
+                                            {console.log("a", attendant)}
+                                            <div className='event-attendant-info'>
+                                                <div className='event-attendant-circle'>
+                                                    <div className='event-attendant-circle-inner'>
+                                                        {attendant.firstName.split("")[0]}
+                                                    </div>
+                                                </div>
+                                                <p key={attendant.id}>{attendant?.firstName} {attendant?.lastName}</p>
+                                            </div>
+                                            <div className='event-attendant-options'>
+                                                <div className='event-attendant-remove' onClick={() => {
+                                                    handleCancel(attendant.userId)
+                                                    setProcessing(true)
+                                                }}>Remove</div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })
+                                :
+                                <div>Looks a little empty... Approve some guests to party!</div>
                             :
-                            <div>Looks a little empty... Approve some guests to party!</div>
+                            anyPending(event) ? event.attendees.map(attendant => {
+                                if (attendant.status === 'pending') {
+                                    return (
+                                        <div className='event-attendant' key={attendant.id}>
+                                            <div className='event-attendant-info'>
+                                                <div className='event-attendant-circle'>
+                                                    <div className='event-attendant-circle-inner'>
+                                                        {attendant.firstName.split("")[0]}
+                                                    </div>
+                                                </div>
+                                                <p key={attendant.id}>{attendant?.firstName} {attendant?.lastName}</p>
+                                            </div>
+                                            <div className='event-attendant-options'>
+                                                <div className='event-attendant-approve' onClick={() => {
+                                                    handleApproval(attendant.userId)
+                                                    setProcessing(true)
+                                                }}>Approve</div>
+                                                <div className='event-attendant-remove' onClick={() => {
+                                                    handleCancel(attendant.userId)
+                                                    setProcessing(true)
+                                                }}>Remove</div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })
+                                :
+                                <div>No pending requests.</div>
                         }
                     </div>
                 </div>

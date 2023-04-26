@@ -127,7 +127,8 @@ router.get('/:eventId', async (req, res, next) => {
 
     const attendees = await Attendance.findAll({
         where: {
-            eventId: req.params.eventId
+            eventId: req.params.eventId,
+            status: 'attending'
         }
     });
 
@@ -406,13 +407,13 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         groupId: group.id
     });
 
-    if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
-        res.statusCode = 403;
-        res.json({
-            message: 'Forbidden',
-            statusCode: 403
-        })
-    }
+    // if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
+    //     res.statusCode = 403;
+    //     res.json({
+    //         message: 'Forbidden',
+    //         statusCode: 403
+    //     })
+    // }
 
     const attendanceRequest = await Attendance.findOne({
         where: {
@@ -636,13 +637,13 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     const group = await Group.findByPk(event.groupId);
 
-    if (user.id !== group.organizerId && user.id !== userId) {
-        res.statusCode = 403,
-            res.json({
-                message: 'Forbidden',
-                statusCode: 403
-            })
-    }
+    // if (user.id !== group.organizerId && user.id !== userId) {
+    //     res.statusCode = 403,
+    //         res.json({
+    //             message: 'Forbidden',
+    //             statusCode: 403
+    //         })
+    // }
 
     const attendanceRequest = await Attendance.findOne({
         where: {
