@@ -508,8 +508,8 @@ h5 {
 
 .event-attendant-options {
     display: flex;
-    align-items: center;
     gap: 20px;
+    align-items: center;
 }
 
 .event-attendant-options div {
