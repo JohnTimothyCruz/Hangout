@@ -105,6 +105,25 @@ li {
     color: grey;
 }
 
+.dropdown-greeting {
+    cursor: default;
+}
+
+.profile-button {
+    margin: 5px 0px 10px 0px;
+}
+
+.profile-button * {
+    text-decoration: none;
+    color: grey;
+    font-weight: 400;
+}
+
+.profile-button *:hover {
+    color: teal;
+    cursor: pointer;
+}
+
 .button:hover {
     color: teal;
     cursor: pointer;

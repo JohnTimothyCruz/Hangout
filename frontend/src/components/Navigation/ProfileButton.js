@@ -55,8 +55,8 @@ function ProfileButton({ user }) {
                     </div>
                     <div className={divClassName} ref={ulRef}>
                         <ul className="top-ul">
-                            <li>Hello, {user.username}</li>
-                            <li>{user.email}</li>
+                            <li className="dropdown-greeting">Hello, {user.username}</li>
+                            <li className="profile-button"><NavLink to={`/profile/users/${user?.id}`}>Profile</NavLink></li>
                         </ul>
                         <ul className="bottom-ul">
                             <li className="button" onClick={logout}>Log out</li>

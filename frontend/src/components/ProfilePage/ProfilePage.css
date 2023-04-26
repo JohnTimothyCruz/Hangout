@@ -1,0 +1,135 @@
+.profile-page {
+    background-color: white;
+    width: 100%;
+    height: fit-content;
+    margin-top: 9px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.profile-page-top {
+    display: flex;
+    gap: 35px;
+    margin-top: 100px;
+    margin-bottom: 40px;
+}
+
+.profile-page-top-left {
+    position: relative;
+    background-color: rgb(165, 190, 169);
+    height: 325px;
+    width: 325px;
+    border-radius: 50%;
+    font-size: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-page-top-left-inner {
+    position: relative;
+    bottom: 10px;
+    right: 11px;
+    border: 8px solid rgb(47, 54, 48);
+    color: rgb(47, 54, 48);
+    font-weight: 400;
+    height: 315px;
+    width: 325px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-page-top-right {
+    display: flex;
+    align-items: center;
+}
+
+.profile-page-username {
+    font-size: 50px;
+    font-weight: 900;
+    margin: 0px;
+}
+
+.profile-page-user-stats {
+    padding: 0px 15%;
+    width: 70%;
+    height: 72px;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-page-user-stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-page-user-stat-number {
+    background-color: teal;
+    color: white;
+    padding: 4px 15px;
+    border-radius: 50px;
+}
+
+.profile-page-groups,
+.profile-page-events {
+    align-self: flex-start;
+    width: 70%;
+    padding: 0px 15%;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-page-groups-title,
+.profile-page-events-title {
+    font-weight: 900;
+    font-size: 30px;
+}
+
+.profile-page-empty-groups,
+.profile-page-empty-events {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-find-groups-button,
+.profile-find-events-button {
+    border: 3px solid lightgrey;
+    border-radius: 10px;
+    padding: 8px 13px;
+    color: grey;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.profile-find-groups-button:hover,
+.profile-find-events-button:hover {
+    border: 3px solid grey;
+    text-decoration: underline;
+}
+
+.profile-page-empty-groups-title,
+.profile-page-empty-events-title {
+    margin: 10px;
+    font-weight: 900;
+    font-size: 20px;
+}
+
+.profile-page-empty-groups-text,
+.profile-page-empty-events-text {
+    margin: 0px 0px 20px 0px;
+    font-weight: 400;
+}
+
+.profile-page-events {
+    margin-bottom: 86px;
+}
