@@ -83,6 +83,10 @@ router.get('/:groupId/members', async (req, res, next) => {
     });
 
     for (const member of members) {
+        const { firstName, lastName } = await User.findByPk(member.userId);
+        member.dataValues.firstName = firstName;
+        member.dataValues.lastName = lastName;
+
         member.dataValues.Membership = {
             status: member.dataValues.status
         };

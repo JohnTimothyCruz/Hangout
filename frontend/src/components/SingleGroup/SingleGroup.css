@@ -421,3 +421,30 @@
     align-items: center;
     justify-content: center;
 }
+
+/* Member styles */
+.group-members {
+    background-color: white;
+    width: 100%;
+    height: fit-content;
+    margin: 0px 20px;
+    padding: 20px 20px 10px 20px;
+    border-radius: 10px;
+}
+
+.group-members-header {
+    margin: 0px;
+}
+
+.group-members-header h2 {
+    border-bottom: 1px solid lightgray;
+    margin: 0px 0px 10px 0px;
+    padding-bottom: 20px;
+}
+
+.group-members-member-container {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}

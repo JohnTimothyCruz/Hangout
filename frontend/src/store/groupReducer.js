@@ -288,7 +288,7 @@ const GroupReducer = (state = initialState, action) => {
         case GET_GROUP:
             {
                 const newState = { ...state, allGroups: { ...state.allGroups }, singleGroup: { ...state.singleGroup } }
-                newState.singleGroup = { ...action.group }
+                newState.singleGroup = { ...state.singleGroup, ...action.group }
                 newState.singleGroup.Events = {}
                 action.events.forEach(event => {
                     newState.singleGroup.Events[event.id] = event

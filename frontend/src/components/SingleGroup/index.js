@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { fetchGroup } from '../../store/groupReducer'
+import { fetchGroup, fetchGroupMembers } from '../../store/groupReducer'
 import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleGroup.css'
 import { clearEvent, clearEvents } from '../../store/eventReducer'
 import CreateGroupImageModal from '../CreateGroupImageModal'
 import SingleGroupImage from '../SingleGroupImage'
+import SingleGroupMember from '../SingleGroupMember'
 
 const compareFn = (a, b) => {
     if (new Date(a.startDate) > new Date(b.startDate)) return -1;
@@ -82,6 +83,7 @@ const SingleGroup = () => {
         dispatch(fetchGroup(id))
         dispatch(clearEvent())
         dispatch(clearEvents())
+        dispatch(fetchGroupMembers(id))
     }, [dispatch])
 
     let upcomingEvents = false;
@@ -173,6 +175,9 @@ const SingleGroup = () => {
                 <div className={`single-group-menu-option ${chosenMenuOption === 'photos' ? "selected" : ""}`} onClick={() => setChosenMenuOption("photos")}>
                     Photos
                 </div>
+                <div className={`single-group-menu-option ${chosenMenuOption === 'members' ? "selected" : ""}`} onClick={() => setChosenMenuOption("members")}>
+                    Members
+                </div>
             </div>
             {chosenMenuOption === "about" ?
                 <div className='group-main-bottom'>
@@ -256,41 +261,55 @@ const SingleGroup = () => {
                     </div>
                 </div>
                 :
-                <div className='group-main-bottom'>
-                    <div className='group-pictures'>
-                        <div className='group-pictures-header'>
-                            <h2>
-                                Photos ({group?.GroupImages?.length - 1})
-                            </h2>
-                            {user?.id === group?.organizerId &&
-                                <OpenModalMenuItem
-                                    className='add-group-photo-button'
-                                    itemText="Add Photo"
-                                    modalComponent={<CreateGroupImageModal props={[id, group?.name]} />}
-                                />
-                            }
-                        </div>
-                        <div className='group-pictures-images-container'>
-                            {Object.values(group?.GroupImages).length > 1 ?
-                                group.GroupImages.map(image => {
-                                    if (image?.id !== findPreviewImg(group?.GroupImages)?.id) {
-                                        return (
-                                            <SingleGroupImage props={[image, user?.id, group.organizerId]} key={image.id} />
-                                        )
-                                    }
-                                })
-                                :
-                                <p className='group-images-image-empty-message'>
-                                    {user?.id === group?.organizerId ?
-                                        "There are no photos... yet. Why not post some memories?"
-                                        :
-                                        "There are no photos... yet. Ask the organizer to post some memories!"
-                                    }
-                                </p>
-                            }
+                chosenMenuOption === 'photos' ?
+                    <div className='group-main-bottom'>
+                        <div className='group-pictures'>
+                            <div className='group-pictures-header'>
+                                <h2>
+                                    Photos ({group?.GroupImages?.length - 1})
+                                </h2>
+                                {user?.id === group?.organizerId &&
+                                    <OpenModalMenuItem
+                                        className='add-group-photo-button'
+                                        itemText="Add Photo"
+                                        modalComponent={<CreateGroupImageModal props={[id, group?.name]} />}
+                                    />
+                                }
+                            </div>
+                            <div className='group-pictures-images-container'>
+                                {Object.values(group?.GroupImages).length > 1 ?
+                                    group.GroupImages.map(image => {
+                                        if (image?.id !== findPreviewImg(group?.GroupImages)?.id) {
+                                            return (
+                                                <SingleGroupImage props={[image, user?.id, group.organizerId]} key={image.id} />
+                                            )
+                                        }
+                                    })
+                                    :
+                                    <p className='group-images-image-empty-message'>
+                                        {user?.id === group?.organizerId ?
+                                            "There are no photos... yet. Why not post some memories?"
+                                            :
+                                            "There are no photos... yet. Ask the organizer to post some memories!"
+                                        }
+                                    </p>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
+                    :
+                    <div className='group-main-bottom'>
+                        <div className='group-members'>
+                            <div className='group-members-header'>
+                                <h2>Members</h2>
+                            </div>
+                            <div className='group-members-member-container'>
+                                {group?.members && group.members.map(member => (
+                                    <SingleGroupMember props={[member, user]} key={member.id} />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
             }
         </div>
     )
