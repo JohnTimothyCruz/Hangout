@@ -4,11 +4,19 @@ import { csrfFetch } from "./csrf"
 
 const GET_EVENTS = 'events/GET_EVENTS'
 
+const GET_EVENT_ATTENDEES = 'events/GET_EVENT_ATTENDEES'
+
 const GET_SINGLE_EVENT = 'events/GET_SINGLE_EVENT'
 
 const POST_EVENT = 'events/POST_EVENT'
 
+const POST_EVENT_ATTENDEE = 'events/POST_EVENT_ATTENDEE'
+
+const PUT_EVENT_ATTENDEE = 'events/PUT_EVENT_ATTENDEE'
+
 const DELETE_EVENT = 'events/DELETE_EVENT'
+
+const DELETE_EVENT_ATTENDEE = 'events/DELETE_EVENT_ATTENDEE'
 
 const CLEAR_EVENT = 'events/CLEAR_EVENT'
 
@@ -20,6 +28,13 @@ export const loadEvents = (events) => {
     return {
         type: GET_EVENTS,
         events
+    }
+}
+
+export const loadEventAttendees = (attendees) => {
+    return {
+        type: GET_EVENT_ATTENDEES,
+        attendees
     }
 }
 
@@ -42,10 +57,33 @@ export const createEvent = (event, image, user, group) => {
     }
 }
 
+export const createEventAttendee = (eventId, attendance) => {
+    return {
+        type: POST_EVENT_ATTENDEE,
+        eventId,
+        attendance
+    }
+}
+
+export const editEventAttendee = (userId, status) => {
+    return {
+        type: PUT_EVENT_ATTENDEE,
+        userId,
+        status
+    }
+}
+
 export const removeEvent = (id) => {
     return {
         type: DELETE_EVENT,
         id
+    }
+}
+
+export const removeEventAttendee = (userId) => {
+    return {
+        type: DELETE_EVENT_ATTENDEE,
+        userId
     }
 }
 
@@ -72,6 +110,15 @@ export const fetchEvents = () => async dispatch => {
     }
 }
 
+export const fetchEventAttendees = (eventId) => async dispatch => {
+    const attendRes = await csrfFetch(`/api/events/${eventId}/attendees`)
+
+    if (attendRes.ok) {
+        const attendees = await attendRes.json();
+        dispatch(loadEventAttendees(attendees))
+    }
+}
+
 export const fetchSingleEvent = (id) => async dispatch => {
     const eventRes = await csrfFetch(`/api/events/${id}`);
 
@@ -85,9 +132,11 @@ export const fetchSingleEvent = (id) => async dispatch => {
             if (groupRes.ok) {
                 const group = await groupRes.json()
                 dispatch(loadSingleEvent(event, user, group))
+                return event
             }
         }
     }
+    return {"message": "server problems"}
 }
 
 export const postEvent = (eventInfo, user, group) => async dispatch => {
@@ -116,17 +165,64 @@ export const postEvent = (eventInfo, user, group) => async dispatch => {
     }
 }
 
+export const postEventAttendee = (eventId) => async dispatch => {
+    const res = await csrfFetch(`/api/events/${eventId}/attendance`, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" }
+    })
+
+    if (res.ok) {
+        const attendance = await res.json();
+        dispatch(createEventAttendee(eventId, attendance));
+
+        return attendance
+    } else {
+        const attendance = await res.json();
+        return attendance
+    }
+}
+
+export const putEventAttendee = (eventId, userId, status) => async dispatch=> {
+    const res = await csrfFetch(`/api/events/${eventId}/attendance`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, status })
+    })
+
+    if (res.ok) {
+        const confirmation = await res.json();
+        dispatch(editEventAttendee(userId, status))
+
+        return confirmation
+    }
+}
+
 export const deleteEvent = (user, id) => async (dispatch) => {
     const req = { ...user, ...id }
-    const deleteRes = await csrfFetch(`/api/events/${id}`, {
+    const res = await csrfFetch(`/api/events/${id}`, {
         method: 'DELETE',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(req)
     })
 
-    if (deleteRes.ok) {
+    if (res.ok) {
+        const deleteRes = await res.json()
         dispatch(removeEvent(id))
         return deleteRes
+    }
+}
+
+export const deleteEventAttendee = (eventId, userId) => async dispatch => {
+    const res = await csrfFetch(`/api/events/${eventId}/attendance`, {
+        method: 'DELETE',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({userId})
+    })
+
+    if (res.ok) {
+        const deleteRes = await res.json();
+        dispatch(removeEventAttendee(userId));
+        return deleteRes;
     }
 }
 
@@ -144,10 +240,16 @@ const EventReducer = (state = initialState, action) => {
                 })
                 return newState;
             }
+        case GET_EVENT_ATTENDEES:
+            {
+                const newState = { ...state };
+                newState.singleEvent.attendees = [...action.attendees.Attendees]
+                return newState
+            }
         case GET_SINGLE_EVENT:
             {
                 const newState = { ...state };
-                newState.singleEvent = action.event;
+                newState.singleEvent = { ...state.singleEvent, ...action.event };
                 newState.singleEvent.Organizer = action.user
                 newState.singleEvent.Group = action.group
                 return newState;
@@ -163,11 +265,34 @@ const EventReducer = (state = initialState, action) => {
                 newState.singleEvent.EventImages = [{ ...action.img }]
                 return newState;
             }
+        case POST_EVENT_ATTENDEE:
+            {
+                const newState = { ...state };
+                newState.singleEvent.attendees.push(action.attendance);
+                return newState;
+            }
+        case PUT_EVENT_ATTENDEE:
+            {
+                const newState = { ...state };
+                for (const attendee of newState.singleEvent.attendees) {
+                    if (attendee.userId === action.userId) {
+                        attendee.status = action.status
+                    }
+                }
+                return newState
+            }
         case DELETE_EVENT:
             {
                 const newState = { ...state }
                 newState.singleEvent = {}
                 delete newState.allEvents[action.id]
+                return newState
+            }
+        case DELETE_EVENT_ATTENDEE:
+            {
+                const newState = { ...state }
+                const updated = newState.singleEvent.attendees.filter(attendee => attendee.userId !== action.userId)
+                newState.singleEvent.attendees = updated
                 return newState
             }
         case CLEAR_EVENT:

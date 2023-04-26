@@ -48,7 +48,9 @@ function ProfileButton({ user }) {
                 <div className="user-menu">
                     <NavLink to='/groups/new' className='nav-link'>Start a new group</NavLink>
                     <button onClick={openMenu} className='user-icon'>
-                        <i className="fas fa-user-circle fa-3x" />
+                        <div className='user-icon-circle-inner'>
+                            {user.firstName.split("")[0]}
+                        </div>
                     </button>
                     <div onClick={openMenu}>
                         <i className={showMenu ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"} />

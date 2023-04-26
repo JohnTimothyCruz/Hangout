@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { fetchSingleEvent } from '../../store/eventReducer'
+import { deleteEventAttendee, fetchEventAttendees, fetchSingleEvent, postEventAttendee, putEventAttendee } from '../../store/eventReducer'
 import DeleteEventModal from '../DeleteEventModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleEvent.css'
-import { clearGroup, clearGroups } from '../../store/groupReducer'
+import { clearGroup, clearGroups, fetchGroupMembers } from '../../store/groupReducer'
 
 const getStartTime = (event) => {
     const startTime = new Date(event.startDate)
@@ -17,20 +17,85 @@ const getEndTime = (event) => {
     return `${endTime.getFullYear()}-${endTime.getMonth()}-${endTime.getDay()} · ${endTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
 }
 
+const anyAttending = (event) => {
+    if (event?.attendees) {
+        for (const attendee of event.attendees) {
+            if (attendee.status === 'attending') {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+const anyPending = (event) => {
+    if (event?.attendees) {
+        for (const attendee of event.attendees) {
+            if (attendee.status === 'pending') {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+const attendingStatus = (event, userId) => {
+    for (const attendee of event.attendees) {
+        if (attendee.userId === userId) {
+            return attendee.status
+        }
+    }
+    return false
+}
+
+const isMember = (members, userId) => {
+    for (const member of members) {
+        if (Object.values(member).userId === userId) {
+            return true
+        }
+    }
+    return false
+}
+
 const SingleEvent = () => {
     const dispatch = useDispatch()
     const { id } = useParams()
     const user = useSelector(state => state.session.user)
     const event = useSelector(state => state.events.singleEvent)
+    const members = useSelector(state => state.groups.singleGroup.members)
+    const [attendantMenu, setAttendantMenu] = useState("attending")
+    const [processing, setProcessing] = useState(false)
 
     useEffect(() => {
-        dispatch(fetchSingleEvent(id));
-        dispatch(clearGroup())
-        dispatch(clearGroups())
+        const asyncDispatches = async () => {
+            dispatch(clearGroup())
+            dispatch(clearGroups())
+            dispatch(fetchSingleEvent(id))
+                .then(res => dispatch(fetchGroupMembers(res.groupId)))
+            dispatch(fetchEventAttendees(id))
+        }
+        asyncDispatches()
     }, [dispatch])
 
-    const handleJoin = () => {
-        window.alert('Feature coming soon...')
+    const handleJoin = async () => {
+        const res = await dispatch(postEventAttendee(id))
+        if (res) {
+            setProcessing(false)
+        }
+    }
+
+    const handleCancel = async (userId) => {
+        const res = await dispatch(deleteEventAttendee(event.id, userId))
+        if (res) {
+            setProcessing(false)
+        }
+    }
+
+    const handleApproval = async (userId) => {
+        const res = await dispatch(putEventAttendee(event.id, userId, "attending"))
+        if (res) {
+            setProcessing(false)
+        }
     }
 
     return (
@@ -120,7 +185,7 @@ const SingleEvent = () => {
                                     <div className='empty-event-type empty-and-loading'></div>
                                 }
                             </div>
-                            {Object.values(event).length ?
+                            {Object.values(event).length && members?.length ?
                                 (user && user?.id === event?.Organizer?.id) ?
                                     <div className={`status-right ${Object.values(event).length ? "" : "disable-clicks"}`}>
                                         <OpenModalMenuItem
@@ -129,8 +194,40 @@ const SingleEvent = () => {
                                             modalComponent={<DeleteEventModal />}
                                         />
                                     </div> :
-                                    new Date(event.startDate) > Date.now() &&
-                                    <div className='status-right join-event-button' onClick={handleJoin}>Join this event</div>
+                                    new Date(event.startDate) > Date.now() ?
+                                        event.Group.private && !isMember(members, user?.id) ?
+                                            <div>Sorry, this event is for group members only.</div>
+                                            :
+                                            !attendingStatus(event, user?.id) ?
+                                                event.capacity !== event.numAttending ?
+                                                    <div className='event-spot-container'>
+                                                        <p>{event.numAttending}/{event.capacity} spots left!</p>
+                                                        <div className={`status-right join-event-button ${processing ? "disabled" : ""}`} onClick={() => {
+                                                            handleJoin()
+                                                            setProcessing(true)
+                                                        }}>Join this event</div>
+                                                    </div>
+                                                    :
+                                                    <div className='event-status-full'>Full capacity!</div>
+                                                :
+                                                attendingStatus(event, user.id) === 'pending' ?
+                                                    <div className='attending-status-container'>
+                                                        <div className='attending-status-message'>Waiting approval</div>
+                                                        <div className={`attending-status-cancel ${processing ? "disabled" : ""}`} onClick={() => {
+                                                            handleCancel(user.id)
+                                                            setProcessing(true)
+                                                        }}>Cancel</div>
+                                                    </div>
+                                                    :
+                                                    <div className='attending-status-container'>
+                                                        <div className='attending-status-message'>You're in!</div>
+                                                        <div className={`attending-status-cancel ${processing ? "disabled" : ""}`} onClick={() => {
+                                                            handleCancel(user.id)
+                                                            setProcessing(true)
+                                                        }}>Cancel</div>
+                                                    </div>
+                                        :
+                                        <></>
                                 :
                                 <></>
                             }
@@ -187,6 +284,75 @@ const SingleEvent = () => {
                     }
                 </div>
             </div>
+            {(Object.values(event).length && event?.Organizer?.id === user?.id) ?
+                <div className='event-attendants'>
+                    <h2 className='event-attendants-prompt'>Attendants</h2>
+                    <div className='event-attendants-list-container'>
+                        <div className='event-attendants-header'>
+                            <p className={attendantMenu === 'attending' ? "chosen" : ""} onClick={() => setAttendantMenu("attending")}>Attending</p>
+                            <p className={attendantMenu === 'pending' ? "chosen" : ""} onClick={() => setAttendantMenu("pending")}>Pending</p>
+                        </div>
+                        {(attendantMenu !== 'pending') ?
+                            anyAttending(event) ? event.attendees.map(attendant => {
+                                if (attendant.status !== 'pending') {
+                                    return (
+                                        <div className='event-attendant' key={attendant.id}>
+                                            {console.log("a", attendant)}
+                                            <div className='event-attendant-info'>
+                                                <div className='event-attendant-circle'>
+                                                    <div className='event-attendant-circle-inner'>
+                                                        {attendant.firstName.split("")[0]}
+                                                    </div>
+                                                </div>
+                                                <p key={attendant.id}>{attendant?.firstName} {attendant?.lastName}</p>
+                                            </div>
+                                            <div className='event-attendant-options'>
+                                                <div className='event-attendant-remove' onClick={() => {
+                                                    handleCancel(attendant.userId)
+                                                    setProcessing(true)
+                                                }}>Remove</div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })
+                                :
+                                <div>Looks a little empty... Approve some guests to party!</div>
+                            :
+                            anyPending(event) ? event.attendees.map(attendant => {
+                                if (attendant.status === 'pending') {
+                                    return (
+                                        <div className='event-attendant' key={attendant.id}>
+                                            <div className='event-attendant-info'>
+                                                <div className='event-attendant-circle'>
+                                                    <div className='event-attendant-circle-inner'>
+                                                        {attendant.firstName.split("")[0]}
+                                                    </div>
+                                                </div>
+                                                <p key={attendant.id}>{attendant?.firstName} {attendant?.lastName}</p>
+                                            </div>
+                                            <div className='event-attendant-options'>
+                                                <div className='event-attendant-approve' onClick={() => {
+                                                    handleApproval(attendant.userId)
+                                                    setProcessing(true)
+                                                }}>Approve</div>
+                                                <div className='event-attendant-remove' onClick={() => {
+                                                    handleCancel(attendant.userId)
+                                                    setProcessing(true)
+                                                }}>Remove</div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })
+                                :
+                                <div>No pending requests.</div>
+                        }
+                    </div>
+                </div>
+                :
+                <></>
+            }
         </div>
     )
 }

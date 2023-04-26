@@ -6,6 +6,8 @@ const GET_GROUPS = 'groups/GET_GROUPS'
 
 const GET_GROUP = 'groups/GET_GROUP'
 
+const GET_GROUP_MEMBERS = 'groups/GET_GROUP_MEMBERS'
+
 const POST_GROUP = 'groups/POST_GROUP'
 
 const POST_GROUP_IMAGE = 'groups/POST_GROUP_IMAGE'
@@ -34,6 +36,13 @@ export const loadGroup = (group, events) => {
         type: GET_GROUP,
         group,
         events
+    }
+}
+
+export const loadGroupMembers = (members) => {
+    return {
+        type: GET_GROUP_MEMBERS,
+        members
     }
 }
 
@@ -130,6 +139,17 @@ export const fetchGroup = (id) => async dispatch => {
                 dispatch(loadGroup(group, events))
             }
         }
+    }
+}
+
+export const fetchGroupMembers = (id) => async dispatch => {
+    const res = await csrfFetch(`/api/groups/${id}/members`)
+
+    if (res.ok) {
+        const members = await res.json()
+        dispatch(loadGroupMembers(members))
+
+        return members
     }
 }
 
@@ -274,6 +294,12 @@ const GroupReducer = (state = initialState, action) => {
                     newState.singleGroup.Events[event.id] = event
                 })
                 return newState;
+            }
+        case GET_GROUP_MEMBERS:
+            {
+                const newState = { ...state };
+                newState.singleGroup.members = [ ...action.members.members ]
+                return newState
             }
         case POST_GROUP:
             {

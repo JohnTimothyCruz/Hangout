@@ -21,7 +21,7 @@ module.exports = {
     */
     await queryInterface.bulkInsert(options, [
       {
-        eventId: 1,
+        eventId: 7,
         userId: 1,
         status: 'attending'
       },

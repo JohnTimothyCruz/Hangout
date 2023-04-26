@@ -102,27 +102,27 @@ const SingleGroup = () => {
             <div className='group-main-top'>
                 <div className='group-groups-redirect-container'>
                     <i className="fa-solid fa-angle-left group-arrow" />
-                    {Object.values(group).length ?
+                    {Object.values(group).length > 1 ?
                         <NavLink to='/groups' className='group-groups-redirect'>Back to Groups</NavLink>
                         :
                         <div to='/groups' className='group-groups-redirect'>Back to Groups</div>
                     }
                 </div>
                 <div className='group-main-middle'>
-                    {Object.values(group).length ?
+                    {Object.values(group).length > 1 ?
                         <img src={findPreviewImg(group?.GroupImages)?.url} alt='group' className='group-middle-left SingleGroup-group-image'></img>
                         :
                         <div className='empty-group-image empty-and-loading'></div>
                     }
                     <div className='group-middle-right'>
                         <div className='group-middle-right-top'>
-                            {Object.values(group).length ?
+                            {Object.values(group).length > 1 ?
                                 <h2 className='group-name'>{group.name}</h2>
                                 :
                                 <h2 className='empty-group-name empty-and-loading'></h2>
                             }
                             <div className='group-group-details'>
-                                {Object.values(group).length ?
+                                {Object.values(group).length > 1 ?
                                     <>
                                         <div>
                                             <i className="fa-solid fa-location-dot" />
@@ -147,7 +147,7 @@ const SingleGroup = () => {
                             </div>
                         </div>
                         <div className='group-middle-right-bottom'>
-                            {Object.values(group).length ?
+                            {Object.values(group).length > 1 ?
                                 (user && user.id === group.Organizer.id) ?
                                     <div className='group-button-container'>
                                         <NavLink to={`/groups/${id}/events/new`} className='group-create-event-button'>Create event</NavLink>
@@ -179,7 +179,7 @@ const SingleGroup = () => {
                     <div className='group-main-bottom-info'>
                         <div className='group-about'>
                             <h2>What we're about</h2>
-                            {Object.values(group).length ?
+                            {Object.values(group).length > 1 ?
                                 <p>{group.about}</p>
                                 :
                                 <p className='empty-group-about empty-and-loading'></p>
@@ -187,9 +187,13 @@ const SingleGroup = () => {
                         </div>
                         <div className='group-organizer'>
                             <h2>Organizer</h2>
-                            {Object.values(group).length ?
+                            {Object.values(group).length > 1 ?
                                 <div className='group-organizer-section'>
-                                    <i className="fa-solid fa-circle-user fa-2xl" />
+                                    <div className='group-organizer-circle'>
+                                        <div className='group-organizer-circle-inner'>
+                                            {group.Organizer.firstName.split("")[0]}
+                                        </div>
+                                    </div>
                                     <h5>{group.Organizer.firstName} {group.Organizer.lastName}</h5>
                                 </div>
                                 :
@@ -197,7 +201,7 @@ const SingleGroup = () => {
                             }
                         </div>
                     </div>
-                    {Object.values(group).length ?
+                    {Object.values(group).length > 1 ?
                         (!anyPast && !anyUpcoming) &&
                         <div className='group-no-events'>
                             <h2>No Upcoming Events</h2>

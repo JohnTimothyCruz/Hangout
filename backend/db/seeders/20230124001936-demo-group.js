@@ -25,7 +25,7 @@ module.exports = {
         name: 'Fullstack Projects',
         about: 'We are a small group of fullstack developers who every month clone a website as a group! Whether you want to make connections in the industry, have more projects on your resume, or just want to flex your developer muscles, this is the group for you.',
         type: 'Online',
-        private: true,
+        private: false,
         city: 'New Castle',
         state: 'DE'
       },

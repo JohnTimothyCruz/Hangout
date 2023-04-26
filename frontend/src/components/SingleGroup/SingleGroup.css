@@ -195,17 +195,6 @@
     margin: 10px 0px;
 }
 
-.group-organizer-section i {
-    color: rgb(49, 49, 49);
-    margin: 0px 10px 0px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 32px;
-    width: 32px;
-    align-self: flex-start;
-}
-
 .group-organizer-section h5 {
     color: black;
     font-weight: 500;
@@ -404,4 +393,31 @@
 .group-images-image-ellipsis:hover {
     background-color: rgba(128, 128, 128, 0.63);
     border-radius: 50%;
+}
+
+.group-organizer-circle {
+    position: relative;
+    background-color: rgb(165, 190, 169);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.group-organizer-circle-inner {
+    position: relative;
+    bottom: 3px;
+    right: 3px;
+    height: 46px;
+    width: 46px;
+    margin: 0px;
+    border: 3px solid rgb(47, 54, 48);
+    color: rgb(47, 54, 48);
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

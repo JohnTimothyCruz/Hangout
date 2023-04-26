@@ -272,7 +272,7 @@ h5 {
 
 .main-bottom {
     padding: 20px 15% 0px 15%;
-    width: 1384px;
+    width: 70%;
     display: flex;
 }
 
@@ -344,6 +344,7 @@ h5 {
     margin-left: 10px;
 }
 
+.event-attendants-prompt,
 .event-venue-prompt {
     margin: 0px 0px 10px 0px;
 }
@@ -390,4 +391,144 @@ h5 {
 .event-venue-lat span,
 .event-venue-lng span {
     margin-left: 5px;
+}
+
+.event-spot-container {
+    display: flex;
+    gap: 10px;
+}
+
+.event-status-full {
+    color: #e02856;
+    margin-right: 10px;
+}
+
+.attending-status-message {
+    color: #e02856;
+}
+
+.attending-status-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.attending-status-cancel {
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.join-event-button.disabled,
+.attending-status-cancel.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.attending-status-cancel:not(.disabled):hover {
+    background-color: rgba(128, 128, 128, 0.801);
+}
+
+/* Attendance section styles */
+.event-attendants {
+    padding: 20px 15% 0px 15%;
+    width: 70%;
+}
+
+.event-attendants-list-container {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 640px;
+}
+
+.event-attendants-header {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.event-attendants-header p {
+    font-weight: 400;
+    padding: 0px 10px;
+    color: grey;
+    cursor: pointer;
+    margin: 0px;
+}
+
+.event-attendants-header p.chosen {
+    color: teal;
+    padding-bottom: 15px;
+    border-bottom: 2px solid teal;
+}
+
+.event-attendant {
+    display: flex;
+    justify-content: space-between;
+}
+
+.event-attendant-circle {
+    position: relative;
+    background-color: rgb(165, 190, 169);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-attendant-circle-inner {
+    position: relative;
+    bottom: 3px;
+    right: 3px;
+    height: 46px;
+    width: 46px;
+    border: 3px solid rgb(47, 54, 48);
+    color: rgb(47, 54, 48);
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-attendant-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.event-attendant-info p {
+    font-size: 18px;
+}
+
+.event-attendant-options {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.event-attendant-options div {
+    cursor: pointer;
+}
+
+.event-attendant-approve {
+    color: teal;
+}
+
+.event-attendant-approve:hover {
+    color: rgba(0, 128, 128, 0.815);
+}
+
+.event-attendant-remove {
+    color: #e02856;
+    margin-right: 10px;
+}
+
+.event-attendant-remove:hover {
+    color: #e02856d7;
 }
