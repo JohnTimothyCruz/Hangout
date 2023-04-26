@@ -64,11 +64,10 @@ router.get('/:eventId/attendees', async (req, res, next) => {
 
         const { firstName, lastName } = await User.findByPk(userId);
 
+        attendant.dataValues.userId = userId;
         attendant.dataValues.firstName = firstName;
         attendant.dataValues.lastName = lastName;
-        attendant.dataValues.Attendance = {
-            status
-        };
+        attendant.dataValues.status = status;
     }
 
     res.json({
@@ -336,50 +335,53 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
         }
     });
 
-    if (!userMembership) {
+    if (group.private === true && !userMembership) {
         res.statusCode = 403;
         res.json({
             message: 'Forbidden',
             statusCode: 403
         })
     } else {
-    const attendance = await Attendance.findOne({
-        where: {
+        const attendance = await Attendance.findOne({
+            where: {
+                userId: user.id,
+                eventId
+            }
+        })
+
+        if (attendance) {
+            if (attendance.status === 'pending') {
+                res.statusCode = 400
+                res.json({
+                    message: "Attendance has already been requested",
+                    statusCode: 400
+                })
+            }
+            if (attendance.status === 'waitlist' || attendance.status === 'attendee') {
+                res.statusCode = 400
+                res.json({
+                    message: "User is already an attendee of the event",
+                    statusCode: 400
+                })
+            }
+        }
+
+        const newAttendanceRequest = Attendance.build({
+            eventId,
             userId: user.id,
-            eventId
-        }
-    })
+            status: 'pending'
+        })
 
-    if (attendance) {
-        if (attendance.status === 'pending') {
-            res.statusCode = 400
-            res.json({
-                message: "Attendance has already been requested",
-                statusCode: 400
-            })
-        }
-        if (attendance.status === 'waitlist' || attendance.status === 'attendee') {
-            res.statusCode = 400
-            res.json({
-                message: "User is already an attendee of the event",
-                statusCode: 400
-            })
-        }
+        await newAttendanceRequest.save();
+
+        res.json({
+            id: newAttendanceRequest.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            userId: user.id,
+            status: 'pending'
+        });
     }
-
-    const newAttendanceRequest = Attendance.build({
-        eventId,
-        userId: user.id,
-        status: 'pending'
-    })
-
-    await newAttendanceRequest.save();
-
-    res.json({
-        userId: user.id,
-        status: 'pending'
-    });
-}
 })
 
 router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {

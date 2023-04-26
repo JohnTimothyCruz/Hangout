@@ -90,7 +90,7 @@ router.get('/:groupId/members', async (req, res, next) => {
     };
 
     res.json({
-        Members: members
+        members
     });
 })
 

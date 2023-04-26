@@ -272,7 +272,7 @@ h5 {
 
 .main-bottom {
     padding: 20px 15% 0px 15%;
-    width: 1384px;
+    width: 70%;
     display: flex;
 }
 
@@ -344,6 +344,7 @@ h5 {
     margin-left: 10px;
 }
 
+.event-attendants-prompt,
 .event-venue-prompt {
     margin: 0px 0px 10px 0px;
 }
@@ -390,4 +391,53 @@ h5 {
 .event-venue-lat span,
 .event-venue-lng span {
     margin-left: 5px;
+}
+
+.event-spot-container {
+    display: flex;
+    gap: 10px;
+}
+
+.event-status-full {
+    color: #e02856;
+    margin-right: 10px;
+}
+
+.attending-status-message {
+    color: #e02856;
+}
+
+.attending-status-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.attending-status-cancel {
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.join-event-button.disabled,
+.attending-status-cancel.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.attending-status-cancel:not(.disabled):hover {
+    background-color: rgba(128, 128, 128, 0.801);
+}
+
+/* Attendance section styles */
+.event-attendants {
+    padding: 20px 15% 0px 15%;
+    width: 70%;
+}
+
+.event-attendants-list-container {
+    background-color: white;
+    border-radius: 10px;
 }
