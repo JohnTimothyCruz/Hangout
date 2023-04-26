@@ -11,6 +11,7 @@ import SingleGroup from "./components/SingleGroup";
 import CreateGroupForm from "./components/CreateGroupForm";
 import CreateEvent from "./components/CreateEventForm";
 import UpdateGroup from "./components/UpdateGroupForm";
+import ProfilePage from "./components/ProfilePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +51,10 @@ function App() {
 
           <Route path='/groups'>
             <GroupList />
+          </Route>
+
+          <Route path='/profile/users/:id'>
+            <ProfilePage />
           </Route>
 
           <Route exact path='/'>
