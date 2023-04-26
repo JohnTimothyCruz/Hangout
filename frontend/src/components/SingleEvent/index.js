@@ -185,7 +185,7 @@ const SingleEvent = () => {
                                     <div className='empty-event-type empty-and-loading'></div>
                                 }
                             </div>
-                            {Object.values(event).length && members?.length ?
+                            {Object.values(event).length && members ?
                                 (user && user?.id === event?.Organizer?.id) ?
                                     <div className={`status-right ${Object.values(event).length ? "" : "disable-clicks"}`}>
                                         <OpenModalMenuItem
@@ -195,7 +195,7 @@ const SingleEvent = () => {
                                         />
                                     </div> :
                                     new Date(event.startDate) > Date.now() ?
-                                        event.Group.private && !isMember(members, user?.id) ?
+                                        (event.Group.private && !isMember(members, user?.id)) ?
                                             <div>Sorry, this event is for group members only.</div>
                                             :
                                             !attendingStatus(event, user?.id) ?
