@@ -407,13 +407,13 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         groupId: group.id
     });
 
-    // if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
-    //     res.statusCode = 403;
-    //     res.json({
-    //         message: 'Forbidden',
-    //         statusCode: 403
-    //     })
-    // }
+    if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
+        res.statusCode = 403;
+        res.json({
+            message: 'Forbidden',
+            statusCode: 403
+        })
+    }
 
     const attendanceRequest = await Attendance.findOne({
         where: {

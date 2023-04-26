@@ -189,7 +189,11 @@ const SingleGroup = () => {
                             <h2>Organizer</h2>
                             {Object.values(group).length > 1 ?
                                 <div className='group-organizer-section'>
-                                    <i className="fa-solid fa-circle-user fa-2xl" />
+                                    <div className='group-organizer-circle'>
+                                        <div className='group-organizer-circle-inner'>
+                                            {group.Organizer.firstName.split("")[0]}
+                                        </div>
+                                    </div>
                                     <h5>{group.Organizer.firstName} {group.Organizer.lastName}</h5>
                                 </div>
                                 :
