@@ -275,7 +275,7 @@ const SingleGroup = () => {
                                 group.GroupImages.map(image => {
                                     if (image?.id !== findPreviewImg(group?.GroupImages)?.id) {
                                         return (
-                                            <SingleGroupImage image={image} key={image.id} />
+                                            <SingleGroupImage props={[image, user?.id, group.organizerId]} key={image.id} />
                                         )
                                     }
                                 })
