@@ -194,38 +194,41 @@ const SingleEvent = () => {
                                             modalComponent={<DeleteEventModal />}
                                         />
                                     </div> :
-                                    new Date(event.startDate) > Date.now() ?
-                                        (event.Group.private && !isMember(members, user?.id)) ?
-                                            <div>Sorry, this event is for group members only.</div>
-                                            :
-                                            !attendingStatus(event, user?.id) ?
-                                                event.capacity !== event.numAttending ?
-                                                    <div className='event-spot-container'>
-                                                        <p>{event.numAttending}/{event.capacity} spots left!</p>
-                                                        <div className={`status-right join-event-button ${processing ? "disabled" : ""}`} onClick={() => {
-                                                            handleJoin()
-                                                            setProcessing(true)
-                                                        }}>Join this event</div>
-                                                    </div>
-                                                    :
-                                                    <div className='event-status-full'>Full capacity!</div>
+                                    user ?
+                                        new Date(event.startDate) > Date.now() ?
+                                            (event.Group.private && !isMember(members, user?.id)) ?
+                                                <div>Sorry, this event is for group members only.</div>
                                                 :
-                                                attendingStatus(event, user.id) === 'pending' ?
-                                                    <div className='attending-status-container'>
-                                                        <div className='attending-status-message'>Waiting approval</div>
-                                                        <div className={`attending-status-cancel ${processing ? "disabled" : ""}`} onClick={() => {
-                                                            handleCancel(user.id)
-                                                            setProcessing(true)
-                                                        }}>Cancel</div>
-                                                    </div>
+                                                !attendingStatus(event, user?.id) ?
+                                                    event.capacity !== event.numAttending ?
+                                                        <div className='event-spot-container'>
+                                                            <p>{event.numAttending}/{event.capacity} spots left!</p>
+                                                            <div className={`status-right join-event-button ${processing ? "disabled" : ""}`} onClick={() => {
+                                                                handleJoin()
+                                                                setProcessing(true)
+                                                            }}>Join this event</div>
+                                                        </div>
+                                                        :
+                                                        <div className='event-status-full'>Full capacity!</div>
                                                     :
-                                                    <div className='attending-status-container'>
-                                                        <div className='attending-status-message'>You're in!</div>
-                                                        <div className={`attending-status-cancel ${processing ? "disabled" : ""}`} onClick={() => {
-                                                            handleCancel(user.id)
-                                                            setProcessing(true)
-                                                        }}>Cancel</div>
-                                                    </div>
+                                                    attendingStatus(event, user.id) === 'pending' ?
+                                                        <div className='attending-status-container'>
+                                                            <div className='attending-status-message'>Waiting approval</div>
+                                                            <div className={`attending-status-cancel ${processing ? "disabled" : ""}`} onClick={() => {
+                                                                handleCancel(user.id)
+                                                                setProcessing(true)
+                                                            }}>Cancel</div>
+                                                        </div>
+                                                        :
+                                                        <div className='attending-status-container'>
+                                                            <div className='attending-status-message'>You're in!</div>
+                                                            <div className={`attending-status-cancel ${processing ? "disabled" : ""}`} onClick={() => {
+                                                                handleCancel(user.id)
+                                                                setProcessing(true)
+                                                            }}>Cancel</div>
+                                                        </div>
+                                            :
+                                            <></>
                                         :
                                         <></>
                                 :
