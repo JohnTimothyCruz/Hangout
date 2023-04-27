@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { fetchGroup } from '../../store/groupReducer'
+import { deleteGroupMember, fetchGroup, fetchGroupMembers, postGroupMember } from '../../store/groupReducer'
 import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleGroup.css'
 import { clearEvent, clearEvents } from '../../store/eventReducer'
 import CreateGroupImageModal from '../CreateGroupImageModal'
 import SingleGroupImage from '../SingleGroupImage'
+import SingleGroupMember from '../SingleGroupMember'
 
 const compareFn = (a, b) => {
     if (new Date(a.startDate) > new Date(b.startDate)) return -1;
@@ -58,10 +59,6 @@ const getStartTime = (event) => {
     return `${startTime.getFullYear()}-${startTime.getMonth()}-${startTime.getDay()} · ${startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
 }
 
-const onClick = () => {
-    alert("Feature Coming Soon...")
-}
-
 const findPreviewImg = (groupImages) => {
     for (const image of groupImages) {
         if (image?.preview) {
@@ -70,11 +67,53 @@ const findPreviewImg = (groupImages) => {
     }
 }
 
+const anyMembers = (group) => {
+    if (group?.members) {
+        for (const member of group.members) {
+            if (member?.Membership?.status !== 'pending') {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+const anyPending = (group) => {
+    if (group?.members) {
+        for (const member of group?.members) {
+            if (member?.Membership?.status === 'pending') {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+const getMember = (members, userId) => {
+    for (const member of members) {
+        if (member?.userId === userId) {
+            return member
+        }
+    }
+    return null
+}
+
+const isPending = (members, userId) => {
+    for (const member of members) {
+        if (member?.userId === userId && member?.Membership?.status === 'pending') {
+            return true
+        }
+    }
+    return false
+}
+
 const SingleGroup = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const state = useSelector(state => state)
     const [chosenMenuOption, setChosenMenuOption] = useState('about')
+    const [chosenMemberMenuOption, setChosenMemberMenuOption] = useState('members')
+    const [processing, setProcessing] = useState(false)
     const group = state.groups.singleGroup
     const user = state.session.user
 
@@ -82,6 +121,7 @@ const SingleGroup = () => {
         dispatch(fetchGroup(id))
         dispatch(clearEvent())
         dispatch(clearEvents())
+        dispatch(fetchGroupMembers(id))
     }, [dispatch])
 
     let upcomingEvents = false;
@@ -95,6 +135,23 @@ const SingleGroup = () => {
 
         if (Object.values(upcomingEvents).length) anyUpcoming = true;
         if (Object.values(pastEvents).length) anyPast = true;
+    }
+
+    const handleGroupJoin = async (groupId) => {
+        const res = await dispatch(postGroupMember(groupId))
+        if (res) {
+            const res2 = await dispatch(fetchGroupMembers(groupId))
+            if (res2) {
+                setProcessing(false)
+            }
+        }
+    }
+
+    const handleDelete = async () => {
+        const res = await dispatch(deleteGroupMember(group?.id, getMember(group?.members, user?.id).id, group.organizerId))
+        if (res) {
+            setProcessing(false)
+        }
     }
 
     return (
@@ -148,7 +205,7 @@ const SingleGroup = () => {
                         </div>
                         <div className='group-middle-right-bottom'>
                             {Object.values(group).length > 1 ?
-                                (user && user.id === group.Organizer.id) ?
+                                (user && user?.id === group?.Organizer?.id) ?
                                     <div className='group-button-container'>
                                         <NavLink to={`/groups/${id}/events/new`} className='group-create-event-button'>Create event</NavLink>
                                         <NavLink to={`/groups/${id}/edit`} className='group-update-event-button'>Update</NavLink>
@@ -158,7 +215,19 @@ const SingleGroup = () => {
                                             modalComponent={<DeleteGroupModal />}
                                         />
                                     </div> :
-                                    <div className='group-join-button' onClick={onClick}>Join this group</div>
+                                    isPending(group?.members, user?.id) ?
+                                        <div className='group-pending-message-container'>
+                                            <p className='group-pending-message'>Join is pending</p>
+                                            <div className={`group-cancel-join-button ${processing ? "disabled" : ""}`} onClick={() => {
+                                                handleDelete()
+                                                setProcessing(true)
+                                            }}>Cancel</div>
+                                        </div>
+                                        :
+                                        <div className={`group-join-button ${processing ? "disabled" : ""}`} onClick={() => {
+                                            handleGroupJoin(group?.id)
+                                            setProcessing(true)
+                                        }}>Join this group</div>
                                 :
                                 <></>
                             }
@@ -172,6 +241,9 @@ const SingleGroup = () => {
                 </div>
                 <div className={`single-group-menu-option ${chosenMenuOption === 'photos' ? "selected" : ""}`} onClick={() => setChosenMenuOption("photos")}>
                     Photos
+                </div>
+                <div className={`single-group-menu-option ${chosenMenuOption === 'members' ? "selected" : ""}`} onClick={() => setChosenMenuOption("members")}>
+                    Members
                 </div>
             </div>
             {chosenMenuOption === "about" ?
@@ -256,41 +328,83 @@ const SingleGroup = () => {
                     </div>
                 </div>
                 :
-                <div className='group-main-bottom'>
-                    <div className='group-pictures'>
-                        <div className='group-pictures-header'>
-                            <h2>
-                                Photos ({group?.GroupImages?.length - 1})
-                            </h2>
-                            {user?.id === group?.organizerId &&
-                                <OpenModalMenuItem
-                                    className='add-group-photo-button'
-                                    itemText="Add Photo"
-                                    modalComponent={<CreateGroupImageModal props={[id, group?.name]} />}
-                                />
-                            }
+                chosenMenuOption === 'photos' ?
+                    <div className='group-main-bottom'>
+                        <div className='group-pictures'>
+                            <div className='group-pictures-header'>
+                                <h2>
+                                    Photos ({group?.GroupImages?.length - 1})
+                                </h2>
+                                {user?.id === group?.organizerId &&
+                                    <OpenModalMenuItem
+                                        className='add-group-photo-button'
+                                        itemText="Add Photo"
+                                        modalComponent={<CreateGroupImageModal props={[id, group?.name]} />}
+                                    />
+                                }
+                            </div>
+                            <div className='group-pictures-images-container'>
+                                {Object.values(group?.GroupImages).length > 1 ?
+                                    group.GroupImages.map(image => {
+                                        if (image?.id !== findPreviewImg(group?.GroupImages)?.id) {
+                                            return (
+                                                <SingleGroupImage props={[image, user?.id, group.organizerId]} key={image.id} />
+                                            )
+                                        }
+                                    })
+                                    :
+                                    <p className='group-images-image-empty-message'>
+                                        {user?.id === group?.organizerId ?
+                                            "There are no photos... yet. Why not post some memories?"
+                                            :
+                                            "There are no photos... yet. Ask the organizer to post some memories!"
+                                        }
+                                    </p>
+                                }
+                            </div>
                         </div>
-                        <div className='group-pictures-images-container'>
-                            {Object.values(group?.GroupImages).length > 1 ?
-                                group.GroupImages.map(image => {
-                                    if (image?.id !== findPreviewImg(group?.GroupImages)?.id) {
-                                        return (
-                                            <SingleGroupImage image={image} key={image.id} />
-                                        )
-                                    }
-                                })
-                                :
-                                <p className='group-images-image-empty-message'>
-                                    {user?.id === group?.organizerId ?
-                                        "There are no photos... yet. Why not post some memories?"
+                    </div>
+                    :
+                    <div className='group-main-bottom'>
+                        <h2 className='group-members-section-title'>Members</h2>
+                        <div className='group-members'>
+                            <div className='group-members-header'>
+                                <p className={chosenMemberMenuOption === 'members' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('members')}>Members</p>
+                                {user.id === group.organizerId &&
+                                    <p className={chosenMemberMenuOption === 'pending' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('pending')}>Pending</p>
+                                }
+                            </div>
+                            {chosenMemberMenuOption !== 'pending' ?
+                                <div className='group-members-member-container'>
+                                    {anyMembers(group) ?
+                                        group.members.map(member => {
+                                            if (member?.Membership?.status !== 'pending') {
+                                                return (
+                                                    <SingleGroupMember props={[member, user, group?.organizerId, member?.Membership?.status]} key={member?.id} />
+                                                )
+                                            }
+                                        })
                                         :
-                                        "There are no photos... yet. Ask the organizer to post some memories!"
+                                        <p className='group-members-empty-member-message'>There are no other group members... why not add some?</p>
                                     }
-                                </p>
+                                </div>
+                                :
+                                <div className='group-members-member-container'>
+                                    {anyPending(group) ?
+                                        group?.members.map(member => {
+                                            if (member?.Membership?.status === 'pending') {
+                                                return (
+                                                    <SingleGroupMember props={[member, user, group.organizerId, member.Membership.status]} key={member.id} />
+                                                )
+                                            }
+                                        })
+                                        :
+                                        <p className='group-members-empty-member-message'>No pending memberships.</p>
+                                    }
+                                </div>
                             }
                         </div>
                     </div>
-                </div>
             }
         </div>
     )

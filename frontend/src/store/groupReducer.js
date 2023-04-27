@@ -10,11 +10,17 @@ const GET_GROUP_MEMBERS = 'groups/GET_GROUP_MEMBERS'
 
 const POST_GROUP = 'groups/POST_GROUP'
 
+const POST_GROUP_MEMBER = 'groups/POST_GROUP_MEMBER'
+
 const POST_GROUP_IMAGE = 'groups/POST_GROUP_IMAGE'
 
 const PUT_GROUP = 'groups/PUT_GROUP'
 
+const PUT_GROUP_MEMBER = 'groups/PUT_GROUP_MEMBER'
+
 const DELETE_GROUP = 'groups/DELETE_GROUP'
+
+const DELETE_GROUP_MEMBER = 'groups/DELETE_GROUP_MEMBER'
 
 const DELETE_GROUP_IMAGE = 'groups/DELETE_GROUP_IMAGE'
 
@@ -56,6 +62,14 @@ export const createGroup = (group, img, user, venue) => {
     }
 }
 
+export const createGroupMember = (groupId, membership) => {
+    return {
+        type: POST_GROUP_MEMBER,
+        groupId,
+        membership
+    }
+}
+
 export const createGroupImage = (image) => {
     return {
         type: POST_GROUP_IMAGE,
@@ -75,10 +89,25 @@ export const updateGroup = (group, img, user, events, venues, images) => {
     }
 }
 
+export const updateGroupMember = (memberId, status) => {
+    return {
+        type: PUT_GROUP_MEMBER,
+        memberId,
+        status
+    }
+}
+
 export const removeGroup = (id) => {
     return {
         type: DELETE_GROUP,
         id
+    }
+}
+
+export const removeGroupMember = (memberId) => {
+    return {
+        type: DELETE_GROUP_MEMBER,
+        memberId
     }
 }
 
@@ -153,7 +182,7 @@ export const fetchGroupMembers = (id) => async dispatch => {
     }
 }
 
-export const postGroup = (groupInfo, user) => async (dispatch) => {
+export const postGroup = (groupInfo, user) => async dispatch => {
     const groupRes = await csrfFetch('/api/groups', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -187,11 +216,34 @@ export const postGroup = (groupInfo, user) => async (dispatch) => {
 
             if (imgRes.ok) {
                 const img = await imgRes.json()
-                dispatch(createGroup(group, img, user, venue))
 
-                return group
+                const memberRes = await csrfFetch(`/api/groups/${group.id}/membership`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "status": "host" })
+                })
+
+                if (memberRes.ok) {
+                    dispatch(createGroup(group, img, user, venue))
+
+                    return group
+                }
             }
         }
+    }
+}
+
+export const postGroupMember = (groupId) => async dispatch => {
+    const res = await csrfFetch(`/api/groups/${groupId}/membership`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+
+    if (res.ok) {
+        const membership = await res.json();
+        dispatch(createGroupMember(groupId, membership))
+
+        return membership
     }
 }
 
@@ -210,7 +262,6 @@ export const postGroupImage = (groupId, url, description, preview) => async (dis
         return image
     } else {
         const res = await imageRes.json()
-        console.log(res)
     }
 }
 
@@ -243,6 +294,21 @@ export const putGroup = (groupInfo, user, events, venues, images) => async (disp
     }
 }
 
+export const putGroupMember = (groupId, memberId, status) => async dispatch => {
+    const res = await csrfFetch(`/api/groups/${groupId}/membership`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ memberId, status })
+    })
+
+    if (res.ok) {
+        const membership = await res.json();
+        dispatch(updateGroupMember(memberId, status))
+
+        return membership
+    }
+}
+
 export const deleteGroup = (user, id) => async (dispatch) => {
     const req = { ...user, ...id }
     const res = await csrfFetch(`/api/groups/${id}`, {
@@ -255,6 +321,21 @@ export const deleteGroup = (user, id) => async (dispatch) => {
         const deleteRes = res.json()
         dispatch(removeGroup(id))
         return deleteRes
+    }
+}
+
+export const deleteGroupMember = (groupId, memberId, organizerId) => async dispatch => {
+    const res = await csrfFetch(`/api/groups/${groupId}/membership`, {
+        method: 'DELETE',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ memberId, organizerId })
+    })
+
+    if (res.ok) {
+        const message = res.json();
+        dispatch(removeGroupMember(memberId))
+
+        return message
     }
 }
 
@@ -288,7 +369,7 @@ const GroupReducer = (state = initialState, action) => {
         case GET_GROUP:
             {
                 const newState = { ...state, allGroups: { ...state.allGroups }, singleGroup: { ...state.singleGroup } }
-                newState.singleGroup = { ...action.group }
+                newState.singleGroup = { ...state.singleGroup, ...action.group }
                 newState.singleGroup.Events = {}
                 action.events.forEach(event => {
                     newState.singleGroup.Events[event.id] = event
@@ -298,7 +379,7 @@ const GroupReducer = (state = initialState, action) => {
         case GET_GROUP_MEMBERS:
             {
                 const newState = { ...state };
-                newState.singleGroup.members = [ ...action.members.members ]
+                newState.singleGroup.members = [...action.members.members]
                 return newState
             }
         case POST_GROUP:
@@ -310,6 +391,12 @@ const GroupReducer = (state = initialState, action) => {
                 newState.singleGroup.Organizer = { ...action.user }
                 newState.singleGroup.GroupImages = [{ ...action.img }]
                 return newState;
+            }
+        case POST_GROUP_MEMBER:
+            {
+                const newState = { ...state };
+                newState.singleGroup.members.push(action.membership)
+                return newState
             }
         case POST_GROUP_IMAGE:
             {
@@ -330,6 +417,16 @@ const GroupReducer = (state = initialState, action) => {
                 }
                 return newState;
             }
+        case PUT_GROUP_MEMBER:
+            {
+                const newState = { ...state };
+                for (const member of newState.singleGroup.members) {
+                    if (member.id === action.memberId) {
+                        member.Membership.status = action.status
+                    }
+                }
+                return newState
+            }
         case DELETE_GROUP:
             {
                 const newState = { ...state }
@@ -337,11 +434,18 @@ const GroupReducer = (state = initialState, action) => {
                 delete newState.allGroups[action.id]
                 return newState
             }
+        case DELETE_GROUP_MEMBER:
+            {
+                const newState = { ...state }
+                const updated = newState.singleGroup.members.filter(member => member.id !== action.memberId)
+                newState.singleGroup.members = updated
+                return newState
+            }
         case DELETE_GROUP_IMAGE:
             {
                 const newState = { ...state }
                 const updated = Object.values(newState.singleGroup.GroupImages).filter(img => img.id !== action.id)
-                newState.singleGroup.GroupImages = [ ...updated ]
+                newState.singleGroup.GroupImages = [...updated]
                 return newState
             }
         case CLEAR_GROUP:
