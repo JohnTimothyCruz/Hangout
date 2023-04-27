@@ -215,19 +215,22 @@ const SingleGroup = () => {
                                             modalComponent={<DeleteGroupModal />}
                                         />
                                     </div> :
-                                    isPending(group?.members, user?.id) ?
-                                        <div className='group-pending-message-container'>
-                                            <p className='group-pending-message'>Join is pending</p>
-                                            <div className={`group-cancel-join-button ${processing ? "disabled" : ""}`} onClick={() => {
-                                                handleDelete()
+                                    user ?
+                                        isPending(group?.members, user?.id) ?
+                                            <div className='group-pending-message-container'>
+                                                <p className='group-pending-message'>Join is pending</p>
+                                                <div className={`group-cancel-join-button ${processing ? "disabled" : ""}`} onClick={() => {
+                                                    handleDelete()
+                                                    setProcessing(true)
+                                                }}>Cancel</div>
+                                            </div>
+                                            :
+                                            <div className={`group-join-button ${processing ? "disabled" : ""}`} onClick={() => {
+                                                handleGroupJoin(group?.id)
                                                 setProcessing(true)
-                                            }}>Cancel</div>
-                                        </div>
+                                            }}>Join this group</div>
                                         :
-                                        <div className={`group-join-button ${processing ? "disabled" : ""}`} onClick={() => {
-                                            handleGroupJoin(group?.id)
-                                            setProcessing(true)
-                                        }}>Join this group</div>
+                                        <></>
                                 :
                                 <></>
                             }
