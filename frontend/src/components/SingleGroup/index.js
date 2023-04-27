@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { fetchGroup, fetchGroupMembers } from '../../store/groupReducer'
+import { fetchGroup, fetchGroupMembers, postGroupMember } from '../../store/groupReducer'
 import DeleteGroupModal from '../DeleteGroupModal'
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import './SingleGroup.css'
@@ -59,16 +59,21 @@ const getStartTime = (event) => {
     return `${startTime.getFullYear()}-${startTime.getMonth()}-${startTime.getDay()} · ${startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
 }
 
-const onClick = () => {
-    alert("Feature Coming Soon...")
-}
-
 const findPreviewImg = (groupImages) => {
     for (const image of groupImages) {
         if (image?.preview) {
             return image
         }
     }
+}
+
+const isMember = (members, userId) => {
+    for (const member of members) {
+        if (member.userId === userId) {
+            return true
+        }
+    }
+    return false
 }
 
 const SingleGroup = () => {
@@ -97,6 +102,10 @@ const SingleGroup = () => {
 
         if (Object.values(upcomingEvents).length) anyUpcoming = true;
         if (Object.values(pastEvents).length) anyPast = true;
+    }
+
+    const handleGroupJoin = (groupId) => {
+        dispatch(postGroupMember(groupId))
     }
 
     return (
@@ -150,7 +159,7 @@ const SingleGroup = () => {
                         </div>
                         <div className='group-middle-right-bottom'>
                             {Object.values(group).length > 1 ?
-                                (user && user.id === group.Organizer.id) ?
+                                (user && user?.id === group?.Organizer?.id) ?
                                     <div className='group-button-container'>
                                         <NavLink to={`/groups/${id}/events/new`} className='group-create-event-button'>Create event</NavLink>
                                         <NavLink to={`/groups/${id}/edit`} className='group-update-event-button'>Update</NavLink>
@@ -160,7 +169,10 @@ const SingleGroup = () => {
                                             modalComponent={<DeleteGroupModal />}
                                         />
                                     </div> :
-                                    <div className='group-join-button' onClick={onClick}>Join this group</div>
+                                    isMember(group?.members, user?.id) ?
+                                        <></>
+                                        :
+                                        <div className='group-join-button' onClick={() => handleGroupJoin(group?.id)}>Join this group</div>
                                 :
                                 <></>
                             }

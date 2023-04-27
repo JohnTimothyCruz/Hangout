@@ -10,6 +10,8 @@ const GET_GROUP_MEMBERS = 'groups/GET_GROUP_MEMBERS'
 
 const POST_GROUP = 'groups/POST_GROUP'
 
+const POST_GROUP_MEMBER = 'groups/POST_GROUP_MEMBER'
+
 const POST_GROUP_IMAGE = 'groups/POST_GROUP_IMAGE'
 
 const PUT_GROUP = 'groups/PUT_GROUP'
@@ -53,6 +55,14 @@ export const createGroup = (group, img, user, venue) => {
         img,
         user,
         venue
+    }
+}
+
+export const createGroupMember = (groupId, membership) => {
+    return {
+        type: POST_GROUP_MEMBER,
+        groupId,
+        membership
     }
 }
 
@@ -153,7 +163,7 @@ export const fetchGroupMembers = (id) => async dispatch => {
     }
 }
 
-export const postGroup = (groupInfo, user) => async (dispatch) => {
+export const postGroup = (groupInfo, user) => async dispatch => {
     const groupRes = await csrfFetch('/api/groups', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -192,6 +202,20 @@ export const postGroup = (groupInfo, user) => async (dispatch) => {
                 return group
             }
         }
+    }
+}
+
+export const postGroupMember = (groupId) => async dispatch => {
+    const res = await csrfFetch(`/api/groups/${groupId}/membership`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+
+    if (res.ok) {
+        const membership = await res.json();
+        dispatch(createGroupMember(groupId, membership))
+
+        return membership
     }
 }
 
@@ -310,6 +334,12 @@ const GroupReducer = (state = initialState, action) => {
                 newState.singleGroup.Organizer = { ...action.user }
                 newState.singleGroup.GroupImages = [{ ...action.img }]
                 return newState;
+            }
+        case POST_GROUP_MEMBER:
+            {
+                const newState = { ...state };
+                newState.singleGroup.members.push(action.membership)
+                return newState
             }
         case POST_GROUP_IMAGE:
             {

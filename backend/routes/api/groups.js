@@ -62,17 +62,9 @@ router.get('/:groupId/members', async (req, res, next) => {
         res.json(err);
     };
 
-    const pagination = {};
-    if (user?.id !== group.organizerId) {
-        pagination.status = {
-            [Op.not]: 'pending'
-        }
-    };
-
     const members = await Membership.findAll({
         where: {
-            groupId,
-            ...pagination
+            groupId
         },
         attributes: {
             exclude: [
@@ -479,14 +471,15 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
     const newUserMembership = Membership.build({
         userId: user.id,
         groupId,
+        firstName: user.firstName,
+        lastName: user.lastName,
         status: 'pending'
     });
 
     await newUserMembership.save();
 
     res.json({
-        memberId: newUserMembership.id,
-        status: "pending"
+        newUserMembership
     });
 })
 
