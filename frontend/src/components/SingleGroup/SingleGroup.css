@@ -224,7 +224,12 @@
     cursor: pointer;
 }
 
-.group-join-button:hover {
+.group-join-button.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.group-join-button:not(.disabled):hover {
     background-color: #e02856ea;
 }
 
@@ -473,4 +478,35 @@
     display: flex;
     flex-direction: column;
     align-self: flex-start;
+}
+
+.group-pending-message-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.group-pending-message {
+    color: #e02856;
+}
+
+.group-cancel-join-button {
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.group-cancel-join-button.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.group-cancel-join-button:not(.disabled):hover {
+    background-color: rgba(128, 128, 128, 0.801);
+}
+
+.group-members-empty-member-message {
+    margin: 0px 0px 15px 0px;
 }

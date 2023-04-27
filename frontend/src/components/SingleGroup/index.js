@@ -216,9 +216,9 @@ const SingleGroup = () => {
                                         />
                                     </div> :
                                     isPending(group?.members, user?.id) ?
-                                        <div>
-                                            <p>Join is pending</p>
-                                            <div className={`group-cancel-button ${processing ? "disabled" : ""}`} onClick={() => {
+                                        <div className='group-pending-message-container'>
+                                            <p className='group-pending-message'>Join is pending</p>
+                                            <div className={`group-cancel-join-button ${processing ? "disabled" : ""}`} onClick={() => {
                                                 handleDelete()
                                                 setProcessing(true)
                                             }}>Cancel</div>
@@ -370,7 +370,9 @@ const SingleGroup = () => {
                         <div className='group-members'>
                             <div className='group-members-header'>
                                 <p className={chosenMemberMenuOption === 'members' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('members')}>Members</p>
-                                <p className={chosenMemberMenuOption === 'pending' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('pending')}>Pending</p>
+                                {user.id === group.organizerId &&
+                                    <p className={chosenMemberMenuOption === 'pending' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('pending')}>Pending</p>
+                                }
                             </div>
                             {chosenMemberMenuOption !== 'pending' ?
                                 <div className='group-members-member-container'>
@@ -383,7 +385,7 @@ const SingleGroup = () => {
                                             }
                                         })
                                         :
-                                        <p>womp womp2</p>
+                                        <p className='group-members-empty-member-message'>There are no other group members... why not add some?</p>
                                     }
                                 </div>
                                 :
@@ -397,7 +399,7 @@ const SingleGroup = () => {
                                             }
                                         })
                                         :
-                                        <p>womp womp</p>
+                                        <p className='group-members-empty-member-message'>No pending memberships.</p>
                                     }
                                 </div>
                             }

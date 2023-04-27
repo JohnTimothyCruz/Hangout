@@ -317,7 +317,7 @@ const SingleEvent = () => {
                                 }
                             })
                                 :
-                                <div>Looks a little empty... Approve some guests to party!</div>
+                                <div>Looks a little empty... Approve some guests to the event!</div>
                             :
                             anyPending(event) ? event.attendees.map(attendant => {
                                 if (attendant.status === 'pending') {
