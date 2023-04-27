@@ -473,7 +473,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
         groupId,
         firstName: user.firstName,
         lastName: user.lastName,
-        status: 'pending'
+        status: req?.body?.status ? req.body.status : 'pending'
     });
 
     await newUserMembership.save();

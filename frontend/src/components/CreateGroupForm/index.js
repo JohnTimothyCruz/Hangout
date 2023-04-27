@@ -72,7 +72,7 @@ const CreateGroupForm = () => {
         const groupInfo = {
             city: "Albategnius",
             state: "Moon",
-            name: "Test Group",
+            name: `Test Group ${user.id}`,
             about: "This text does meet the fifty character requirement.",
             type: "Online",
             private: true,
@@ -176,7 +176,7 @@ const CreateGroupForm = () => {
                     </div>
                     <div className='CreateGroupForm-button-container'>
                         <button type='submit'>Create Group</button>
-                        <div onClick={() => handleTestSubmit()}>Create Default Group</div>
+                        <div onClick={() => handleTestSubmit()}>Create Default Group (one per user)</div>
                     </div>
                 </form>
             </div>

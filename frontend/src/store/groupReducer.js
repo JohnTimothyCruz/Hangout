@@ -206,9 +206,18 @@ export const postGroup = (groupInfo, user) => async dispatch => {
 
             if (imgRes.ok) {
                 const img = await imgRes.json()
-                dispatch(createGroup(group, img, user, venue))
 
-                return group
+                const memberRes = await csrfFetch(`/api/groups/${group.id}/membership`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "status": "host" })
+                })
+
+                if (memberRes.ok) {
+                    dispatch(createGroup(group, img, user, venue))
+
+                    return group
+                }
             }
         }
     }
@@ -345,7 +354,7 @@ const GroupReducer = (state = initialState, action) => {
         case GET_GROUP_MEMBERS:
             {
                 const newState = { ...state };
-                newState.singleGroup.members = [ ...action.members.members ]
+                newState.singleGroup.members = [...action.members.members]
                 return newState
             }
         case POST_GROUP:
@@ -401,7 +410,7 @@ const GroupReducer = (state = initialState, action) => {
             {
                 const newState = { ...state }
                 const updated = Object.values(newState.singleGroup.GroupImages).filter(img => img.id !== action.id)
-                newState.singleGroup.GroupImages = [ ...updated ]
+                newState.singleGroup.GroupImages = [...updated]
                 return newState
             }
         case CLEAR_GROUP:

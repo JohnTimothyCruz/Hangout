@@ -29,7 +29,7 @@ const SingleGroupMember = ({ props }) => {
                     </div>
                 </div>
                 <div>
-                    {member.firstName} {member.lastName}
+                    {member.firstName} {member.lastName} ({status})
                 </div>
             </div>
             <div className="single-group-member-options">
@@ -39,10 +39,12 @@ const SingleGroupMember = ({ props }) => {
                         setProcessing(true)
                     }}>Approve</div>
                 }
-                <div className="single-group-remove-option" onClick={() => {
-                    handleDelete()
-                    setProcessing(true)
-                }}>Remove</div>
+                {status !== 'host' &&
+                    <div className="single-group-remove-option" onClick={() => {
+                        handleDelete()
+                        setProcessing(true)
+                    }}>Remove</div>
+                }
             </div>
         </div>
     )
