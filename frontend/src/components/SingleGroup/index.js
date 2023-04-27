@@ -370,7 +370,7 @@ const SingleGroup = () => {
                         <div className='group-members'>
                             <div className='group-members-header'>
                                 <p className={chosenMemberMenuOption === 'members' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('members')}>Members</p>
-                                {user.id === group.organizerId &&
+                                {user?.id === group?.organizerId &&
                                     <p className={chosenMemberMenuOption === 'pending' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('pending')}>Pending</p>
                                 }
                             </div>
