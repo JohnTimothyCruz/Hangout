@@ -46,4 +46,21 @@
 
 .single-group-member-options div {
     margin: 0px;
+    cursor: pointer;
+}
+
+.single-group-approve-option {
+    color: teal;
+}
+
+.single-group-approve-option:hover {
+    color: rgba(0, 128, 128, 0.815);
+}
+
+.single-group-remove-option {
+    color: #e02856;
+}
+
+.single-group-remove-option:hover {
+    color: #e02856d7;
 }

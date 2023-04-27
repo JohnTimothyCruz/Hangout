@@ -1,7 +1,15 @@
 import "./SingleGroupMember.css"
 
 const SingleGroupMember = ({ props }) => {
-    const [member, user] = props;
+    const [member, user, status] = props;
+
+    const handleDelete = () => {
+
+    }
+
+    const handleApproval = () => {
+
+    }
 
     return (
         <div className="single-group-member-container">
@@ -16,8 +24,10 @@ const SingleGroupMember = ({ props }) => {
                 </div>
             </div>
             <div className="single-group-member-options">
-                <div>Remove</div>
-                <div>Approve</div>
+                {status === 'pending' &&
+                    <div className="single-group-approve-option" onClick={() => handleApproval()}>Approve</div>
+                }
+                <div className="single-group-remove-option" onClick={() => handleApproval()}>Remove</div>
             </div>
         </div>
     )

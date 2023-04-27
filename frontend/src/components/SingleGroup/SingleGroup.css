@@ -283,6 +283,7 @@
     height: min-content;
     border-radius: 10px;
     font-weight: 600;
+    margin: 0px;
 }
 
 .group-button-container *:hover,
@@ -423,17 +424,42 @@
 }
 
 /* Member styles */
+.group-members-section-title {
+    width: 100%;
+    border-radius: 10px;
+    margin: 0px 20px 20px 20px;
+}
+
 .group-members {
     background-color: white;
     width: 100%;
     height: fit-content;
-    margin: 0px 20px;
+    margin: 0px 20px 403px 20px;
     padding: 20px 20px 10px 20px;
     border-radius: 10px;
 }
 
 .group-members-header {
     margin: 0px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 20px;
+}
+
+.group-members-header p {
+    font-weight: 400;
+    padding: 0px 10px;
+    color: grey;
+    cursor: pointer;
+    margin: 0px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid transparent;
+}
+
+.group-members-header p.chosen {
+    color: teal;
+    border-bottom: 2px solid teal;
 }
 
 .group-members-header h2 {

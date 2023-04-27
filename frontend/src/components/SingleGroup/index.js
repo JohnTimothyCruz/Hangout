@@ -81,6 +81,7 @@ const SingleGroup = () => {
     const { id } = useParams();
     const state = useSelector(state => state)
     const [chosenMenuOption, setChosenMenuOption] = useState('about')
+    const [chosenMemberMenuOption, setChosenMemberMenuOption] = useState('members')
     const group = state.groups.singleGroup
     const user = state.session.user
 
@@ -311,15 +312,33 @@ const SingleGroup = () => {
                     </div>
                     :
                     <div className='group-main-bottom'>
+                        <h2 className='group-members-section-title'>Members</h2>
                         <div className='group-members'>
                             <div className='group-members-header'>
-                                <h2>Members</h2>
+                                <p className={chosenMemberMenuOption === 'members' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('members')}>Members</p>
+                                <p className={chosenMemberMenuOption === 'pending' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('pending')}>Pending</p>
                             </div>
-                            <div className='group-members-member-container'>
-                                {group?.members && group.members.map(member => (
-                                    <SingleGroupMember props={[member, user]} key={member.id} />
-                                ))}
-                            </div>
+                            {chosenMemberMenuOption !== 'pending' ?
+                                <div className='group-members-member-container'>
+                                    {group?.members && group.members.map(member => {
+                                        if (member.Membership.status !== 'pending') {
+                                            return (
+                                                <SingleGroupMember props={[member, user, member.Membership.status]} key={member.id} />
+                                            )
+                                        }
+                                    })}
+                                </div>
+                                :
+                                <div className='group-members-member-container'>
+                                    {group?.members && group.members.map(member => {
+                                        if (member.Membership.status === 'pending') {
+                                            return (
+                                                <SingleGroupMember props={[member, user, member.Membership.status]} key={member.id} />
+                                            )
+                                        }
+                                    })}
+                                </div>
+                            }
                         </div>
                     </div>
             }
