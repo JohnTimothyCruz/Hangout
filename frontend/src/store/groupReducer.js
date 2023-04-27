@@ -16,6 +16,8 @@ const POST_GROUP_IMAGE = 'groups/POST_GROUP_IMAGE'
 
 const PUT_GROUP = 'groups/PUT_GROUP'
 
+const PUT_GROUP_MEMBER = 'groups/PUT_GROUP_MEMBER'
+
 const DELETE_GROUP = 'groups/DELETE_GROUP'
 
 const DELETE_GROUP_MEMBER = 'groups/DELETE_GROUP_MEMBER'
@@ -84,6 +86,14 @@ export const updateGroup = (group, img, user, events, venues, images) => {
         events,
         venues,
         images
+    }
+}
+
+export const updateGroupMember = (memberId, status) => {
+    return {
+        type: PUT_GROUP_MEMBER,
+        memberId,
+        status
     }
 }
 
@@ -284,6 +294,21 @@ export const putGroup = (groupInfo, user, events, venues, images) => async (disp
     }
 }
 
+export const putGroupMember = (groupId, memberId, status) => async dispatch => {
+    const res = await csrfFetch(`/api/groups/${groupId}/membership`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ memberId, status })
+    })
+
+    if (res.ok) {
+        const membership = await res.json();
+        dispatch(updateGroupMember(memberId, status))
+
+        return membership
+    }
+}
+
 export const deleteGroup = (user, id) => async (dispatch) => {
     const req = { ...user, ...id }
     const res = await csrfFetch(`/api/groups/${id}`, {
@@ -391,6 +416,16 @@ const GroupReducer = (state = initialState, action) => {
                     newState.singleGroup.GroupImages[0] = { ...action.img }
                 }
                 return newState;
+            }
+        case PUT_GROUP_MEMBER:
+            {
+                const newState = { ...state };
+                for (const member of newState.singleGroup.members) {
+                    if (member.id === action.memberId) {
+                        member.Membership.status = action.status
+                    }
+                }
+                return newState
             }
         case DELETE_GROUP:
             {

@@ -728,11 +728,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
         }
     }
 
-    const userMembership = await Membership.findOne({
-        where: {
-            userId: memberId
-        }
-    });
+    const userMembership = await Membership.findByPk(memberId);
 
     if (!userMembership) {
         res.statusCode = 400;
