@@ -18,6 +18,8 @@ const PUT_GROUP = 'groups/PUT_GROUP'
 
 const DELETE_GROUP = 'groups/DELETE_GROUP'
 
+const DELETE_GROUP_MEMBER = 'groups/DELETE_GROUP_MEMBER'
+
 const DELETE_GROUP_IMAGE = 'groups/DELETE_GROUP_IMAGE'
 
 const CLEAR_GROUP = 'groups/CLEAR_GROUP'
@@ -89,6 +91,13 @@ export const removeGroup = (id) => {
     return {
         type: DELETE_GROUP,
         id
+    }
+}
+
+export const removeGroupMember = (memberId) => {
+    return {
+        type: DELETE_GROUP_MEMBER,
+        memberId
     }
 }
 
@@ -234,7 +243,6 @@ export const postGroupImage = (groupId, url, description, preview) => async (dis
         return image
     } else {
         const res = await imageRes.json()
-        console.log(res)
     }
 }
 
@@ -279,6 +287,21 @@ export const deleteGroup = (user, id) => async (dispatch) => {
         const deleteRes = res.json()
         dispatch(removeGroup(id))
         return deleteRes
+    }
+}
+
+export const deleteGroupMember = (groupId, memberId, organizerId) => async dispatch => {
+    const res = await csrfFetch(`/api/groups/${groupId}/membership`, {
+        method: 'DELETE',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ memberId, organizerId })
+    })
+
+    if (res.ok) {
+        const message = res.json();
+        dispatch(removeGroupMember(memberId))
+
+        return message
     }
 }
 
@@ -365,6 +388,13 @@ const GroupReducer = (state = initialState, action) => {
                 const newState = { ...state }
                 newState.singleGroup = {}
                 delete newState.allGroups[action.id]
+                return newState
+            }
+        case DELETE_GROUP_MEMBER:
+            {
+                const newState = { ...state }
+                const updated = newState.singleGroup.members.filter(member => member.id !== action.memberId)
+                newState.singleGroup.members = updated
                 return newState
             }
         case DELETE_GROUP_IMAGE:

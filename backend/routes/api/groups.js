@@ -478,9 +478,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
 
     await newUserMembership.save();
 
-    res.json({
-        newUserMembership
-    });
+    res.json(newUserMembership);
 })
 
 router.post('/:groupId/events', requireAuth, async (req, res, next) => {
@@ -892,34 +890,26 @@ router.put('/:groupId/edit', requireAuth, async (req, res, next) => {
 })
 
 router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
-
     const { user } = req;
-    const { groupId } = req.params;
-    const { memberId } = req.body;
+    const { memberId, organizerId } = req.body;
 
-    const group = await Group.findByPk(groupId);
+    // if (!group) {
+    //     res.statusCode = 404;
+    //     res.json({
+    //         message: "Group couldn't be found",
+    //         statusCode: 404
+    //     })
+    // }
 
-    if (user.id !== memberId && user.id !== group.organizerId) {
+    const userMembership = await Membership.findByPk(memberId);
+
+    if (user.id !== userMembership.userId && user.id !== organizerId) {
         res.statusCode = 403;
         res.json({
             message: "Forbidden",
             statusCode: 403
         })
     }
-
-    if (!group) {
-        res.statusCode = 404;
-        res.json({
-            message: "Group couldn't be found",
-            statusCode: 404
-        })
-    }
-
-    const userMembership = await Membership.findOne({
-        where: {
-            userId: memberId
-        }
-    });
 
     if (!userMembership) {
         res.statusCode = 404;

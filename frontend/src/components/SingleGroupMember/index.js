@@ -1,13 +1,22 @@
+import { deleteGroupMember } from "../../store/groupReducer";
+import { useDispatch } from 'react-redux'
 import "./SingleGroupMember.css"
+import { useState } from "react";
 
 const SingleGroupMember = ({ props }) => {
-    const [member, user, status] = props;
+    const dispatch = useDispatch();
+    const [member, user, organizerId, status] = props;
+    const [processing, setProcessing] = useState(false)
 
-    const handleDelete = () => {
-
+    const handleDelete = async () => {
+        console.log(member, member.id)
+        const res = await dispatch(deleteGroupMember(member.groupId, member.id, organizerId))
+        if (res) {
+            setProcessing(false)
+        }
     }
 
-    const handleApproval = () => {
+    const handleApproval = async () => {
 
     }
 
@@ -25,9 +34,15 @@ const SingleGroupMember = ({ props }) => {
             </div>
             <div className="single-group-member-options">
                 {status === 'pending' &&
-                    <div className="single-group-approve-option" onClick={() => handleApproval()}>Approve</div>
+                    <div className="single-group-approve-option" onClick={() => {
+                        handleApproval()
+                        setProcessing(true)
+                    }}>Approve</div>
                 }
-                <div className="single-group-remove-option" onClick={() => handleApproval()}>Remove</div>
+                <div className="single-group-remove-option" onClick={() => {
+                    handleDelete()
+                    setProcessing(true)
+                }}>Remove</div>
             </div>
         </div>
     )
