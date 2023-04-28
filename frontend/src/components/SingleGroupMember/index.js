@@ -15,8 +15,8 @@ const SingleGroupMember = ({ props }) => {
         }
     }
 
-    const handleApproval = async () => {
-        const res = await dispatch(putGroupMember(member.groupId, member.id, "member"))
+    const handleApproval = async (status) => {
+        const res = await dispatch(putGroupMember(member.groupId, member.id, status))
         if (res) {
             setProcessing(false)
         }
@@ -38,9 +38,21 @@ const SingleGroupMember = ({ props }) => {
                 <div className="single-group-member-options">
                     {status === 'pending' &&
                         <div className="single-group-approve-option" onClick={() => {
-                            handleApproval()
+                            handleApproval('member')
                             setProcessing(true)
                         }}>Approve</div>
+                    }
+                    {(status !== 'pending' && status !== 'host' && status !== 'co-host') &&
+                        <div className="single-group-approve-option" onClick={() => {
+                            handleApproval('co-host')
+                            setProcessing(true)
+                        }}>Make co-host</div>
+                    }
+                    {(status === 'co-host') &&
+                        <div className="single-group-approve-option" onClick={() => {
+                            handleApproval('member')
+                            setProcessing(true)
+                        }}>Remove co-host</div>
                     }
                     {status !== 'host' &&
                         <div className="single-group-remove-option" onClick={() => {
