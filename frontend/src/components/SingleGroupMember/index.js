@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const SingleGroupMember = ({ props }) => {
     const dispatch = useDispatch();
-    const [member, user, organizerId, status] = props;
+    const [member, viewerStatus, organizerId, status] = props;
     const [processing, setProcessing] = useState(false)
 
     const handleDelete = async () => {
@@ -35,32 +35,34 @@ const SingleGroupMember = ({ props }) => {
                         {member.firstName} {member.lastName} ({status})
                     </div>
                 </div>
-                <div className="single-group-member-options">
-                    {status === 'pending' &&
-                        <div className="single-group-approve-option" onClick={() => {
-                            handleApproval('member')
-                            setProcessing(true)
-                        }}>Approve</div>
-                    }
-                    {(status !== 'pending' && status !== 'host' && status !== 'co-host') &&
-                        <div className="single-group-approve-option" onClick={() => {
-                            handleApproval('co-host')
-                            setProcessing(true)
-                        }}>Make co-host</div>
-                    }
-                    {(status === 'co-host') &&
-                        <div className="single-group-approve-option" onClick={() => {
-                            handleApproval('member')
-                            setProcessing(true)
-                        }}>Remove co-host</div>
-                    }
-                    {status !== 'host' &&
-                        <div className="single-group-remove-option" onClick={() => {
-                            handleDelete()
-                            setProcessing(true)
-                        }}>Remove</div>
-                    }
-                </div>
+                {(viewerStatus && viewerStatus !== 'pending' && viewerStatus !== 'member') &&
+                    <div className="single-group-member-options">
+                        {status === 'pending' &&
+                            <div className="single-group-approve-option" onClick={() => {
+                                handleApproval('member')
+                                setProcessing(true)
+                            }}>Approve</div>
+                        }
+                        {(status !== 'pending' && status !== 'host' && status !== 'co-host') &&
+                            <div className="single-group-approve-option" onClick={() => {
+                                handleApproval('co-host')
+                                setProcessing(true)
+                            }}>Make co-host</div>
+                        }
+                        {(status === 'co-host') &&
+                            <div className="single-group-approve-option" onClick={() => {
+                                handleApproval('member')
+                                setProcessing(true)
+                            }}>Remove co-host</div>
+                        }
+                        {status !== 'host' &&
+                            <div className="single-group-remove-option" onClick={() => {
+                                handleDelete()
+                                setProcessing(true)
+                            }}>Remove</div>
+                        }
+                    </div>
+                }
             </div>
             :
             <></>

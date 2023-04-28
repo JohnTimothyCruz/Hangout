@@ -389,7 +389,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     const { user } = req;
     const { eventId } = req.params;
-    const { userId, status } = req.body;
+    const { userId, status, approverStatus } = req.body;
 
     const event = await Event.findByPk(eventId);
 
@@ -402,12 +402,8 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
     }
 
     const group = await Group.findByPk(event.groupId);
-    const userMembership = await Membership.findOne({
-        userId: user.id,
-        groupId: group.id
-    });
 
-    if (user.id !== group.organizerId && userMembership.status !== 'co-host') {
+    if (user.id !== group.organizerId && approverStatus !== 'co-host') {
         res.statusCode = 403;
         res.json({
             message: 'Forbidden',

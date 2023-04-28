@@ -40,21 +40,25 @@ const anyPending = (event) => {
 }
 
 const attendingStatus = (event, userId) => {
-    for (const attendee of event.attendees) {
-        if (attendee.userId === userId) {
-            return attendee.status
+    if (event.attendees) {
+        for (const attendee of event?.attendees) {
+            if (attendee.userId === userId) {
+                return attendee.status
+            }
         }
+        return false
     }
-    return false
 }
 
 const isMember = (members, userId) => {
-    for (const member of members) {
-        if (Object.values(member).userId === userId) {
-            return true
+    if (members) {
+        for (const member of members) {
+            if (member.userId === userId) {
+                return member.Membership.status
+            }
         }
+        return false
     }
-    return false
 }
 
 const SingleEvent = () => {
@@ -92,7 +96,7 @@ const SingleEvent = () => {
     }
 
     const handleApproval = async (userId) => {
-        const res = await dispatch(putEventAttendee(event.id, userId, "attending"))
+        const res = await dispatch(putEventAttendee(event.id, userId, "attending", isMember(members, user.id)))
         if (res) {
             setProcessing(false)
         }
@@ -287,7 +291,7 @@ const SingleEvent = () => {
                     }
                 </div>
             </div>
-            {(Object.values(event).length && event?.Organizer?.id === user?.id) ?
+            {(Object.values(event).length && event?.Organizer?.id === user?.id || isMember(members, user?.id) === 'co-host') ?
                 <div className='event-attendants'>
                     <h2 className='event-attendants-prompt'>Attendants</h2>
                     <div className='event-attendants-list-container'>
@@ -300,7 +304,6 @@ const SingleEvent = () => {
                                 if (attendant.status !== 'pending') {
                                     return (
                                         <div className='event-attendant' key={attendant.id}>
-                                            {console.log("a", attendant)}
                                             <div className='event-attendant-info'>
                                                 <div className='event-attendant-circle'>
                                                     <div className='event-attendant-circle-inner'>
@@ -349,7 +352,7 @@ const SingleEvent = () => {
                                 }
                             })
                                 :
-                                <div>No pending requests.</div>
+                                <div className='no-pending-request-message'>No pending requests.</div>
                         }
                     </div>
                 </div>

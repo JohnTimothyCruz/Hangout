@@ -78,6 +78,17 @@ const anyMembers = (group) => {
     return false
 }
 
+const isMember = (members, userId) => {
+    if (members) {
+        for (const member of members) {
+            if (member.userId === userId) {
+                return member?.Membership?.status
+            }
+        }
+        return false
+    }
+}
+
 const anyPending = (group) => {
     if (group?.members) {
         for (const member of group?.members) {
@@ -373,7 +384,7 @@ const SingleGroup = () => {
                         <div className='group-members'>
                             <div className='group-members-header'>
                                 <p className={chosenMemberMenuOption === 'members' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('members')}>Members</p>
-                                {user?.id === group?.organizerId &&
+                                {(user?.id === group?.organizerId || isMember(group?.members, user?.id) === 'co-host') &&
                                     <p className={chosenMemberMenuOption === 'pending' ? 'chosen' : ''} onClick={() => setChosenMemberMenuOption('pending')}>Pending</p>
                                 }
                             </div>
@@ -381,9 +392,10 @@ const SingleGroup = () => {
                                 <div className='group-members-member-container'>
                                     {anyMembers(group) ?
                                         group.members.map(member => {
+                                            const viewerStatus = isMember(group?.members, user?.id)
                                             if (member?.Membership?.status !== 'pending') {
                                                 return (
-                                                    <SingleGroupMember props={[member, user, group?.organizerId, member?.Membership?.status]} key={member?.id} />
+                                                    <SingleGroupMember props={[member, viewerStatus, group?.organizerId, member?.Membership?.status]} key={member?.id} />
                                                 )
                                             }
                                         })
