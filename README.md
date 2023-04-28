@@ -94,5 +94,5 @@ Check it out: [Brainbash](https://brainbash.onrender.com/)
 * Users can edit their discussion posts.
 * Users can delete their discussion posts.
 
-## Other
+### Other
 * Price has functionality
