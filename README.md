@@ -21,13 +21,19 @@ Check it out: [Brainbash](https://brainbash.onrender.com/)
 * Render
 
 ## Splash Page
-![image](https://user-images.githubusercontent.com/112726832/229936375-5d4a30bd-62d1-4d39-910b-9ba0210c6484.png)
+![image](https://user-images.githubusercontent.com/112726832/235204260-879eb0d0-89a2-402e-ac10-2f74cc639068.png)
 
 ## Groups Page
-![image](https://user-images.githubusercontent.com/112726832/229936419-f50cddc8-08f1-4602-bd2c-b461dc50582f.png)
+![image](https://user-images.githubusercontent.com/112726832/235204307-62fdc99e-d977-44a3-a30a-992ba3ed6e6c.png)
 
 ## Group Page
-![image](https://user-images.githubusercontent.com/112726832/229936463-d5f4170c-c66e-4224-9aa9-bc270b1afc00.png)
+![image](https://user-images.githubusercontent.com/112726832/235204381-bf8f593d-45af-46bf-886b-bd5445f63237.png)
+
+## Events Page
+![image](https://user-images.githubusercontent.com/112726832/235204463-00245352-32c9-40ea-9b0c-c87d57ae021d.png)
+
+## Event Page
+![image](https://user-images.githubusercontent.com/112726832/235204516-5b00e752-072b-4e12-ad20-10cb0c5e6588.png)
 
 ## Getting started
 1. Clone this repository:
@@ -55,15 +61,38 @@ Check it out: [Brainbash](https://brainbash.onrender.com/)
 * Users can edit their events.
 * Users can delete their events.
 
+## Members
+* Users can create a request membership to a group.
+* Users can read/view group members.
+* Hosts and co-hosts can edit a user's group member status.
+* Users can remove their memberships.
+
+## Attendance
+* Users can create a request to attend an event.
+* Hosts and co-hosts can read/view event attendees.
+* Hosts and co-hosts can edit a user's event attendance status.
+* Users can remove their attendance.
+
+## Group Photos
+* Users can create a photo post on a group.
+* Users can read/view other photo posts.
+* Users can delete their photo posts.
+
 ## Future Features
+### Group Photos
+* Users can edit their photo posts.
+
+### Event Photos
+* Users can create a photo post on a group.
+* Users can read/view other photo posts.
+* Users can edit their photo posts.
+* Users can delete their photo posts.
+
 ### Discussions
 * Users can create a discussion post on a group.
 * Users can read/view other discussion posts.
 * Users can edit their discussion posts.
 * Users can delete their discussion posts.
 
-### Photos
-* Users can create a photo post on a group.
-* Users can read/view other photo posts.
-* Users can edit their photo posts.
-* Users can delete their photo posts.
+## Other
+* Price has functionality
