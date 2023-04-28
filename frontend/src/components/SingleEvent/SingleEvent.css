@@ -441,7 +441,7 @@ h5 {
     width: 100%;
     background-color: white;
     border-radius: 10px;
-    padding: 20px;
+    padding: 20px 20px 0px 20px;
     margin-bottom: 640px;
 }
 
@@ -459,6 +459,10 @@ h5 {
     margin: 0px;
 }
 
+.no-pending-request-message {
+    padding-bottom: 20px;
+}
+
 .event-attendants-header p.chosen {
     color: teal;
     padding-bottom: 15px;
@@ -468,6 +472,7 @@ h5 {
 .event-attendant {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 20px;
 }
 
 .event-attendant-circle {

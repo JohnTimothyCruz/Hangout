@@ -182,11 +182,11 @@ export const postEventAttendee = (eventId) => async dispatch => {
     }
 }
 
-export const putEventAttendee = (eventId, userId, status) => async dispatch=> {
+export const putEventAttendee = (eventId, userId, status, approverStatus) => async dispatch=> {
     const res = await csrfFetch(`/api/events/${eventId}/attendance`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, status })
+        body: JSON.stringify({ userId, status, approverStatus })
     })
 
     if (res.ok) {
