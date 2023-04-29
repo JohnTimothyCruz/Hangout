@@ -66,7 +66,7 @@
 }
 
 .empty-event-description {
-    width: 1000px;
+    width: 20%;
     height: 48px;
 }
 
@@ -81,6 +81,8 @@
     top: 71px;
     left: 0;
     right: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .main-top {
@@ -144,12 +146,13 @@
 }
 
 .event-img {
-    object-fit: contain;
+    object-fit: cover;
     background-color: white;
     border-radius: 10px;
-    min-width: 544px;
-    max-height: 320px;
+    min-width: 591px;
+    height: 320px;
     margin-right: 10px;
+    border: 1px solid lightgrey;
 }
 
 .group-card-info {
@@ -189,6 +192,7 @@
     width: 90px;
     height: 62px;
     border-radius: 10px;
+    border: 1px solid lightgrey;
 }
 
 .group-status {
@@ -274,6 +278,7 @@ h5 {
     padding: 20px 15% 0px 15%;
     width: 70%;
     display: flex;
+    background-color: lightgrey;
 }
 
 .status-left {
@@ -322,8 +327,7 @@ h5 {
 }
 
 .event-details {
-    min-width: 1000px;
-    max-width: 1000px;
+    flex-grow: 1;
     overflow-wrap: break-word;
 }
 
@@ -405,6 +409,7 @@ h5 {
 
 .attending-status-message {
     color: #e02856;
+    text-align: end;
 }
 
 .attending-status-container {
@@ -433,15 +438,17 @@ h5 {
 
 /* Attendance section styles */
 .event-attendants {
+    background-color: lightgrey;
     padding: 20px 15% 0px 15%;
     width: 70%;
+    flex-grow: 1;
 }
 
 .event-attendants-list-container {
     width: 100%;
     background-color: white;
     border-radius: 10px;
-    padding: 20px 20px 0px 20px;
+    padding: 20px;
     margin-bottom: 640px;
 }
 
@@ -457,10 +464,6 @@ h5 {
     color: grey;
     cursor: pointer;
     margin: 0px;
-}
-
-.no-pending-request-message {
-    padding-bottom: 20px;
 }
 
 .event-attendants-header p.chosen {

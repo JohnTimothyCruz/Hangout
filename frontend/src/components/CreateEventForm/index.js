@@ -16,12 +16,13 @@ const CreateEvent = () => {
 
     const typeOptions = ['(select one)', 'In Person', 'Online']
     const venueOptions = []
+
     if (venues) {
         for (const venue of venues) {
             venueOptions.push(venue.address)
         }
     }
-    
+
     const [name, setName] = useState('')
     const [type, setType] = useState(typeOptions[0])
     const [capacity, setCapacity] = useState('')
@@ -44,6 +45,7 @@ const CreateEvent = () => {
     const updateImage = (e) => setImage(e.target.value)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchGroup(id))
     }, [])
 
@@ -101,7 +103,7 @@ const CreateEvent = () => {
 
     const handleTestSubmit = async () => {
         const eventInfo = {
-            name: "Test Event",
+            name: `Test Group ${user.id}`,
             type: "Online",
             price: 0,
             startDate: '12-12-2099 20:00:00',
@@ -235,7 +237,7 @@ const CreateEvent = () => {
                     </div>
                     <div className='CreateEventForm-button-container'>
                         <button type='submit' className='CreateEventForm-button'>Create Event</button>
-                        <div onClick={() => handleTestSubmit()}>Create Default Event</div>
+                        <div onClick={() => handleTestSubmit()}>Create Default Event (one per user)</div>
                     </div>
                 </form>
             </div>

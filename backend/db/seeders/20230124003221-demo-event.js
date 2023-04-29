@@ -94,8 +94,8 @@ module.exports = {
         type: 'In Person',
         capacity: 15,
         price: '0',
-        startDate: '2023-3-4 11:00:00',
-        endDate: '2023-3-4 12:30:00'
+        startDate: '2024-3-4 11:00:00',
+        endDate: '2024-3-4 12:30:00'
       },
       {
         venueId: 2,
@@ -105,8 +105,8 @@ module.exports = {
         type: 'In Person',
         capacity: 25,
         price: '0',
-        startDate: '2023-4-24 9:00:00',
-        endDate: '2023-4-24 19:00:00'
+        startDate: '2024-4-24 9:00:00',
+        endDate: '2024-4-24 19:00:00'
       },
       {
         venueId: 3,
@@ -195,7 +195,183 @@ module.exports = {
         price: '0',
         startDate: '2019-9-30 17:00:00',
         endDate: '2019-9-30 21:00:00'
-      }
+      },
+      {
+        venueId: 8,
+        groupId: 8,
+        name: 'Central Park Cleaning',
+        description: 'This will be out first event where we will be cleaning up the famous Central Park! High visibility vests and tools will be provided. Please come and clean if you have the time.',
+        type: 'In Person',
+        capacity: 30,
+        price: '0',
+        startDate: '2024-1-14 9:00:00',
+        endDate: '2024-1-14 11:00:00'
+      },
+      {
+        venueId: 10,
+        groupId: 10,
+        name: 'How to make an engine that runs on gasoline?',
+        description: 'We got Lizzy Smith, an experienced car mechanic, here to show us how to make a functinoal engine. Maybe don\'t follow along at home for this one...',
+        type: 'Online',
+        capacity: 20,
+        price: '1',
+        startDate: '2024-3-18 11:23:00',
+        endDate: '2024-3-18 13:20:00'
+      },
+      {
+        venueId: 10,
+        groupId: 10,
+        name: 'How to swim?',
+        description: 'We got Michael Hernderson, a certified swimming tutor, to show us how to swim. If you follow along at home, maybe have a supervisor with you.',
+        type: 'Online',
+        capacity: 20,
+        price: '1',
+        startDate: '2024-4-18 12:00:00',
+        endDate: '2024-4-18 13:01:00'
+      },
+      {
+        venueId: 10,
+        groupId: 10,
+        name: 'How to survive a nuclear explosion?',
+        description: 'We got Amilia Ester, a random person who volunteered to tutor this event, to show us what to do when the clock hits 12.',
+        type: 'Online',
+        capacity: 20,
+        price: '0',
+        startDate: '2024-5-18 15:50:00',
+        endDate: '2024-5-18 17:20:00'
+      },
+      {
+        venueId: 10,
+        groupId: 10,
+        name: 'How to create an airplane?',
+        description: 'We got Dan Pai, a pilot and part-time model airplane maker, to show us how to make an airplane.',
+        type: 'Online',
+        capacity: 20,
+        price: '0',
+        startDate: '2024-6-18 16:40:00',
+        endDate: '2024-6-18 18:30:00'
+      },
+      {
+        venueId: 11,
+        groupId: 11,
+        name: 'Starry Night Photo Show',
+        description: 'Take some photos of the night sky and bring them here to show off! Then we\'ll share advice for those who need it!',
+        type: 'Online',
+        capacity: 20,
+        price: '0',
+        startDate: '2023-12-30 12:00:00',
+        endDate: '2023-12-30 13:40:00'
+      },
+      {
+        venueId: 11,
+        groupId: 11,
+        name: 'Architecture Photo Show',
+        description: 'Take some photos of architecture around you and bring them here to show off! Then we\'ll share advice for those who need it!',
+        type: 'Online',
+        capacity: 20,
+        price: '0',
+        startDate: '2024-3-19 10:00:00',
+        endDate: '2024-3-19 11:40:00'
+      },
+      {
+        venueId: 12,
+        groupId: 12,
+        name: 'Rocket Launching',
+        description: 'We\'re going simple this time and are just going to lauch store bought rockets. But also we\'re going to attach ten rockets together and make them launch one after the other to see how high they fly.',
+        type: 'Online',
+        capacity: 50,
+        price: '5',
+        startDate: '2020-1-1 15:00:00',
+        endDate: '2020-1-1 17:00:00'
+      },
+      {
+        venueId: 12,
+        groupId: 12,
+        name: 'Sun Laser',
+        description: 'We are going to go to an open field, lace it with automated mirrors, and point all of them at random directions, likely setting stuff on fire on the way.',
+        type: 'Online',
+        capacity: 50,
+        price: '5',
+        startDate: '2021-12-8 15:00:00',
+        endDate: '2021-12-8 17:00:00'
+      },
+      {
+        venueId: 12,
+        groupId: 12,
+        name: 'Boat',
+        description: 'We\'re just going to make a boat. Simple wind power ones specifically. Then we\'re going to put them in the middle of the ocean to see if they can break through building-tall waves.',
+        type: 'Online',
+        capacity: 50,
+        price: '5',
+        startDate: '2022-12-8 15:00:00',
+        endDate: '2022-12-8 17:00:00'
+      },
+      {
+        venueId: 12,
+        groupId: 12,
+        name: 'Baking soda volcano',
+        description: 'Exactly what it says on the tin. We\'re doing that same experiment every elementary schooler did. Oh, but we\'re going to make the volcano 20 feet tall. Also there\'s going to be like, 7 of them.',
+        type: 'Online',
+        capacity: 50,
+        price: '5',
+        startDate: '2023-1-1 15:00:00',
+        endDate: '2023-1-1 17:00:00'
+      },
+      {
+        venueId: 12,
+        groupId: 12,
+        name: 'Tesla Tower',
+        description: 'To put in layman\'s terms, we\'re going to make a tower that shoots electricity for kicks. Maybe we\'ll try to charge some car batteries with it.',
+        type: 'Online',
+        capacity: 50,
+        price: '5',
+        startDate: '2024-1-1 15:00:00',
+        endDate: '2024-1-1 17:00:00'
+      },
+      {
+        venueId: 13,
+        groupId: 13,
+        name: 'Melancholy',
+        description: 'Bring some songs you\'ve enjoyed with the theme \'melancholy\'.',
+        type: 'Online',
+        capacity: 15,
+        price: '0',
+        startDate: '2024-6-1 14:30:00',
+        endDate: '2024-6-1 16:00:00'
+      },
+      {
+        venueId: 13,
+        groupId: 13,
+        name: 'City Pop',
+        description: 'Bring some songs you\'ve enjoyed with the theme \'city pop\'.',
+        type: 'Online',
+        capacity: 15,
+        price: '0',
+        startDate: '2024-12-1 14:30:00',
+        endDate: '2024-12-1 16:00:00'
+      },
+      {
+        venueId: 14,
+        groupId: 14,
+        name: 'Speluncaphobia',
+        description: 'On 4/14 at 12am, we\'re going to make an at least 2 hour long video about the subject of speluncaphobia, or fear of caves. 24 hours.',
+        type: 'Online',
+        capacity: 0,
+        price: '0',
+        startDate: '2024-4-14 12:00:00',
+        endDate: '2024-4-15 12:00:00'
+      },
+      {
+        venueId: 14,
+        groupId: 14,
+        name: 'Theories on King Arthur',
+        description: 'On 7/15 at 12 am, we\'re going to make an at least 15 page paper about the various theories on King Arthur. 24 hours.',
+        type: 'Online',
+        capacity: 0,
+        price: '0',
+        startDate: '2024-7-15 12:00:00',
+        endDate: '2024-7-16 12:00:00'
+      },
     ], {})
   },
 

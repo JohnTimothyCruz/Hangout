@@ -38,6 +38,7 @@
     margin: 20px 0;
     cursor: pointer;
     display: flex;
+    width: 100%;
     text-decoration: none;
 }
 
@@ -49,10 +50,13 @@
     flex-shrink: 0;
     border-radius: 10px;
     object-fit: cover;
+    border: 1px solid lightgrey;
 }
 
 .card-right {
-    width: 760px;
+    width: 71%;
+    display: flex;
+    flex-direction: column;
 }
 
 .group-name {

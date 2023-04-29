@@ -9,6 +9,7 @@ const GroupList = () => {
     const groups = useSelector(state => state.groups.allGroups)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchGroups())
         dispatch(clearGroup())
     }, []);
@@ -30,7 +31,7 @@ const GroupList = () => {
                 <NavLink to='/groups' className='current'>
                     Groups
                 </NavLink>
-                <h4 className="title">Groups in Meetup</h4>
+                <h4 className="title">Groups in Hangout</h4>
             </div>
             {Object.values(groups) && Object.values(groups).map((group) => (
                 <div className="group-container" key={group?.id}>

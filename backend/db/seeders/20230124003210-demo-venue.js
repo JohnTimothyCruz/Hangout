@@ -75,7 +75,63 @@ module.exports = {
         state: 'WA',
         lat: 48.08410139788176,
         lng: -122.23191628257383
-      }
+      },
+      {
+        groupId: 8,
+        address: 'Jacqueline Kennedy Onassis Reservoir',
+        city: 'New York',
+        state: 'NY',
+        lat: 40.78916222697708,
+        lng: -73.9655854857704
+      },
+      {
+        groupId: 9,
+        address: 'Blanco Urban Venue, 12 N San Pedro St',
+        city: 'San Jose',
+        state: 'CA',
+        lat: 37.34029816918312,
+        lng: -121.89354183598168
+      },
+      {
+        groupId: 10,
+        address: 'Dry Creek Gatherings & Dry Creek Floral, 30663 Moore Rd',
+        city: 'Houston',
+        state: 'TX',
+        lat: 30.196896884400807,
+        lng: -95.64206167355253
+      },
+      {
+        groupId: 11,
+        address: '48 Degrees North 2.0 LLC., 15 3rd St E',
+        city: 'Kalispell',
+        state: 'MT',
+        lat: 48.20069731252827,
+        lng: -114.3142712630851
+      },
+      {
+        groupId: 12,
+        address: 'Duck Creek Stampe Lilac Garden, 3300 E Locust St',
+        city: 'Davenport',
+        state: 'IA',
+        lat: 41.54599362960621,
+        lng: -90.53046736113176
+      },
+      {
+        groupId: 13,
+        address: 'Little America Hotel & Resort - Cheyenne, 2800 W Lincolnway',
+        city: 'Cheyenne',
+        state: 'WY',
+        lat: 41.12392355794562,
+        lng: -104.8580327948249
+      },
+      {
+        groupId: 14,
+        address: 'The Station at 5 Points, 400 Mobile St',
+        city: 'Montgomery',
+        state: 'AL',
+        lat: 32.379331974426506,
+        lng: -86.31698452202833
+      },
     ], {})
   },
 

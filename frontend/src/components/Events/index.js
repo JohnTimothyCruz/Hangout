@@ -10,6 +10,7 @@ const EventList = () => {
     let futureEvents;
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchEvents())
         dispatch(clearEvent())
     }, []);
@@ -20,12 +21,15 @@ const EventList = () => {
         if (new Date(a.startDate) === new Date(b.startDate)) return 0
     }
 
-    const allUpcomingEvents = (eventsObj) => {
+    const allUpcomingEvents = (events) => {
         const now = Date.now();
-        const allEvents = Object.values(eventsObj);
+        const allEvents = Object.values(events);
+
+        if (allEvents === undefined) return {};
+
         const upcoming = [];
 
-        allEvents.forEach(event => {
+        Object.values(allEvents).forEach(event => {
             const end = new Date(event.startDate)
             if (end > now) {
                 upcoming.push(event)
@@ -51,7 +55,7 @@ const EventList = () => {
                 <NavLink to='/groups' className='unselected'>
                     Groups
                 </NavLink>
-                <h4 className="title">Events in Meetup</h4>
+                <h4 className="title">Events in Hangout</h4>
             </div>
             {Object.values(futureEvents).map((event) => {
                 const time = new Date(event.startDate)

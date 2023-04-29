@@ -133,3 +133,20 @@
 .profile-page-events {
     margin-bottom: 86px;
 }
+
+/* Single groups/events styles */
+.profile-page-user-events-container,
+.profile-page-user-groups-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-event,
+.profile-group {
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid lightgrey;
+    display: flex;
+}

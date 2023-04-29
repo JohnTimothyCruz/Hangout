@@ -33,7 +33,7 @@
 }
 
 .empty-group-about {
-    width: 980px;
+    width: 535px;
     height: 54px;
 }
 
@@ -110,6 +110,7 @@
     height: 320px;
     margin-right: 20px;
     border-radius: 10px;
+    border: 1px solid lightgrey;
 }
 
 .group-middle-right {
@@ -301,10 +302,11 @@
 }
 
 .SingleGroup-event-image {
-    object-fit: contain;
-    min-width: 178px;
-    max-height: 124px;
+    object-fit: cover;
+    width: 188px;
+    height: 126px;
     border-radius: 10px;
+    border: 1px solid lightgrey;
 }
 
 /* Group Image page styles */

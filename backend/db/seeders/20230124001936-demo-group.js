@@ -83,6 +83,69 @@ module.exports = {
         city: 'Everett',
         state: 'WA'
       },
+      {
+        organizerId: 8,
+        name: 'Volunteer Trash Pickers',
+        about: 'We want to make out home a little cleaner. Join us every Saturday to help us clean!',
+        type: 'In Person',
+        private: false,
+        city: 'New York',
+        state: 'NY'
+      },
+      {
+        organizerId: 9,
+        name: 'Movie Reviewers',
+        about: 'We like going to the movies then talking about them. Simple as that! Come around if you like talking about upcoming films!',
+        type: 'Online',
+        private: false,
+        city: 'San Jose',
+        state: 'CA'
+      },
+      {
+        organizerId: 10,
+        name: 'How to everything',
+        about: 'Each week we find a random skill that we want to learn and bring in a guest to walk us through it! Learn new skills, meet new people, and have a good time.',
+        type: 'Online',
+        private: false,
+        city: 'Houston',
+        state: 'TX'
+      },
+      {
+        organizerId: 11,
+        name: 'Photography Club',
+        about: 'A group of people who like sharing pictures with each other. Sometimes we meet up and talk about camera tips and tricks!',
+        type: 'Online',
+        private: true,
+        city: 'Kalispell',
+        state: 'MT'
+      },
+      {
+        organizerId: 12,
+        name: 'Random Science!',
+        about: 'We do science stuff for fun because we can, and sharing them online for anyone to watch!',
+        type: 'In Person',
+        private: true,
+        city: 'Davenport',
+        state: 'IA'
+      },
+      {
+        organizerId: 13,
+        name: 'Music Makers',
+        about: 'Do you like listening to music but your playlist is lacking in songs? Well, here at Music Makers, we meetup every other week and share hidden gems of music with each other!',
+        type: 'Online',
+        private: false,
+        city: 'Cheyenne',
+        state: 'WY'
+      },
+      {
+        organizerId: 14,
+        name: 'Rush Projects',
+        about: 'We like making projects, but specifically those under stressful circumstances! Join our 24 hour rush projects to produce something of middling quality!',
+        type: 'Online',
+        private: true,
+        city: 'Montgomery',
+        state: 'AL'
+      }
     ], {})
   },
 

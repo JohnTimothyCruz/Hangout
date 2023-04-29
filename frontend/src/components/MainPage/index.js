@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
+import AboutModal from '../AboutModal'
 import './MainPage.css'
 
 function MainPage() {
@@ -9,8 +11,8 @@ function MainPage() {
         <div className='main-page-container'>
             <div className="main-page-top">
                 <div className='top-left'>
-                    <h1 className='title-text'>The people platform—Where interests become friendships</h1>
-                    <p>Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Meetup. Events are happening every day—log in to join the fun.</p>
+                    <h1 className='title-text'>The people platform—where interests become friendships</h1>
+                    <p>Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Hangout. Events are happening every day—log in to join the fun.</p>
                 </div>
                 <div className='top-right'>
                     <img src='https://secure.meetupstatic.com/next/images/shared/online_events.svg?w=640'></img>
@@ -21,8 +23,11 @@ function MainPage() {
                     <div className='caption'>
                         <h2>How hangOut works</h2>
                         <p className='caption-text'>Meet new people who share your interests through online and in-person events. It's free to create an account.</p>
+                        <OpenModalMenuItem
+                            modalComponent={<AboutModal />}
+                            itemText='About Hangout'
+                        />
                     </div>
-
                     <div className='options-container'>
                         <div className='options'>
                             <div className='option'>

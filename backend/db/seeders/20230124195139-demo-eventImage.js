@@ -22,31 +22,31 @@ module.exports = {
     await queryInterface.bulkInsert(options, [
       {
         eventId: 1,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/250px-YouTube_Logo_2017.svg.png',
+        url: 'https://cdn.icon-icons.com/icons2/2699/PNG/512/youtube_logo_icon_168737.png',
         preview: true
       },
       {
         eventId: 2,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Reddit_icon.svg/150px-Reddit_icon.svg.png',
+        url: 'https://cdn.icon-icons.com/icons2/729/PNG/512/reddit_icon-icons.com_62749.png',
         preview: true
       },
       {
         eventId: 3,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/LinkedIn_2021.svg/200px-LinkedIn_2021.svg.png',
+        url: 'https://cdn.icon-icons.com/icons2/1099/PNG/512/1485482199-linkedin_78667.png',
         preview: true
       },
       {
         eventId: 4,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/MDN_Web_Docs_logo.svg/220px-MDN_Web_Docs_logo.svg.png',
+        url: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/mozilla_logo_icon_145048.png',
         preview: true
       }, {
         eventId: 5,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/220px-Spotify_logo_with_text.svg.png',
+        url: 'https://cdn.icon-icons.com/icons2/2108/PNG/512/spotify_icon_130826.png',
         preview: true
       },
       {
         eventId: 6,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Kickstarter_logo_2019.svg/220px-Kickstarter_logo_2019.svg.png',
+        url: 'https://cdn.icon-icons.com/icons2/2429/PNG/512/kickstarter_logo_icon_147271.png',
         preview: true
       },
       {
@@ -71,31 +71,111 @@ module.exports = {
       },
       {
         eventId: 11,
-        url: 'https://nmcdn.io/e186d21f8c7946a19faed23c3da2f0da/556712d9bf0f4cb2a916cc810687d52b/files/blog-drafts/talking.png',
+        url: 'https://media.istockphoto.com/id/1139543834/vector/two-business-people-office-workers-man-woman-characters-talking-business-life-concept-vector.jpg?s=612x612&w=0&k=20&c=pvwFUkZZoC3Sbv0A534LHWMe6mW7Uj_ZWkYVnnP0vjY=',
         preview: true
       },
       {
         eventId: 12,
-        url: 'https://nmcdn.io/e186d21f8c7946a19faed23c3da2f0da/556712d9bf0f4cb2a916cc810687d52b/files/blog-drafts/talking.png',
+        url: 'https://media.istockphoto.com/id/1139543834/vector/two-business-people-office-workers-man-woman-characters-talking-business-life-concept-vector.jpg?s=612x612&w=0&k=20&c=pvwFUkZZoC3Sbv0A534LHWMe6mW7Uj_ZWkYVnnP0vjY=',
         preview: true
       },
       {
         eventId: 13,
-        url: 'https://nmcdn.io/e186d21f8c7946a19faed23c3da2f0da/556712d9bf0f4cb2a916cc810687d52b/files/blog-drafts/talking.png',
+        url: 'https://media.istockphoto.com/id/1139543834/vector/two-business-people-office-workers-man-woman-characters-talking-business-life-concept-vector.jpg?s=612x612&w=0&k=20&c=pvwFUkZZoC3Sbv0A534LHWMe6mW7Uj_ZWkYVnnP0vjY=',
         preview: true
       }, {
         eventId: 14,
-        url: 'https://nmcdn.io/e186d21f8c7946a19faed23c3da2f0da/556712d9bf0f4cb2a916cc810687d52b/files/blog-drafts/talking.png',
+        url: 'https://media.istockphoto.com/id/1139543834/vector/two-business-people-office-workers-man-woman-characters-talking-business-life-concept-vector.jpg?s=612x612&w=0&k=20&c=pvwFUkZZoC3Sbv0A534LHWMe6mW7Uj_ZWkYVnnP0vjY=',
         preview: true
       },
       {
         eventId: 15,
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvbHgztZzrbHP-lwbZrRXIwChwUJh9g9QNxA&usqp=CAU',
+        url: 'https://media.istockphoto.com/id/1285965933/photo/audiobooks-concept.jpg?s=612x612&w=0&k=20&c=qg6eBtrhwa1eRe-bEFXHs9eMtfTCMSn0ienNMw3XO04=',
         preview: true
       },
       {
         eventId: 16,
         url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbWMwFgcYFDCq46r9UIxm1sfq3a1P3ifVbxQ&usqp=CAU',
+        preview: true
+      },
+      {
+        eventId: 17,
+        url: 'https://www.newyorkbyrail.com/wp-content/uploads/2017/12/Central-Park-New-York-City-New-York-By-Rail.jpg',
+        preview: true
+      },
+      {
+        eventId: 18,
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Porsche_3512_engine_rear-left_2019_Prototyp_Museum.jpg/220px-Porsche_3512_engine_rear-left_2019_Prototyp_Museum.jpg',
+        preview: true
+      },
+      {
+        eventId: 19,
+        url: 'https://www.unh.edu/unhtoday/sites/default/files/styles/article_huge/public/article/2022/ocean_desert.jpeg?itok=Yl-z8ctk',
+        preview: true
+      },
+      {
+        eventId: 20,
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Operation_Upshot-Knothole_-_Badger_001.jpg/250px-Operation_Upshot-Knothole_-_Badger_001.jpg',
+        preview: true
+      },
+      {
+        eventId: 21,
+        url: 'https://cfd2012.com/uploads/3/5/1/0/35107563/2498516.jpg?635',
+        preview: true
+      },
+      {
+        eventId: 22,
+        url: 'https://s7d2.scene7.com/is/image/TWCNews/stars_png?wid=1024&hei=576&$wide-bg$',
+        preview: true
+      },
+      {
+        eventId: 23,
+        url: 'https://static.dezeen.com/uploads/2022/07/pemberton-heights-sanders-architecture-hero-852x479.jpg',
+        preview: true
+      },
+      {
+        eventId: 24,
+        url: 'https://www.wired.com/wp-content/uploads/images_blogs/geekdad/images/2009/04/19/saturnv_2.jpg',
+        preview: true
+      },
+      {
+        eventId: 25,
+        url: 'https://universemagazine.com/wp-content/uploads/2022/06/0-1-1024x683.jpg',
+        preview: true
+      },
+      {
+        eventId: 26,
+        url: 'https://media.istockphoto.com/id/1340079356/photo/illustration-of-the-ship-in-the-storm-gigantic-waves.jpg?s=612x612&w=0&k=20&c=lZC0_-xmS_mC2L0BgWPLyaYDtWnkT8VsNyln6QVIia0=',
+        preview: true
+      },
+      {
+        eventId: 27,
+        url: 'https://medlineplus.gov/images/Volcanoes.jpg',
+        preview: true
+      },
+      {
+        eventId: 28,
+        url: 'https://www.eastbaytimes.com/wp-content/uploads/2020/02/ALJ-L-TESLA-0207-4_72327492.jpg?w=620',
+        preview: true
+      },
+      {
+        eventId: 29,
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Edvard_Munch_-_Melancholy_%281894%29.jpg/220px-Edvard_Munch_-_Melancholy_%281894%29.jpg',
+        preview: true
+      },
+      {
+        eventId: 30,
+        url: 'https://www.rollingstone.com/wp-content/uploads/2019/05/tokyo-at-night.jpg?w=1581&h=1054&crop=1',
+        preview: true
+      },
+      {
+        eventId: 31,
+        url: 'https://media.timeout.com/images/105875364/750/422/image.jpg',
+        preview: true
+      },
+      {
+        eventId: 32,
+        url: 'https://www.sbs.com.au/guide/sites/sbs.com.au.guide/files/styles/full/public/charles_ernest_butler_-_king_arthur.jpg?itok=LSM9iAcJ&mtime=1547434923',
         preview: true
       },
     ], {})
