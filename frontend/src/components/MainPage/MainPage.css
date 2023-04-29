@@ -166,3 +166,22 @@
 .join-button:hover {
     background-color: rgba(0, 128, 128, 0.753);
 }
+
+.caption > p:not(.caption-text),
+.main-page-container > p {
+    background-color: teal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 20px;
+    width: fit-content;
+    height: 22px;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 15px 0px 5px 0px;
+    text-decoration: none;
+}

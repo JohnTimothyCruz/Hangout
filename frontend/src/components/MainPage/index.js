@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
+import AboutModal from '../AboutModal'
 import './MainPage.css'
 
 function MainPage() {
@@ -21,8 +23,11 @@ function MainPage() {
                     <div className='caption'>
                         <h2>How hangOut works</h2>
                         <p className='caption-text'>Meet new people who share your interests through online and in-person events. It's free to create an account.</p>
+                        <OpenModalMenuItem
+                            modalComponent={<AboutModal />}
+                            itemText='About Hangout'
+                        />
                     </div>
-
                     <div className='options-container'>
                         <div className='options'>
                             <div className='option'>

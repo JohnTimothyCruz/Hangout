@@ -1,0 +1,60 @@
+#about-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 25px;
+    width: 450px;
+    height: fit-content;
+}
+
+#about-prompt {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 800;
+    width: 80%;
+    margin: 10px 0px 20px 0px;
+}
+
+#about-me-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 17px;
+    color: rgb(107, 107, 107);
+    text-align: center;
+    padding: 10px 0px 30px 0px;
+}
+
+#about-me-container a {
+    text-decoration: none;
+    color: black;
+}
+
+#about-me-container i {
+    cursor: pointer;
+}
+
+.fa-github {
+    color: rgb(56, 56, 56);
+}
+
+.fa-linkedin {
+    color: rgb(0, 162, 255);
+}
+
+#about-close-button {
+    cursor: pointer;
+    background-color: teal;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 10px;
+}
+
+#about-close-button:hover {
+    background-color: rgba(0, 128, 128, 0.795);
+}
