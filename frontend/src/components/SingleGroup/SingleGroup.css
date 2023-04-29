@@ -301,10 +301,11 @@
 }
 
 .SingleGroup-event-image {
-    object-fit: contain;
+    object-fit: cover;
     min-width: 178px;
     max-height: 124px;
     border-radius: 10px;
+    border: 1px solid lightgrey;
 }
 
 /* Group Image page styles */

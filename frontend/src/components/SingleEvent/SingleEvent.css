@@ -152,6 +152,7 @@
     min-height: 320px;
     max-height: 320px;
     margin-right: 10px;
+    border: 1px solid lightgrey;
 }
 
 .group-card-info {
@@ -191,6 +192,7 @@
     width: 90px;
     height: 62px;
     border-radius: 10px;
+    border: 1px solid lightgrey;
 }
 
 .group-status {
@@ -436,7 +438,7 @@ h5 {
 /* Attendance section styles */
 .event-attendants {
     background-color: lightgrey;
-    padding: 20px 15% 0px 15%;
+    padding: 15% 15% 0px 15%;
     width: 70%;
     flex-grow: 1;
 }

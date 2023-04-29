@@ -68,6 +68,7 @@
     margin-right: 12px;
     align-self: flex-start;
     border-radius: 10px;
+    border: 1px solid lightgrey;
 }
 
 .card-top-right {

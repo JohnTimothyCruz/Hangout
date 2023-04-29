@@ -357,7 +357,7 @@ const SingleEvent = () => {
                     </div>
                 </div>
                 :
-                <></>
+                <div className='event-attendants'></div>
             }
         </div>
     )

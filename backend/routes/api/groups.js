@@ -250,6 +250,7 @@ router.get('/', async (req, res, next) => {
         };
         if (members) {
             group.dataValues.numMembers = members.length;
+            group.dataValues.members = members;
         };
 
         groups.push(group);

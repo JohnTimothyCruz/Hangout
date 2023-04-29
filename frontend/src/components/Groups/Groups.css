@@ -50,6 +50,7 @@
     flex-shrink: 0;
     border-radius: 10px;
     object-fit: cover;
+    border: 1px solid lightgrey;
 }
 
 .card-right {

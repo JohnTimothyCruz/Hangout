@@ -217,6 +217,7 @@ router.get('/', async (req, res, next) => {
 
         event.toJSON();
         event.dataValues.numAttending = attendees.length
+        event.dataValues.attendees = attendees
         events.push(event)
     }
 
