@@ -94,7 +94,42 @@ module.exports = {
         userId: 5,
         groupId: 8,
         status: 'host'
-      }
+      },
+      {
+        userId: 8,
+        groupId: 8,
+        status: 'host'
+      },
+      {
+        userId: 9,
+        groupId: 9,
+        status: 'host'
+      },
+      {
+        userId: 10,
+        groupId: 10,
+        status: 'host'
+      },
+      {
+        userId: 11,
+        groupId: 11,
+        status: 'host'
+      },
+      {
+        userId: 12,
+        groupId: 12,
+        status: 'host'
+      },
+      {
+        userId: 13,
+        groupId: 13,
+        status: 'host'
+      },
+      {
+        userId: 14,
+        groupId: 14,
+        status: 'host'
+      },
     ], {})
   },
 

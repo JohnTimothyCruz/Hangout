@@ -21,12 +21,15 @@ const EventList = () => {
         if (new Date(a.startDate) === new Date(b.startDate)) return 0
     }
 
-    const allUpcomingEvents = (eventsObj) => {
+    const allUpcomingEvents = (events) => {
         const now = Date.now();
-        const allEvents = Object.values(eventsObj);
+        const allEvents = Object.values(events);
+
+        if (allEvents === undefined) return {};
+
         const upcoming = [];
 
-        allEvents.forEach(event => {
+        Object.values(allEvents).forEach(event => {
             const end = new Date(event.startDate)
             if (end > now) {
                 upcoming.push(event)

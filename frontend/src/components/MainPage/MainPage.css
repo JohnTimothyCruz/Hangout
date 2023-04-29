@@ -137,6 +137,7 @@
 .option h4 {
     height: 100px;
     font-weight: 400;
+    margin-bottom: 0px;
 }
 
 .join-button-container {

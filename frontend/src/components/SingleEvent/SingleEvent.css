@@ -149,7 +149,7 @@
     object-fit: cover;
     background-color: white;
     border-radius: 10px;
-    width: 591px;
+    min-width: 591px;
     height: 320px;
     margin-right: 10px;
     border: 1px solid lightgrey;
