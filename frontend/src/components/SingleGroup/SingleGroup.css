@@ -33,7 +33,7 @@
 }
 
 .empty-group-about {
-    width: 980px;
+    width: 535px;
     height: 54px;
 }
 
@@ -110,6 +110,7 @@
     height: 320px;
     margin-right: 20px;
     border-radius: 10px;
+    border: 1px solid lightgrey;
 }
 
 .group-middle-right {

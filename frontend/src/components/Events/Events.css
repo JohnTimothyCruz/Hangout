@@ -63,12 +63,13 @@
 }
 
 .card-top-left {
-    width: 178px;
-    height: 124px;
+    width: 195px;
+    height: 112px;
     margin-right: 12px;
     align-self: flex-start;
     border-radius: 10px;
     border: 1px solid lightgrey;
+    object-fit: cover;
 }
 
 .card-top-right {

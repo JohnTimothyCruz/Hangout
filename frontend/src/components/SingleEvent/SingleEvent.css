@@ -146,11 +146,11 @@
 }
 
 .event-img {
-    object-fit: contain;
+    object-fit: cover;
     background-color: white;
     border-radius: 10px;
-    min-height: 320px;
-    max-height: 320px;
+    width: 591px;
+    height: 320px;
     margin-right: 10px;
     border: 1px solid lightgrey;
 }
@@ -409,6 +409,7 @@ h5 {
 
 .attending-status-message {
     color: #e02856;
+    text-align: end;
 }
 
 .attending-status-container {
@@ -438,7 +439,7 @@ h5 {
 /* Attendance section styles */
 .event-attendants {
     background-color: lightgrey;
-    padding: 15% 15% 0px 15%;
+    padding: 20px 15% 0px 15%;
     width: 70%;
     flex-grow: 1;
 }
