@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react"
-import { fetchEvents } from "../../store/eventReducer"
-import { fetchGroups } from "../../store/groupReducer"
+import { clearEvent, fetchEvents } from "../../store/eventReducer"
+import { clearGroup, fetchGroups } from "../../store/groupReducer"
 import "./ProfilePage.css"
 
 const ProfilePage = () => {
@@ -58,6 +58,8 @@ const ProfilePage = () => {
     useEffect(() => {
         dispatch(fetchEvents())
         dispatch(fetchGroups())
+        dispatch(clearEvent())
+        dispatch(clearGroup())
     }, [dispatch])
 
     console.log(getUserRelatedEvents(), getUserRelatedGroups())

@@ -303,8 +303,8 @@
 
 .SingleGroup-event-image {
     object-fit: cover;
-    min-width: 178px;
-    max-height: 124px;
+    width: 188px;
+    height: 126px;
     border-radius: 10px;
     border: 1px solid lightgrey;
 }
