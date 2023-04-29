@@ -129,6 +129,7 @@ const SingleGroup = () => {
     const user = state.session.user
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchGroup(id))
         dispatch(clearEvent())
         dispatch(clearEvents())

@@ -9,6 +9,7 @@ const GroupList = () => {
     const groups = useSelector(state => state.groups.allGroups)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchGroups())
         dispatch(clearGroup())
     }, []);

@@ -56,6 +56,7 @@ const ProfilePage = () => {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchEvents())
         dispatch(fetchGroups())
         dispatch(clearEvent())

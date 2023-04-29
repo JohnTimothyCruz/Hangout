@@ -16,6 +16,7 @@ const CreateEvent = () => {
 
     const typeOptions = ['(select one)', 'In Person', 'Online']
     const venueOptions = []
+
     if (venues) {
         for (const venue of venues) {
             venueOptions.push(venue.address)
@@ -44,6 +45,7 @@ const CreateEvent = () => {
     const updateImage = (e) => setImage(e.target.value)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchGroup(id))
     }, [])
 

@@ -71,6 +71,7 @@ const SingleEvent = () => {
     const [processing, setProcessing] = useState(false)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         const asyncDispatches = async () => {
             dispatch(clearGroup())
             dispatch(clearGroups())

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { postGroup } from '../../store/groupReducer'
 import './CreateGroupForm.css'
+import { useEffect } from 'react'
 
 const typeOptions = ['(select one)', 'Online', 'In Person'];
 const publicityOptions = ['(select one)', 'Public', 'Private'];
@@ -26,6 +27,10 @@ const CreateGroupForm = () => {
     const updateType = (e) => setType(e.target.value);
     const updatePublicity = (e) => setPublicity(e.target.value);
     const updateImage = (e) => setImage(e.target.value);
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();

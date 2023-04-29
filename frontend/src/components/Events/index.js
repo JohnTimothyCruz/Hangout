@@ -10,6 +10,7 @@ const EventList = () => {
     let futureEvents;
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchEvents())
         dispatch(clearEvent())
     }, []);
