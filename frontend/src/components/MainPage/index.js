@@ -9,8 +9,8 @@ function MainPage() {
         <div className='main-page-container'>
             <div className="main-page-top">
                 <div className='top-left'>
-                    <h1 className='title-text'>The people platform—Where interests become friendships</h1>
-                    <p>Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Meetup. Events are happening every day—log in to join the fun.</p>
+                    <h1 className='title-text'>The people platform—where interests become friendships</h1>
+                    <p>Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Hangout. Events are happening every day—log in to join the fun.</p>
                 </div>
                 <div className='top-right'>
                     <img src='https://secure.meetupstatic.com/next/images/shared/online_events.svg?w=640'></img>

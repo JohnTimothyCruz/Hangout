@@ -87,7 +87,7 @@ const UpdateGroup = () => {
                     </div>
                     <div className='CreateGroupForm-location CreateGroupForm-section'>
                         <h2 className='CreateGroupForm-section-title' v>First, set your group's location.</h2>
-                        <h5 className='CreateGroupForm-section-description'>Meetup groups meet locally, in person and online. We'll connect you with people in your area, and more can join you online.</h5>
+                        <h5 className='CreateGroupForm-section-description'>Hangout groups meet locally, in person and online. We'll connect you with people in your area, and more can join you online.</h5>
                         <input
                             placeholder='City, STATE'
                             onChange={updateLocation}

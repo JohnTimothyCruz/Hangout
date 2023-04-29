@@ -51,7 +51,7 @@ const EventList = () => {
                 <NavLink to='/groups' className='unselected'>
                     Groups
                 </NavLink>
-                <h4 className="title">Events in Meetup</h4>
+                <h4 className="title">Events in Hangout</h4>
             </div>
             {Object.values(futureEvents).map((event) => {
                 const time = new Date(event.startDate)
