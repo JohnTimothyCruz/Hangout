@@ -2,7 +2,7 @@
 
 Hangout (the name of my site) is a replication of Meetup.com.
 
-Check it out: [Brainbash](https://brainbash.onrender.com/)
+Check it out: [Hangout](https://john-auth-me.onrender.com/)
 
 ## Wiki Index
 [MVP Feature List](https://github.com/JohnTimothyCruz/AA-Capstone-Project/wiki/MVP-Feature-List) |
